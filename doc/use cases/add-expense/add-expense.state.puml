@@ -1,0 +1,65 @@
+@startuml
+state "Loading Expense List" as LEXL
+state "Expense List Loaded" as SEXL
+
+state "Data Entry" as Collecting {
+    state AmountInValid: AmountValid = false
+    state AmountValid: AmountValid = true
+
+    [*] --> AmountInValid
+    AmountInValid --> AmountValid : Valid \nInput
+    AmountInValid --> AmountInValid : Invalid \nInput
+    AmountValid --> AmountInValid : Invalid \nInput
+
+    ||
+    state "No Selection" as NSEL : PaymentTypeSelected = false
+    state "Payment Type Selected" as SEL: PaymentTypeSelected = true
+    [*] --> NSEL
+    NSEL --> SEL : Payment type    \nselected
+
+    ||
+    state "No Receipt" as NRC: ReceiptIsLoaded = false
+    state "Loading Receipt"  as Loading: show file selector dialog
+    state "Receipt Loaded" as Loaded: show receipt preview,\nReceiptIsLoaded = true
+    state Failed: show file error
+    [*] --> NRC
+    NRC --> Loading: "Open Receipt" clicked
+    Loading --> Loaded : file selected
+    Loading --> Failed : file error
+    Failed --> NRC : OK
+
+   ||
+
+   state "CREATE disabled" as CDIS
+   state "CREATE enabled" as CEN
+   [*] --> CDIS
+   CDIS --> CEN : AmountIsValid && \nPaymentTypeSelected && \nReceiptIsLoaded
+   CEN --> CDIS : !AmountIsValid || \n!PaymentTypeSelected || \n!ReceiptIsLoaded
+   CEN --> [*] : CREATE clicked
+}
+
+state Creating: show spinner, POST to backend
+
+state Error : show error
+
+[*] --> LEXL
+
+LEXL --> SEXL : HTTP 200
+
+LEXL --> [*] : otherwise
+
+SEXL --> Collecting : "+" clicked
+
+Collecting --> Creating : CREATE clicked
+
+Collecting --> SEXL : CANCEL clicked
+
+Creating --> LEXL : HTTP 200
+
+Creating --> Error : otherwise
+
+Error --> Collecting : RETRY clicked
+
+Error --> [*] : CANCEL clicked
+
+@enduml

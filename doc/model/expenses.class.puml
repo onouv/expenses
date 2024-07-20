@@ -1,0 +1,31 @@
+@startuml
+enum PaymentType {
+    Cash
+    BankTransfer
+    CreditCard
+}
+
+enum PaymentStatus {
+    Planned
+    Obligo
+    Due
+    Paid
+}
+
+class MonetaryValue {
+    amount
+    currency
+}
+
+class Expense
+
+class Account
+
+class Receipt
+
+Account "1" --> "*" Expense : accrues
+Expense "*"--> "1" Receipt: attested-by
+Expense *--> "1" PaymentType
+Expense *--> "1" MonetaryValue
+Expense *--> "1" PaymentStatus
+@enduml
