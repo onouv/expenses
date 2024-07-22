@@ -1,4 +1,4 @@
-package online.onosoft.adapters.inbound;
+package online.onosoft.adapters.inbound.expense;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -7,12 +7,10 @@ import jakarta.ws.rs.core.Response;
 @Path("/expenses")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class ExpensesResource {
+public class ExpenseEndpoint {
 
     @POST
-    public Response addExpenseToAccount(ExpenseDto payload, String accountNo) {
-
-
-
+    public Response addExpenseToAccount(AssignExpenseRequestDto requestDto) {
+        return Response.ok().build();
     }
 }

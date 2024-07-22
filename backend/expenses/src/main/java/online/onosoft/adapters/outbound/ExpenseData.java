@@ -1,9 +1,8 @@
-package online.onosoft.adapters.outbound.jpa;
+package online.onosoft.adapters.outbound;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import online.onosoft.domain.model.Expense;
 import online.onosoft.domain.model.PaymentStatus;
 import online.onosoft.domain.model.PaymentType;
 
@@ -14,7 +13,7 @@ import online.onosoft.domain.model.PaymentType;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "expenses")
-public class ExpenseData extends PanacheEntity {
+public class ExpenseData {
 
     @Id
     @GeneratedValue
@@ -35,11 +34,6 @@ public class ExpenseData extends PanacheEntity {
         this.paymentStatus = paymentStatus;
         this.paymentType = paymentType;
         this.purpose = purpose;
-    }
-
-    ExpenseData of(Expense) {
-        return ExpenseData.builder()
-                .
     }
 
 }

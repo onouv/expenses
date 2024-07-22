@@ -1,4 +1,4 @@
-package online.onosoft.adapters.inbound;
+package online.onosoft.adapters.inbound.expense;
 
 import online.onosoft.domain.model.PaymentStatus;
 import online.onosoft.domain.model.PaymentType;

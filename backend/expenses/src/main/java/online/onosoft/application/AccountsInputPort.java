@@ -1,30 +1,37 @@
 package online.onosoft.application;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import online.onosoft.adapters.outbound.jpa.AccountData;
+import online.onosoft.adapters.outbound.AccountRepository;
 import online.onosoft.domain.model.Account;
 import online.onosoft.usecases.AccountsUsecases;
 import online.onosoft.usecases.DuplicateAccountNoException;
-import online.onosoft.usecases.PersistenceException;
 
-import java.util.Optional;
-
+@ApplicationScoped
 public class AccountsInputPort implements AccountsUsecases {
+
+    @Inject
+    AccountRepository repo;
+
+    AccountMapper accountMapper;
 
     @Override
     @Transactional
     public Account createAccount(String accountNo, String name, String description)
-            throws DuplicateAccountNoException, PersistenceException {
-        Optional<Account> accountOpt = AccountData.findByAccountNo(accountNo);
+            throws DuplicateAccountNoException {
 
-        if (accountOpt.isEmpty()) {
-            Account account = Account.builder()
-                    .accountNo(accountNo)
-                    .name(name)
-                    .description(description)
-                    .build();
-            account.per
-
+        if (repo.accountExists(accountNo)) {
+            throw new DuplicateAccountNoException(accountNo);
         }
+
+        Account account = Account.builder()
+                .accountNo(accountNo)
+                .name(name)
+                .description(description)
+                .build();
+        repo.persist(accountMapper.toData(account));
+
+        return account;
     }
 }

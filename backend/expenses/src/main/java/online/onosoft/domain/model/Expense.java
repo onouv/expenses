@@ -1,26 +1,22 @@
 package online.onosoft.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NonNull;
+import lombok.ToString;
+import online.onosoft.usecases.NegativeAmountException;
 
+import java.time.Instant;
 import java.util.Date;
 
 
-@Entity
+@Data
+@ToString
 public class Expense {
 
-    @Id
-    @GeneratedValue
-    @Getter(AccessLevel.NONE)
-    private long id;
-
-    @Column(length = 125)
     private String purpose;
+    private double amount;
+    private Date created;
 
     @NonNull
     private PaymentType paymentType;
@@ -28,10 +24,36 @@ public class Expense {
     @NonNull
     private PaymentStatus paymentStatus;
 
-    private double amount;
-
-    private Date date;
-
     //private Receipt receipt;
 
+    @Builder
+    private Expense(
+            String purpose,
+            PaymentType paymentType,
+            PaymentStatus paymentStatus,
+            double amount
+            )
+            throws NegativeAmountException {
+
+        this.purpose = purpose;
+        this.paymentType = paymentType;
+        this.paymentStatus = paymentStatus;
+        this.created = Date.from(Instant.now());
+        this.amount = amount;
+
+        if (amount < 0) {
+            throw new NegativeAmountException(this);
+        }
+    }
+
+    public Expense(
+            String purpose,
+            PaymentType paymentType,
+            double amount) {
+
+        this.purpose = purpose;
+        this.paymentType = paymentType;
+        this.paymentStatus = PaymentStatus.Unknown;
+        this.created = Date.from(Instant.now());
+    }
 }
