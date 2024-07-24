@@ -1,13 +1,13 @@
-package onosoft.application;
+package onosoft.application.expense;
 
 import onosoft.adapters.outbound.AccountRepository;
 import onosoft.domain.model.Expense;
-import onosoft.usecases.NoSuchAccountException;
+import onosoft.ports.account.NoSuchAccountException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.domain.model.Account;
-import onosoft.usecases.ExpenseUpstreamPort;
+import onosoft.ports.expense.ExpenseUpstreamPort;
 
 import java.util.ArrayList;
 import java.util.List;

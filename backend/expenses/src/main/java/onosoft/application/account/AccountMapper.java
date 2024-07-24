@@ -1,11 +1,10 @@
-package onosoft.application;
+package onosoft.application.account;
 
 import onosoft.adapters.outbound.AccountData;
 import onosoft.domain.model.Account;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "jakarta-cdi")
 public interface AccountMapper {

@@ -1,9 +1,9 @@
 package onosoft.adapters.outbound;
 
-import onosoft.usecases.NoSuchAccountException;
+import onosoft.ports.account.NoSuchAccountException;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import onosoft.application.AccountMapper;
+import onosoft.application.account.AccountMapper;
 import onosoft.domain.model.Account;
 
 import java.util.Optional;

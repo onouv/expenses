@@ -1,12 +1,12 @@
-package onosoft.application;
+package onosoft.application.account;
 
 import onosoft.adapters.outbound.AccountRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.domain.model.Account;
-import onosoft.usecases.AccountsUpstreamPort;
-import onosoft.usecases.DuplicateAccountNoException;
+import onosoft.ports.account.AccountsUpstreamPort;
+import onosoft.ports.account.DuplicateAccountNoException;
 
 @ApplicationScoped
 public class AccountsAppService implements AccountsUpstreamPort {

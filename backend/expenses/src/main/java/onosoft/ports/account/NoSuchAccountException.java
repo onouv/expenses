@@ -1,4 +1,4 @@
-package onosoft.usecases;
+package onosoft.ports.account;
 
 public class NoSuchAccountException extends AccountException {
 

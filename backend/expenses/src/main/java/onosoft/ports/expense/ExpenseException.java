@@ -1,4 +1,4 @@
-package onosoft.usecases;
+package onosoft.ports.expense;
 
 import onosoft.domain.model.Expense;
 import lombok.Getter;

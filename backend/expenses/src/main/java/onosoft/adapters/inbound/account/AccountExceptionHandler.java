@@ -4,7 +4,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import onosoft.adapters.inbound.ErrorDto;
-import onosoft.usecases.AccountException;
+import onosoft.ports.account.AccountException;
 
 @Provider
 public class AccountExceptionHandler implements ExceptionMapper<AccountException> {

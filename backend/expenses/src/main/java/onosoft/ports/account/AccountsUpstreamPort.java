@@ -1,4 +1,4 @@
-package onosoft.usecases;
+package onosoft.ports.account;
 
 import onosoft.domain.model.Account;
 

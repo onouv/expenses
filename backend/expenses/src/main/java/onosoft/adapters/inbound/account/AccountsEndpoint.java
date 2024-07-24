@@ -1,6 +1,6 @@
 package onosoft.adapters.inbound.account;
 
-import onosoft.application.AccountsAppService;
+import onosoft.application.account.AccountsAppService;
 import onosoft.domain.model.Account;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

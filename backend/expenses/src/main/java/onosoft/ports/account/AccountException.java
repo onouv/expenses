@@ -1,6 +1,5 @@
-package onosoft.usecases;
+package onosoft.ports.account;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 @Getter
