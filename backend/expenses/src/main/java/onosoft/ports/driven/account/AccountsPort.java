@@ -4,7 +4,7 @@ import onosoft.domain.model.Account;
 
 import java.util.List;
 
-public interface AccountsUpstreamPort {
+public interface AccountsPort {
 
     public Account createAccount(String AccountNo, String Name, String description)
             throws DuplicateAccountNoException;

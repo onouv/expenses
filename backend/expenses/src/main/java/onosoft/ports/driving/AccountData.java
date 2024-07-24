@@ -1,4 +1,4 @@
-package onosoft.adapters.driving;
+package onosoft.ports.driving;
 
 import jakarta.persistence.*;
 import lombok.*;

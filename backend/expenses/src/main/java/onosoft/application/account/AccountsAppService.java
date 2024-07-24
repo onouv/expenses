@@ -5,14 +5,14 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.domain.model.Account;
-import onosoft.ports.driven.account.AccountsUpstreamPort;
+import onosoft.ports.driven.account.AccountsPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class AccountsAppService implements AccountsUpstreamPort {
+public class AccountsAppService implements AccountsPort {
 
     @Inject
     private AccountRepository repo;

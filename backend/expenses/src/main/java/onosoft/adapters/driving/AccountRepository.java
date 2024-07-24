@@ -5,6 +5,7 @@ import onosoft.ports.driven.account.NoSuchAccountException;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import onosoft.domain.model.Account;
+import onosoft.ports.driving.AccountData;
 
 import java.util.Optional;
 

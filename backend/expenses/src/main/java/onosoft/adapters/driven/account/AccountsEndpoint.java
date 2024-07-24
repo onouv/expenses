@@ -1,11 +1,10 @@
 package onosoft.adapters.driven.account;
 
-import onosoft.adapters.driving.AccountData;
-import onosoft.application.account.AccountsAppService;
 import onosoft.domain.model.Account;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import onosoft.ports.driven.account.AccountsPort;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.List;
 public class AccountsEndpoint {
 
     @Inject
-    AccountsAppService port;
+    AccountsPort port;
 
     @POST
     @Path("/create")
