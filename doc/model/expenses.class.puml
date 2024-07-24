@@ -17,9 +17,13 @@ class MonetaryValue {
     currency
 }
 
-class Expense
+class Expense {
+    dateAccrued
+}
 
-class Account
+class Account {
+    accountNo
+}
 
 class Receipt
 
