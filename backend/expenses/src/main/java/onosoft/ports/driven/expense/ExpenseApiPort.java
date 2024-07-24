@@ -5,7 +5,7 @@ import onosoft.ports.driven.account.NoSuchAccountException;
 
 import java.util.List;
 
-public interface ExpenseUpstreamPort {
+public interface ExpenseApiPort {
 
     public void assignExpenseToAccount(Expense expense, String accountNo)
             throws NoSuchAccountException;

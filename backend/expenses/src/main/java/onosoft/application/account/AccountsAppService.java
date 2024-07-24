@@ -1,19 +1,22 @@
 package onosoft.application.account;
 
-import onosoft.adapters.driving.AccountRepoAdapter;
+import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.domain.model.Account;
-import onosoft.ports.driven.account.AccountsPort;
+import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
+import onosoft.ports.driven.account.NoSuchAccountException;
+import onosoft.ports.driving.AccountData;
 import onosoft.ports.driving.AccountRepoPort;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
-public class AccountsAppService implements AccountsPort {
+public class AccountsAppService implements AccountApiPort {
 
     @Inject
     private AccountRepoPort repo;
@@ -42,7 +45,16 @@ public class AccountsAppService implements AccountsPort {
     }
 
     @Override
-    public List<Account> getAccounts() {
-        return new ArrayList<>();
+    public List<Account> getAllAccounts() {
+        List<AccountData> dtos = repo.listAll(Sort.by("account-no"));
+        List<Account> accounts = accountMapper.toDomainList(dtos);
+
+        return accounts;
     }
+
+    @Override
+    public Account getAccount(String accountNo) throws NoSuchAccountException {
+        return this.repo.findByAccountNo(accountNo);
+    }
+
 }
