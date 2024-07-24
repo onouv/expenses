@@ -24,7 +24,7 @@ In hexagonal architecture, a few general rules apply:
 2) The innermost domain layer provides all business logic and is not depending on anything outside 
 3) *package* dependencies **generally** direct from outside to inside of the hexagon, *except* for dependencies from 
 application to ports layer
-4) Layers are opaque. For example, do not reach from adapters to application. Dedicated connections  are management by dependency injection in both directions
+4) Layers are opaque. For example, do not reach from adapters to application. Dedicated connections  are management by dependency injection in both directions.
 5) The application layer   
 -- must implement the driven ports interfaces  
 -- may use the driving port classes directly  

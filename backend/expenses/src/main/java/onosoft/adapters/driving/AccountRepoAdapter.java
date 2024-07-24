@@ -32,4 +32,13 @@ public class AccountRepoAdapter implements AccountRepoPort {
 
         throw new NoSuchAccountException(accountNo);
     }
+
+    public AccountData findDOByAccountNo(String accountNo) throws NoSuchAccountException {
+        Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
+        if(dataOpt.isPresent()) {
+            return dataOpt.get();
+        }
+
+        throw new NoSuchAccountException(accountNo);
+    }
 }

@@ -1,10 +1,13 @@
 package onosoft.adapters.driven.account;
 
+import onosoft.application.account.AccountApiMapper;
 import onosoft.domain.model.Account;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import onosoft.ports.driven.account.AccountsPort;
+import onosoft.ports.driven.account.AccountApiPort;
+import onosoft.ports.driving.AccountData;
+import onosoft.ports.driving.AccountRepoPort;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.ArrayList;
@@ -15,7 +18,13 @@ import java.util.List;
 public class AccountsEndpoint {
 
     @Inject
-    AccountsPort port;
+    AccountApiPort port;
+
+    @Inject
+    AccountRepoPort repo;
+
+    @Inject
+    AccountApiMapper apiMapper;
 
     @POST
     @Path("/create")
@@ -31,9 +40,19 @@ public class AccountsEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<List<AccountDto>> getAccounts() {
-        //List<AccountData> accounts = this.port.getAccounts().stream().flatMap(account -> TODO);
-        List<AccountDto> accounts = new ArrayList<>();
-        return RestResponse.ok(accounts);
+        List<AccountData> accounts = this.repo.listAll();
+        List<AccountDto> payload = apiMapper.dtoListFromDOList(accounts);
+        return RestResponse.ok(payload);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{accountNo}")
+    public RestResponse<AccountDto> getAccount(String accountNo) {
+        AccountData dO = this.repo.findDOByAccountNo(accountNo);
+        AccountDto payload = this.apiMapper.dtoFromDO(dO);
+
+        return RestResponse.ok(payload);
     }
 
 }

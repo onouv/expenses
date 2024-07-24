@@ -7,13 +7,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.domain.model.Account;
-import onosoft.ports.expense.ExpenseUpstreamPort;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class ExpenseAppService implements ExpenseUpstreamPort {
+public class ExpenseAppService implements onosoft.ports.expense.ExpenseApiPort {
 
     @Inject
     AccountRepoAdapter repo;

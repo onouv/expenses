@@ -5,9 +5,10 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import onosoft.adapters.driven.ErrorDto;
 import onosoft.ports.driven.account.AccountException;
+import onosoft.ports.driven.account.NoSuchAccountException;
 
 @Provider
-public class AccountExceptionHandler implements ExceptionMapper<AccountException> {
+public class AccountDefaultHandler implements ExceptionMapper<AccountException> {
 
     @Override
     public Response toResponse(AccountException exc) {
@@ -17,5 +18,4 @@ public class AccountExceptionHandler implements ExceptionMapper<AccountException
                 .entity(dto)
                 .build();
     }
-
 }

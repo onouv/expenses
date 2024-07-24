@@ -20,20 +20,23 @@ package adapters {
 
 package ports {
     package driven {
-        class AccountAppPort
+        class AccountApiPort
         class AccountDto
-        interface AccountDtoMapper
+        AccountApiPort -r-> AccountDto
+
     }
 
     package driving {
-        interface AccountDataMapper
-        interface AccountRepoPort
         class AccountData
+        interface AccountRepoPort
+        AccountRepoPort -l-> AccountData
 
     }
 }
 package application {
     class AccountAppService
+    interface AccountDataMapper
+    interface AccountDtoMapper
 }
 package domain {
     class Account
@@ -43,14 +46,18 @@ User -d-> AccountEndpoint
 AccountRepositoryAdapter -u-> DB
 
 
-AccountEndpoint --> AccountAppPort
+AccountEndpoint --> AccountApiPort
 AccountRepositoryAdapter .d.|> AccountRepoPort
-AccountAppService .u.|> AccountAppPort
-AccountAppService -u-> AccountDtoMapper
+AccountAppService .u.|> AccountApiPort
+AccountAppService -r-> AccountDtoMapper
 
-AccountAppService -u-> AccountDataMapper
+AccountAppService -l-> AccountDataMapper
 AccountAppService -u-> AccountRepoPort
 AccountAppService -d-> Account
+AccountDataMapper -d-> Account
+AccountDataMapper -u-> AccountData
+AccountDtoMapper -d-> Account
+AccountDtoMapper -u-> AccountDto
 
 
 @enduml
