@@ -1,6 +1,6 @@
-package onosoft.adapters.inbound.expense;
+package onosoft.adapters.driven.expense;
 
-import onosoft.adapters.inbound.ErrorDto;
+import onosoft.adapters.driven.ErrorDto;
 import onosoft.ports.expense.ExpenseException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;

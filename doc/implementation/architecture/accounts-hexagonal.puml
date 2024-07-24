@@ -1,0 +1,56 @@
+@startuml
+
+top to bottom direction
+allowmixing
+hide empty members
+
+actor User
+database DB
+
+package adapters {
+    package driven {
+        class AccountEndpoint
+    }
+
+    package driving {
+        class AccountRepository
+    }
+}
+
+
+package ports {
+    package driven {
+        class AccountPort
+        class AccountDto
+        interface AccountDtoMapper
+    }
+
+    package driving {
+        interface AccountDataMapper
+        interface PanacheRepository<AccountData>
+        class AccountData
+
+    }
+}
+package application {
+    class AccountAppService
+}
+package domain {
+    class Account
+}
+
+User -d-> AccountEndpoint
+AccountRepository -u-> DB
+
+
+AccountEndpoint --> AccountPort
+AccountRepository .d.|> PanacheRepository
+AccountAppService .u.|> AccountPort
+AccountAppService -u-> AccountDtoMapper
+
+AccountAppService -u-> AccountDataMapper
+AccountAppService -u-> PanacheRepository
+AccountAppService -d-> Account
+
+
+@enduml

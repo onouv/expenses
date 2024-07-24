@@ -1,4 +1,4 @@
-package onosoft.adapters.outbound;
+package onosoft.adapters.driving;
 
 import onosoft.domain.model.PaymentStatus;
 import onosoft.domain.model.PaymentType;

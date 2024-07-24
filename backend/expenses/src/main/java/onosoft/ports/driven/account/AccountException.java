@@ -1,4 +1,4 @@
-package onosoft.ports.account;
+package onosoft.ports.driven.account;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

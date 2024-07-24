@@ -1,7 +1,7 @@
 package onosoft.ports.expense;
 
 import onosoft.domain.model.Expense;
-import onosoft.ports.account.NoSuchAccountException;
+import onosoft.ports.driven.account.NoSuchAccountException;
 
 import java.util.List;
 

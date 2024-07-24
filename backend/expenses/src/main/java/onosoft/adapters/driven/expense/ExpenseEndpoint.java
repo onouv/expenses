@@ -1,4 +1,4 @@
-package onosoft.adapters.inbound.expense;
+package onosoft.adapters.driven.expense;
 
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

@@ -1,4 +1,4 @@
-package onosoft.adapters.inbound.account;
+package onosoft.adapters.driven.account;
 
 public record AccountMetaDto(String accountNo, String name, String description) {
 }

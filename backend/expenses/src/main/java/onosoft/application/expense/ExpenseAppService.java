@@ -1,8 +1,8 @@
 package onosoft.application.expense;
 
-import onosoft.adapters.outbound.AccountRepository;
+import onosoft.adapters.driving.AccountRepository;
 import onosoft.domain.model.Expense;
-import onosoft.ports.account.NoSuchAccountException;
+import onosoft.ports.driven.account.NoSuchAccountException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;

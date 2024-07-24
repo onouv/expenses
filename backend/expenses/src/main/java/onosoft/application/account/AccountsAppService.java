@@ -1,12 +1,15 @@
 package onosoft.application.account;
 
-import onosoft.adapters.outbound.AccountRepository;
+import onosoft.adapters.driving.AccountRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.domain.model.Account;
-import onosoft.ports.account.AccountsUpstreamPort;
-import onosoft.ports.account.DuplicateAccountNoException;
+import onosoft.ports.driven.account.AccountsUpstreamPort;
+import onosoft.ports.driven.account.DuplicateAccountNoException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class AccountsAppService implements AccountsUpstreamPort {
@@ -15,7 +18,7 @@ public class AccountsAppService implements AccountsUpstreamPort {
     private AccountRepository repo;
 
     @Inject
-    private AccountMapper accountMapper;
+    private AccountDataMapper accountMapper;
 
     @Override
     @Transactional
@@ -37,5 +40,8 @@ public class AccountsAppService implements AccountsUpstreamPort {
         return account;
     }
 
-
+    @Override
+    public List<Account> getAccounts() {
+        return new ArrayList<>();
+    }
 }

@@ -1,13 +1,13 @@
 package onosoft.application.account;
 
-import onosoft.adapters.outbound.AccountData;
+import onosoft.adapters.driving.AccountData;
 import onosoft.domain.model.Account;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "jakarta-cdi")
-public interface AccountMapper {
+public interface AccountDataMapper {
 
     Account toDomain(AccountData entity);
 

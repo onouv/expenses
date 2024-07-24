@@ -1,4 +1,4 @@
-package onosoft.adapters.inbound.account;
+package onosoft.adapters.driven.account;
 
 import onosoft.domain.model.Account;
 

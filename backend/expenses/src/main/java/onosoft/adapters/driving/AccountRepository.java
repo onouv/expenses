@@ -1,9 +1,9 @@
-package onosoft.adapters.outbound;
+package onosoft.adapters.driving;
 
-import onosoft.ports.account.NoSuchAccountException;
+import onosoft.application.account.AccountDataMapper;
+import onosoft.ports.driven.account.NoSuchAccountException;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import onosoft.application.account.AccountMapper;
 import onosoft.domain.model.Account;
 
 import java.util.Optional;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @ApplicationScoped
 public class AccountRepository implements PanacheRepository<AccountData> {
 
-    AccountMapper accountMapper;
+    AccountDataMapper accountMapper;
 
     public boolean accountExists(String accountNo) {
         Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
