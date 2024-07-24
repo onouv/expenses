@@ -13,21 +13,21 @@ package adapters {
     }
 
     package driving {
-        class AccountRepository
+        class AccountRepositoryAdapter
     }
 }
 
 
 package ports {
     package driven {
-        class AccountPort
+        class AccountAppPort
         class AccountDto
         interface AccountDtoMapper
     }
 
     package driving {
         interface AccountDataMapper
-        interface PanacheRepository<AccountData>
+        interface AccountRepoPort
         class AccountData
 
     }
@@ -40,16 +40,16 @@ package domain {
 }
 
 User -d-> AccountEndpoint
-AccountRepository -u-> DB
+AccountRepositoryAdapter -u-> DB
 
 
-AccountEndpoint --> AccountPort
-AccountRepository .d.|> PanacheRepository
-AccountAppService .u.|> AccountPort
+AccountEndpoint --> AccountAppPort
+AccountRepositoryAdapter .d.|> AccountRepoPort
+AccountAppService .u.|> AccountAppPort
 AccountAppService -u-> AccountDtoMapper
 
 AccountAppService -u-> AccountDataMapper
-AccountAppService -u-> PanacheRepository
+AccountAppService -u-> AccountRepoPort
 AccountAppService -d-> Account
 
 

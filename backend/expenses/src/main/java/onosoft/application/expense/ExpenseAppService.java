@@ -1,6 +1,6 @@
 package onosoft.application.expense;
 
-import onosoft.adapters.driving.AccountRepository;
+import onosoft.adapters.driving.AccountRepoAdapter;
 import onosoft.domain.model.Expense;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ExpenseAppService implements ExpenseUpstreamPort {
 
     @Inject
-    AccountRepository repo;
+    AccountRepoAdapter repo;
 
     @Override
     @Transactional

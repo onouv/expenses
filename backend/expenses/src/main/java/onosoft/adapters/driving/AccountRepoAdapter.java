@@ -6,11 +6,12 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import onosoft.domain.model.Account;
 import onosoft.ports.driving.AccountData;
+import onosoft.ports.driving.AccountRepoPort;
 
 import java.util.Optional;
 
 @ApplicationScoped
-public class AccountRepository implements PanacheRepository<AccountData> {
+public class AccountRepoAdapter implements AccountRepoPort {
 
     AccountDataMapper accountMapper;
 

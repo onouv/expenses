@@ -1,12 +1,13 @@
 package onosoft.application.account;
 
-import onosoft.adapters.driving.AccountRepository;
+import onosoft.adapters.driving.AccountRepoAdapter;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountsPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
+import onosoft.ports.driving.AccountRepoPort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class AccountsAppService implements AccountsPort {
 
     @Inject
-    private AccountRepository repo;
+    private AccountRepoPort repo;
 
     @Inject
     private AccountDataMapper accountMapper;
