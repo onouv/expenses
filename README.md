@@ -9,10 +9,10 @@ This app allows small business like freelancers to keep track of their expenses 
 
 ## Use Cases
 
-![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/expenses/doc/use-cases/overview.usecase.puml)
+![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/expenses/main/doc/use-cases/overview.usecase.puml)
 
 ## Domain Model
-![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/expenses/doc/domain-model/domain.class.puml)
+![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/expenses/main/doc/domain-model/domain.class.puml)
 
 ## Technology Stack
 
