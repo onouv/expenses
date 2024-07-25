@@ -15,7 +15,7 @@ The hexagon layers, from outside to inside, are as follows:
 
 If mapped to java packages, this looks like so:  
 
-![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/expenses/main/doc/implementation/architecture/accounts-hexagonal.puml)
+![Overview](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/onouv/expenses/main/doc/implementation/backend/architecture/accounts-hexagonal.puml)
 
 
 ## Architectural Rules
