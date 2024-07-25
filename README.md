@@ -1,6 +1,6 @@
 # Expenses
 
-A web app tmall businesses to track expenses.
+A web app to allow small businesses to track expenses.
 
 ## Summary
 
