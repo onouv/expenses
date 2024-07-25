@@ -1,0 +1,11 @@
+@startwbs
+'https://plantuml.com/wbs-diagram
+
+* AccountDashboard
+** Account Expense List
+*** AddExpensesForm
+*** LoadReceiptDialog
+** ReportPage
+*** ReportDisplay
+** ErrorPage
+@endwbs
