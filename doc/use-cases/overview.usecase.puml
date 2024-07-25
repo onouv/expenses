@@ -1,26 +1,20 @@
 @startuml
-"Add Expense" as (AExp)
-"Scan Receipt" as (ScRsp)
-"Add Cash Expense" as (ACExp)
-"Add Bank Transaction Expense" as (ABTExp)
-"Add Credit Card Expense" as (ACCExp)
-"Show Account Balance" as (ShwAcc)
+"Assign Expense" as (AExp)
+"Upload Receipt Copy" as (ScRsp)
+"Download Receipt Copy" as (ShwAcc)
 "Finalize Period" as (FinPer)
+"Generate Report" as (GenRep)
 "Create Account" as (CrAcc)
 "Delete Account" as (DelAcc)
 (AExp) ..> (ScRsp): <<include>>
-(ABTExp) --|> (AExp)
-(ACExp) --|> (AExp)
-(ACCExp) --|> (AExp)
-Spender --> (ABTExp)
-Spender --> (ACExp)
-Spender --> (ACCExp)
+Spender --> (AExp)
 Spender --> (ShwAcc)
 Accounter --> (FinPer)
 Accounter --> (ShwAcc)
 Accounter --> (CrAcc)
 Accounter --> (DelAcc)
+(FinPer) ..> (GenRep): <<include>>
 (AExp) ..> (CrAcc): <<only after>>
 (FinPer) ..> (CrAcc): <<only after>>
-(ShwAcc) ..> (CrAcc): <<only after>>
+(ShwAcc) ..> (AExp): <<only after>>
 @enduml

@@ -3,7 +3,7 @@
 ## Pre
 - At least one account exists
 - User has a pdf copy of receipt in local file system
-- Expense List page is shown
+- Account Dashboard page is shown
 
 ## Post
 - Expense has been assigned to one account
