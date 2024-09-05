@@ -1,0 +1,5 @@
+{
+  "BACKEND_SERVICE_URL": "http://localhost:8080",
+  "BACKEND_ACCOUNT_URL": "/account",
+  "BACKEND_ACCOUNT_CREATE_URL": "/account/create"
+}

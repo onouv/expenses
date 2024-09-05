@@ -19,14 +19,23 @@ class MonetaryValue {
 
 class Expense {
     dateAccrued
+    purpose
+    remarks
 }
 
 class Account {
     accountNo
+    name
+    description
 }
 
 class Receipt
 
+class User {
+    userName
+}
+
+User "1" o-> "*" Account : owns
 Account "1" --> "*" Expense : accrues
 Expense "*"--> "1" Receipt: attested-by
 Expense *--> "1" PaymentType
