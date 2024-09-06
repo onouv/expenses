@@ -1,17 +1,23 @@
 import {ReactElement} from "react";
 import CircularProgress from '@mui/material/CircularProgress';
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
 
 type Props = { prompt: string };
 export const WaitingPrompt : React.FC =  ({ prompt }: Props): ReactElement => (
     <>
-        <Box sx={{ display: 'flex' }}>
-            <Stack>
-                <Typography>
-                    {prompt}
-                </Typography>
-                <CircularProgress />
-            </Stack>
+        <Box display="flex"
+             justifyContent="center"
+             alignItems="center"
+             minHeight="100vh"
+        >
+            <Paper elevation={3}>
+                <Stack alignItems="center" padding={2} spacing={4}>
+                    <Typography>
+                        {prompt}
+                    </Typography>
+                    <CircularProgress size={80}/>
+                </Stack>
+            </Paper>
         </Box>
     </>
 );

@@ -10,16 +10,9 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import config from '@/app-config.json';
-
-import useSWR, { Fetcher } from 'swr'
-import axios from "axios";
-import {WaitingPrompt} from "@/components/WaitingPrompt";
 
 
 const AccountsListing: React.FC = ({ accounts } : Array<AccountT> ): ReactElement => {
-
-
 
     return (
         <>
