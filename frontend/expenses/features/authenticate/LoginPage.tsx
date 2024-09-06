@@ -4,18 +4,26 @@ import { Box, Button, Stack, TextField } from '@mui/material'
 import React, {ReactElement, useState} from "react";
 import Link from "next/link";
 
+type LoginData = {
+    name: string;
+    nameIsValid: boolean;
+    password: string;
+    passwordIsValid: boolean;
+}
+
+const defaultData: LoginData = {
+    name: "",
+    nameIsValid: false,
+    password: "",
+    passwordIsValid: false
+};
 
 export const LoginPage: React.FC = (): ReactElement => {
 
-    const [name, setName] = useState("");
-    const [nameIsValid, setNameIsValid] = useState(false);
-    const [password, setPassword] = useState("");
-    const [passwordIsValid, setPasswordIsValid] = useState(false);
+    const [data, setData] = useState<LoginData>(defaultData);
 
     const LoginButton = () => {
-        console.log(`name: ${name}, isValid: ${nameIsValid}`)
-        console.log(`password: ${password}, isValid: ${passwordIsValid}`);
-        if (nameIsValid && passwordIsValid) {
+        if (data.nameIsValid && data.passwordIsValid) {
             return (
                 <Link href="/account">
                     <Button variant="contained">Login</Button>
@@ -29,16 +37,13 @@ export const LoginPage: React.FC = (): ReactElement => {
     }
 
     const CancelButton = () => {
-        if (name.length != 0 || password.length != 0) {
+        if (data.name.length != 0 || data.password.length != 0) {
             return (
                 <Link href="/">
                     <Button
                         variant="contained"
                         onClick={() => {
-                            setName('');
-                            setNameIsValid(false);
-                            setPassword('');
-                            setPasswordIsValid(false);
+                            setData(defaultData);
                         }}>
                         Cancel
                     </Button>
@@ -56,27 +61,33 @@ export const LoginPage: React.FC = (): ReactElement => {
             <Stack spacing={2}>
 
                 <TextField
-                    value={name}
+                    value={data.name}
                     required
                     error={false}
                     id="login-name"
                     label="user name"
                     onChange={(event: object) => {
                         if (event.target.value) {
-                            setNameIsValid(true);
-                            setName(event.target.value);
+                            setData({
+                                ...data,
+                                name: event.target.value,
+                                nameIsValid: true
+                            });
                         }
                     }}
                 />
                 <TextField
-                    value={password}
+                    value={data.password}
                     required
                     id="login-password"
                     label="user password"
                     onChange={(event: object) => {
                         if (event.target.value) {
-                            setPasswordIsValid(true);
-                            setPassword(event.target.value);
+                            setData({
+                                ...data,
+                                password: event.target.value,
+                                passwordIsValid: true
+                            });
                         }
                     }}
                 />
