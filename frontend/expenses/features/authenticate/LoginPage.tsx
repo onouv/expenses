@@ -1,40 +1,53 @@
 'use client'
 
 import { Box, Button, Stack, TextField } from '@mui/material'
-import {ReactElement, useState} from "react";
+import React, {ReactElement, useState} from "react";
 import Link from "next/link";
+
 
 export const LoginPage: React.FC = (): ReactElement => {
 
-    const [loginDisabled, setLoginDisabled] = useState(true);
-    const [cancelDisabled, setCancelDisabled] = useState(true);
-
+    const [name, setName] = useState("");
+    const [nameIsValid, setNameIsValid] = useState(false);
+    const [password, setPassword] = useState("");
+    const [passwordIsValid, setPasswordIsValid] = useState(false);
 
     const LoginButton = () => {
-        if (loginDisabled) {
+        console.log(`name: ${name}, isValid: ${nameIsValid}`)
+        console.log(`password: ${password}, isValid: ${passwordIsValid}`);
+        if (nameIsValid && passwordIsValid) {
             return (
-                <Button variant="contained" disabled>Login</Button>
+                <Link href="/account">
+                    <Button variant="contained">Login</Button>
+                </Link>
             );
         }
 
         return (
-            <Link href="/account" disabled={loginDisabled}>
-                <Button variant="contained">Login</Button>
-            </Link>
+            <Button variant="contained" disabled>Login</Button>
         )
     }
 
     const CancelButton = () => {
-        if (cancelDisabled) {
+        if (name.length != 0 || password.length != 0) {
             return (
-                <Button variant="contained" disabled>Cancel</Button>
+                <Link href="/">
+                    <Button
+                        variant="contained"
+                        onClick={() => {
+                            setName('');
+                            setNameIsValid(false);
+                            setPassword('');
+                            setPasswordIsValid(false);
+                        }}>
+                        Cancel
+                    </Button>
+                </Link>
             )
         }
 
         return (
-            <Link href="/">
-                <Button variant="contained" disabled>Cancel</Button>
-            </Link>
+            <Button variant="contained" disabled>Cancel</Button>
         )
     }
 
@@ -42,8 +55,31 @@ export const LoginPage: React.FC = (): ReactElement => {
         <Box width={400} height={250} padding={4}>
             <Stack spacing={2}>
 
-                <TextField required error={false} id="login-name" label="user name" onChange={}/>
-                <TextField required id="login-password" label="user password"/>
+                <TextField
+                    value={name}
+                    required
+                    error={false}
+                    id="login-name"
+                    label="user name"
+                    onChange={(event: object) => {
+                        if (event.target.value) {
+                            setNameIsValid(true);
+                            setName(event.target.value);
+                        }
+                    }}
+                />
+                <TextField
+                    value={password}
+                    required
+                    id="login-password"
+                    label="user password"
+                    onChange={(event: object) => {
+                        if (event.target.value) {
+                            setPasswordIsValid(true);
+                            setPassword(event.target.value);
+                        }
+                    }}
+                />
                 <Stack direction="row" spacing={2}>
                     <LoginButton />
                     <CancelButton />
