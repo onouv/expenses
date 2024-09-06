@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Button, Stack, TextField } from '@mui/material'
+import { Box, Button, Stack, TextField, Typography  } from '@mui/material'
 import React, {ReactElement, useState} from "react";
 import Link from "next/link";
 import config from "@/app-config.json";
@@ -19,14 +19,18 @@ const defaultData: LoginData = {
     passwordIsValid: false
 };
 
-export const LoginPage: React.FC = (): ReactElement => {
+type Props = {
+    caption: string
+}
+
+const LoginPage: React.FC = ( { caption }: Props): ReactElement => {
 
     const [data, setData] = useState<LoginData>(defaultData);
 
     const LoginButton = () => {
         if (data.nameIsValid && data.passwordIsValid) {
             return (
-                <Link href={config.BACKEND_ACCOUNT_PARTIAL_URL}>
+                <Link href={config.ACCOUNT_PARTIAL_URL}>
                     <Button variant="contained">Login</Button>
                 </Link>
             );
@@ -58,9 +62,11 @@ export const LoginPage: React.FC = (): ReactElement => {
     }
 
     return (
-        <Box width={400} height={250} padding={4}>
+        <Box width={400} minHeight={250} padding={4}>
             <Stack spacing={2}>
-
+                <Typography variant="h4">
+                    {caption}
+                </Typography>
                 <TextField
                     value={data.name}
                     required
@@ -79,6 +85,7 @@ export const LoginPage: React.FC = (): ReactElement => {
                 />
                 <TextField
                     value={data.password}
+                    type="password"
                     required
                     id="login-password"
                     label="user password"
@@ -100,3 +107,5 @@ export const LoginPage: React.FC = (): ReactElement => {
         </Box>
     );
 }
+
+export default LoginPage;

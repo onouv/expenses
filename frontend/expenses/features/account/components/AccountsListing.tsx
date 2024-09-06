@@ -16,15 +16,9 @@ import useSWR, { Fetcher } from 'swr'
 import axios from "axios";
 import {WaitingPrompt} from "@/components/WaitingPrompt";
 
-const backendUrl = config.BACKEND_SERVICE_BASE_URL + config.BACKEND_ACCOUNT_PARTIAL_URL;
-const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const AccountsListing: React.FC = ({ accounts } : Array<AccountT> ): ReactElement => {
-    const { data, error, isLoading } = useSWR(backendUrl, fetcher);
 
-    if (isLoading) {
-        return <WaitingPrompt prompt="Loading data from server..." />
-    }
 
 
     return (

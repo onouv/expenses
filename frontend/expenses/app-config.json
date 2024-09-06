@@ -1,5 +1,5 @@
 {
   "BACKEND_SERVICE_BASE_URL": "http://localhost:8080",
-  "BACKEND_ACCOUNT_PARTIAL_URL": "/account",
-  "BACKEND_ACCOUNT_CREATE_PARTIAL_URL": "/create"
+  "ACCOUNT_PARTIAL_URL": "/account",
+  "ACCOUNT_CREATE_PARTIAL_URL": "/create"
 }
