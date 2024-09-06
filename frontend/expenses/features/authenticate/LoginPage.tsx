@@ -3,6 +3,7 @@
 import { Box, Button, Stack, TextField } from '@mui/material'
 import React, {ReactElement, useState} from "react";
 import Link from "next/link";
+import config from "@/app-config.json";
 
 type LoginData = {
     name: string;
@@ -25,7 +26,7 @@ export const LoginPage: React.FC = (): ReactElement => {
     const LoginButton = () => {
         if (data.nameIsValid && data.passwordIsValid) {
             return (
-                <Link href="/account">
+                <Link href={config.BACKEND_ACCOUNT_PARTIAL_URL}>
                     <Button variant="contained">Login</Button>
                 </Link>
             );

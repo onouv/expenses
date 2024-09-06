@@ -1,6 +1,6 @@
 import {ReactElement} from "react";
 import CircularProgress from '@mui/material/CircularProgress';
-import { Box, STack, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 
 type Props = { prompt: string };
 export const WaitingPrompt : React.FC =  ({ prompt }: Props): ReactElement => (
