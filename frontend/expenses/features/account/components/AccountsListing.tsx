@@ -10,27 +10,56 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
+const getRowId = (account: AccountT): string => account.accountNo;
 
-const AccountsListing: React.FC = ({ accounts } : Array<AccountT> ): ReactElement => {
+const columns = [
+    {
+        field: 'accountNo',
+        headerName: 'Account Number',
+        width: 150,
+        editable: false,
+        sortable: true
+    },
+    {
+        field: 'name',
+        headerName: 'Account Name',
+        width: 300,
+        editable: false,
+        sortable: false
+    },
+    {
+        field: 'description',
+        headerName: 'Description',
+        width: 500,
+        editable: false,
+        sortable: false
+    }
+];
+
+type Props = {
+    accounts: AccountT[];
+}
+const AccountsListing: React.FC = ({ accounts }: Props ): ReactElement => {
 
     return (
         <>
-            <Box sx={{ width: '100%' }}>
-                <Paper sx={{ width: '100%', mb: 2 }}>
-                    <TableContainer>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell padding="checkbox">
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
+            <Box display="flex"
+                 justifyContent="center"
+                 alignItems="center"
+                 minHeight="100vh"
+            >
+                <Paper elevation={3}>
+                    <DataGrid
+                        rows={accounts}
+                        columns={columns}
+                        getRowId={getRowId}
 
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                        pageSizeOptions={[5]}
+
+                        disableRowSelectionOnClick
+                    />
                 </Paper>
             </Box>
         </>
