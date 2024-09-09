@@ -8,6 +8,7 @@ import {WaitingPrompt} from "@/components/WaitingPrompt";
 import config from "@/app-config.json";
 import axios from "axios";
 import ErrorPage from "@/components/ErrorPage";
+import BasicTable from "@/features/account/components/Dummy";
 
 const backendUrl = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_PARTIAL_URL;
 const fetcher = (url: string) => axios
@@ -32,7 +33,7 @@ const AccountsPage: React.FC = () => {
     }
 
     return (
-      <AccountsListing accounts={data} />
+        <AccountsListing accounts={data} />
     );
 }
 
