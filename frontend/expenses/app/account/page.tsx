@@ -9,6 +9,8 @@ import config from "@/app-config.json";
 import axios from "axios";
 import ErrorPage from "@/components/ErrorPage";
 import BasicTable from "@/features/account/components/Dummy";
+import ActionBar from "@/features/account/components/ActionBar";
+import {Box, Button, Stack} from "@mui/material";
 
 const backendUrl = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_PARTIAL_URL;
 const fetcher = (url: string) => axios
@@ -33,7 +35,23 @@ const AccountsPage: React.FC = () => {
     }
 
     return (
-        <AccountsListing accounts={data} />
+        <Box display="flex"
+             justifyContent="center"
+             alignItems="center"
+             minHeight="100vh"
+             minWidth="85vh"
+        >
+        <Stack sx={{minWidth:"85vh"}}>
+            <AccountsListing accounts={data} />
+            <ActionBar>
+                <Button onClick={() => {
+                    console.log("Huuuuhuu!")
+                }}>
+                    New
+                </Button>
+            </ActionBar>
+        </Stack>
+        </Box>
     );
 }
 
