@@ -9,16 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
     "@emotion/cache": "^11.13.1",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
-    "@mui/material-nextjs": "^5.16.4",
     "@mui/icons-material": "^5",
-    "next": "14.2.5",
+    "@mui/material-nextjs": "^5.16.4",
     "axios": "^1.7.7",
-    "swr": "^2.2.5"
+    "next": "14.2.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "swr": "^2.2.5",
+    "ts-results": "^3.3.0"
   },
   "devDependencies": {
     "@types/node": "^20",

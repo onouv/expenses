@@ -7,10 +7,11 @@ import {AppRouterCacheProvider} from "@mui/material-nextjs/v13-appRouter";
 import theme from './theme.ts';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
-import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Button, Container, IconButton, Paper, Stack, Toolbar, Typography} from "@mui/material";
 import {useState} from "react";
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuDrawer from "@/components/MenuDrawer";
 import Grid from "@mui/material/Grid";
 
@@ -37,12 +38,11 @@ export default function RootLayout({
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
     <AppRouterCacheProvider>
       <ThemeProvider theme={theme}>
-
           <CssBaseline/>
-          <AppBar position="static" component="nav">
-
+          <Stack padding={2}>
+          <AppBar  component="nav">
               <Toolbar >
-                <Grid container justifyContent="flex-start">
+                <Grid container justifyContent="flex-start" alignItems="center">
                   <Grid item xs={1}>
                     <IconButton
                         color="inherit"
@@ -53,9 +53,17 @@ export default function RootLayout({
                       <MenuIcon/>
                     </IconButton>
                   </Grid>
-                  <Grid item xs={11}>
-                    <Grid container justifyContent="flex-end">
-                      <Grid item>
+                  <Grid item xs={3}>
+                    <Typography variant="h6">
+                      EXPENSES
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={8}>
+                    <Grid container justifyContent="flex-end" alignItems="center">
+                      <Grid item xs={1}>
+                        <AccountCircleIcon />
+                      </Grid>
+                      <Grid item xs={1}>
                         <IconButton color="inherit"
                                     aria-label="log out"
                         >
@@ -65,16 +73,16 @@ export default function RootLayout({
                     </Grid>
                   </Grid>
                 </Grid>
-
               </Toolbar>
-
           </AppBar>
           <nav>
             <MenuDrawer isOpen={drawerIsOpen} toggleOpen={toggleDrawer}/>
           </nav>
-          <Toolbar/>
-          {children}
-
+          <Toolbar />
+          <Paper>
+            {children}
+          </Paper>
+          </Stack>
       </ThemeProvider>
     </AppRouterCacheProvider>
     </body>

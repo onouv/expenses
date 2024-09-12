@@ -11,20 +11,16 @@ import ErrorPage from "@/components/ErrorPage";
 import BasicTable from "@/features/account/components/Dummy";
 import ActionBar from "@/features/account/components/ActionBar";
 import {Box, Button, Stack} from "@mui/material";
-
-const backendUrl = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_PARTIAL_URL;
-const fetcher = (url: string) => axios
-    .get(url)
-    .then(res => res.data);
+import fetcher from "@/common/api/fetcher";
+import useGetAccounts from "@/features/account/api/useGetAccounts";
 
 const AccountsPage: React.FC = () => {
 
-    console.log(`url: ${backendUrl}`)
     const {
         data,
         error,
         isLoading
-    } = useSWR<AccountT[]>(backendUrl, fetcher);
+    } = useGetAccounts();
 
     if (isLoading) {
         return <WaitingPrompt prompt="Loading data from server..." />
@@ -35,23 +31,11 @@ const AccountsPage: React.FC = () => {
     }
 
     return (
-        <Box display="flex"
-             justifyContent="center"
-             alignItems="center"
-             minHeight="100vh"
-             minWidth="85vh"
-        >
-        <Stack sx={{minWidth:"85vh"}}>
+
+        <Stack>
             <AccountsListing accounts={data} />
-            <ActionBar>
-                <Button onClick={() => {
-                    console.log("Huuuuhuu!")
-                }}>
-                    New
-                </Button>
-            </ActionBar>
         </Stack>
-        </Box>
+
     );
 }
 

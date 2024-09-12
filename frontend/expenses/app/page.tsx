@@ -7,6 +7,7 @@ const Home: React.FC = (): ReactElement => (
              justifyContent="center"
              alignItems="center"
              minHeight="100vh"
+             padding={2}
         >
             <Paper elevation={3}>
                 <LoginPage caption={"Log Into Expenses"}/>

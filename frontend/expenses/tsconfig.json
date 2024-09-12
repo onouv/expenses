@@ -20,7 +20,7 @@
     "paths": {
       "@/*": ["./*"],
       "@/features/*": ["./features/*"],
-      "@/common/*": ["./common"],
+      "@/common/*": ["./common/*"],
       "@/redux/*": ["./common/redux/*"],
       "@/components/*": ["./common/components/*"],
     }
