@@ -4,15 +4,15 @@ import onosoft.domain.model.Account;
 
 public record AccountDto(
         String accountNo,
-        String name,
-        String description) {
+        String accountName,
+        String accountDescription) {
         //List<Expense> expenses)
 
     public static AccountDto of(Account account) {
         return new AccountDto(
                 account.getAccountNo(),
-                account.getName(),
-                account.getDescription()
+                account.getAccountName(),
+                account.getAccountDescription()
                 //account.getExpenses()
         );
     }

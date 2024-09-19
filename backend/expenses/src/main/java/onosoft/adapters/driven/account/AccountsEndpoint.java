@@ -10,7 +10,6 @@ import onosoft.ports.driving.AccountData;
 import onosoft.ports.driving.AccountRepoPort;
 import org.jboss.resteasy.reactive.RestResponse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,7 +31,7 @@ public class AccountsEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public RestResponse<AccountDto> createAccount(AccountMetaDto dto) {
 
-            Account account = this.port.createAccount(dto.accountNo(), dto.name(), dto.description());
+            Account account = this.port.createAccount(dto.accountNo(), dto.accountName(), dto.accountDescription());
             return RestResponse.ok(AccountDto.of(account));
 
     }

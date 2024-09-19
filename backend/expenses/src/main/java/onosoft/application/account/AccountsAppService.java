@@ -11,9 +11,7 @@ import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driving.AccountData;
 import onosoft.ports.driving.AccountRepoPort;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @ApplicationScoped
 public class AccountsAppService implements AccountApiPort {
@@ -35,8 +33,8 @@ public class AccountsAppService implements AccountApiPort {
 
         Account account = Account.builder()
                 .accountNo(accountNo)
-                .name(name)
-                .description(description)
+                .accountName(name)
+                .accountDescription(description)
                 .build();
 
         repo.persist(accountMapper.toData(account));

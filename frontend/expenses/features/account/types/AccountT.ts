@@ -10,12 +10,14 @@ export const accountSchema = object({
   accountDescription: string().matches(/(\w{1,64})/),
 });
 
-//type AccountT = InferType<typeof accountSchema>;
+type AccountT = InferType<typeof accountSchema>;
+/*
 type AccountT = {
   accountNo: string;
   accountName: string;
   accountDescription: string;
 };
+ */
 
 export const defaultAccount: AccountT = {
   accountNo: "",

@@ -26,7 +26,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
   });
   const onSubmit = (data) => {
     console.log(data);
-    //postCall(account);
+    postCall(data);
   };
 
   if (error) {

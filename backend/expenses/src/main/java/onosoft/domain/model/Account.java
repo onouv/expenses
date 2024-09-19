@@ -9,10 +9,10 @@ public class Account {
 
     private String accountNo;
 
-    @NotEmpty(message = "Account name is required")
-    private String name;
+    @NotEmpty(message = "Account accountName is required")
+    private String accountName;
 
-    private String description;
+    private String accountDescription;
 
     //private List<Expense> expenses;
 

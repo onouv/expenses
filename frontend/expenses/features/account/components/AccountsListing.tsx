@@ -1,7 +1,7 @@
 "use client";
 
-import { AccountT } from "./types/AccountT";
-import React, { ReactElement } from "react";
+import {AccountT} from "./types/AccountT";
+import React, {ReactElement} from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -12,7 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Grid from "@mui/material/Grid";
 import config from "@/app-config.json";
-import { Button, Divider, Stack, Typography } from "@mui/material";
+import {Button, Divider, Stack, Typography} from "@mui/material";
 import Link from "next/link";
 import FeaturePage from "@/components/FeaturePage";
 
@@ -20,122 +20,53 @@ type Props = {
   accounts: AccountT[];
 };
 
-const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => (
-  <FeaturePage title="Accounts Overview">
-    <Stack>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ borderBottom: "none" }}>Account No</TableCell>
+// TODO: fix warning '<td> cannot be a child of <a>'
+// https://stackoverflow.com/questions/50691049/how-to-add-link-react-router-per-each-material-ui-tablerow
 
-              <TableCell sx={{ borderBottom: "none" }}>Account Name</TableCell>
-
-              <TableCell sx={{ borderBottom: "none" }}>Description</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {accounts.map((account: AccountT, index) => (
-              <TableRow key={account.accountNo}>
-                <Link
-                  href={`${config.ACCOUNT_PARTIAL_URL}/${account.accountNo}`}
-                >
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    {account.accountNo}
-                  </TableCell>
-
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    {account.name}
-                  </TableCell>
-
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    {account.description}
-                  </TableCell>
-                </Link>
+// TODO: fix mis-alignment of header and body
+// https://stackoverflow.com/questions/56222516/align-tableheader-and-tablebody-data-in-material-ui-table
+const AccountsListing: React.FC = ({accounts}: Props): ReactElement => (
+    <FeaturePage title="Accounts Overview">
+      <Stack>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{borderBottom: "none"}}>Account No</TableCell>
+                <TableCell sx={{borderBottom: "none"}}>Account Name</TableCell>
+                <TableCell sx={{borderBottom: "none"}}>Description</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Grid container padding={3} justifyContent="center" alignItems="center">
-        <Grid item>
-          <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
-            <Button>New Account</Button>
-          </Link>
-        </Grid>
-      </Grid>
-    </Stack>
-  </FeaturePage>
-);
-
-/*
-const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => (
-  <FeaturePage title="Accounts Overview">
-    <Stack>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <Grid container>
-                <Grid item xs={2}>
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    Account No
-                  </TableCell>
-                </Grid>
-                <Grid item xs={4}>
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    Account Name
-                  </TableCell>
-                </Grid>
-                <Grid item xs={6}>
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    Description
-                  </TableCell>
-                </Grid>
-              </Grid>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {accounts.map((account: AccountT, index) => (
-              <TableRow key={account.accountNo}>
-                <Link
-                  href={`${config.ACCOUNT_PARTIAL_URL}/${account.accountNo}`}
-                >
-                  <Grid container>
-                    <Grid item xs={2}>
-                      <TableCell sx={{ borderBottom: "none" }}>
+            </TableHead>
+            <TableBody>
+              {accounts.map((account: AccountT, index) => (
+                  <TableRow key={account.accountNo}>
+                    <Link
+                        href={`${config.ACCOUNT_PARTIAL_URL}/${account.accountNo}`}
+                    >
+                      <TableCell sx={{borderBottom: "none"}}>
                         {account.accountNo}
                       </TableCell>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <TableCell sx={{ borderBottom: "none" }}>
-                        {account.name}
+                      <TableCell sx={{borderBottom: "none"}}>
+                        {account.accountName}
                       </TableCell>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TableCell sx={{ borderBottom: "none" }}>
-                        {account.description}
+                      <TableCell sx={{borderBottom: "none"}}>
+                        {account.accountDescription}
                       </TableCell>
-                    </Grid>
-                  </Grid>
-                </Link>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Grid container padding={3} justifyContent="center" alignItems="center">
-        <Grid item>
-          <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
-            <Button>New Account</Button>
-          </Link>
+                    </Link>
+                  </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <Grid container padding={3} justifyContent="center" alignItems="center">
+          <Grid item>
+            <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
+              <Button>New Account</Button>
+            </Link>
+          </Grid>
         </Grid>
-      </Grid>
-    </Stack>
-  </FeaturePage>
+      </Stack>
+    </FeaturePage>
 );
-*/
-//<Divider sx={{ border: 1, opacity: 0.4 }} />
-//<Divider />
 
 export default AccountsListing;
