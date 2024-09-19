@@ -4,18 +4,23 @@ export const accountSchema = object({
   accountNo: string()
     .required()
     .matches(/([A-Z0-9]){1,8}/),
-  name: string()
+  accountName: string()
     .required()
     .matches(/(\w{1,32})/),
-  description: string().matches(/(\w{1,64})/),
+  accountDescription: string().matches(/(\w{1,64})/),
 });
 
-type AccountT = InferType<typeof accountSchema>;
+//type AccountT = InferType<typeof accountSchema>;
+type AccountT = {
+  accountNo: string;
+  accountName: string;
+  accountDescription: string;
+};
 
 export const defaultAccount: AccountT = {
   accountNo: "",
-  name: "",
-  description: undefined,
+  accountName: "",
+  accountDescription: "",
 };
 
 export default AccountT;

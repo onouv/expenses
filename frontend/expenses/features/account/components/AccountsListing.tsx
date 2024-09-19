@@ -19,6 +19,56 @@ import FeaturePage from "@/components/FeaturePage";
 type Props = {
   accounts: AccountT[];
 };
+
+const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => (
+  <FeaturePage title="Accounts Overview">
+    <Stack>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ borderBottom: "none" }}>Account No</TableCell>
+
+              <TableCell sx={{ borderBottom: "none" }}>Account Name</TableCell>
+
+              <TableCell sx={{ borderBottom: "none" }}>Description</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {accounts.map((account: AccountT, index) => (
+              <TableRow key={account.accountNo}>
+                <Link
+                  href={`${config.ACCOUNT_PARTIAL_URL}/${account.accountNo}`}
+                >
+                  <TableCell sx={{ borderBottom: "none" }}>
+                    {account.accountNo}
+                  </TableCell>
+
+                  <TableCell sx={{ borderBottom: "none" }}>
+                    {account.name}
+                  </TableCell>
+
+                  <TableCell sx={{ borderBottom: "none" }}>
+                    {account.description}
+                  </TableCell>
+                </Link>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Grid container padding={3} justifyContent="center" alignItems="center">
+        <Grid item>
+          <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
+            <Button>New Account</Button>
+          </Link>
+        </Grid>
+      </Grid>
+    </Stack>
+  </FeaturePage>
+);
+
+/*
 const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => (
   <FeaturePage title="Accounts Overview">
     <Stack>
@@ -44,7 +94,6 @@ const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => (
                 </Grid>
               </Grid>
             </TableRow>
-            <Divider sx={{ border: 1, opacity: 0.4 }} />
           </TableHead>
           <TableBody>
             {accounts.map((account: AccountT, index) => (
@@ -69,7 +118,6 @@ const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => (
                       </TableCell>
                     </Grid>
                   </Grid>
-                  <Divider />
                 </Link>
               </TableRow>
             ))}
@@ -86,5 +134,8 @@ const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => (
     </Stack>
   </FeaturePage>
 );
+*/
+//<Divider sx={{ border: 1, opacity: 0.4 }} />
+//<Divider />
 
 export default AccountsListing;

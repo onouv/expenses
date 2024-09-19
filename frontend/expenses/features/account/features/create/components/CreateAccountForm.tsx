@@ -3,7 +3,10 @@
 import React, { ReactElement } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import AccountT, { accountSchema } from "@/features/account/types/AccountT";
+import AccountT, {
+  accountSchema,
+  defaultAccount,
+} from "@/features/account/types/AccountT";
 import config from "@/app-config.json";
 import { Box, Button, FormGroup, Stack, TextField } from "@mui/material";
 import useCreateAccount from "@/features/account/api/useCreateAccount";
@@ -11,20 +14,18 @@ import ErrorPage from "@/components/ErrorPage";
 import { WaitingPrompt } from "@/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Grid";
+import TextFormInput from "@/components/form/TextFormInput";
+import FormInputPropsT from "@/components/form/FormInputPropsT";
 
 const CreateAccountForm: React.FC = (): ReactElement => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<AccountT>({
-    resolver: yupResolver(accountSchema),
-  });
-
   const { postCall, data, isLoading, error } = useCreateAccount();
   const router = useRouter();
-  const onSubmit: SubmitHandler<AccountT> = (data) => {
-    console.log("name: ", data.name);
+  const { control, handleSubmit } = useForm<AccountT>({
+    defaultValues: defaultAccount,
+    resolver: yupResolver(accountSchema),
+  });
+  const onSubmit = (data) => {
+    console.log(data);
     //postCall(account);
   };
 
@@ -42,70 +43,35 @@ const CreateAccountForm: React.FC = (): ReactElement => {
   }
 
   return (
-    <form>
-      <Box padding={2}>
-        <FormGroup>
-          <Stack spacing={2}>
-            <Controller
-              name="accountNo"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  value={data?.accountNo}
-                  label="Account No"
-                  id="create-account-no"
-                />
-              )}
-            />
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  value={data?.name}
-                  label="Name"
-                  id="create-account-name"
-                />
-              )}
-            />
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  value={data?.description}
-                  label="Description"
-                  id="create-account-description"
-                />
-              )}
-            />
-            <Grid container padding={2} spacing={2}>
-              <Grid item>
-                <Button
-                  onClick={() => {
-                    router.push(config.ACCOUNT_PARTIAL_URL);
-                  }}
-                >
-                  CANCEL
-                </Button>
-              </Grid>
-            </Grid>
+    <Box padding={2}>
+      <Stack spacing={2}>
+        <TextFormInput name="accountNo" control={control} label="Account No" />
+        <TextFormInput
+          name="accountName"
+          control={control}
+          label="Account Name"
+        />
+        <TextFormInput
+          name="accountDescription"
+          control={control}
+          label="Description"
+        />
+        <Grid container padding={2} spacing={2}>
+          <Grid item>
             <Button
               onClick={() => {
-                handleSubmit(onSubmit, () => {
-                  console.log("VALIDATION FAILED");
-                });
+                router.push(config.ACCOUNT_PARTIAL_URL);
               }}
             >
-              SAVE
+              CANCEL
             </Button>
-          </Stack>
-        </FormGroup>
-      </Box>
-    </form>
+          </Grid>
+          <Grid item>
+            <Button onClick={handleSubmit(onSubmit)}>SAVE</Button>
+          </Grid>
+        </Grid>
+      </Stack>
+    </Box>
   );
 };
 
