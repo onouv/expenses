@@ -1,11 +1,7 @@
-import React, {ReactElement} from "react";
+import React, { ReactElement } from "react";
 
 type Props = {
-    value: string;
-    onChange:(val: string) => void;
-
-}
-const TextInput: React.FC  = (): ReactElement => (
-    <>
-    </>
-);
+  value: string;
+  onChange: (val: string) => void;
+};
+const TextInput: React.FC = (): ReactElement => <></>;
