@@ -1,9 +1,9 @@
 package onosoft.adapters.driving;
 
-import onosoft.domain.model.PaymentStatus;
-import onosoft.domain.model.PaymentType;
 import jakarta.persistence.*;
 import lombok.*;
+import onosoft.domain.model.PaymentStatus;
+import onosoft.domain.model.PaymentType;
 
 
 @Getter

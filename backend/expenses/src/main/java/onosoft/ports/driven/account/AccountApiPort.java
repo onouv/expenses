@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface AccountApiPort {
 
-    public Account createAccount(String AccountNo, String Name, String description)
+    Account createAccount(String AccountNo, String Name, String description)
             throws DuplicateAccountNoException;
 
-    public List<Account> getAllAccounts();
+    List<Account> getAllAccounts();
 
-    public Account getAccount(String accountNo) throws NoSuchAccountException;
+    Account getAccount(String accountNo) throws NoSuchAccountException;
 }

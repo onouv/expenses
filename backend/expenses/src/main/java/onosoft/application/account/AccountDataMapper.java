@@ -1,7 +1,7 @@
 package onosoft.application.account;
 
-import onosoft.ports.driving.AccountData;
 import onosoft.domain.model.Account;
+import onosoft.ports.driving.AccountData;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 

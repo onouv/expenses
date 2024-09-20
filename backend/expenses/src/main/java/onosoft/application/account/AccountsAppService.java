@@ -24,8 +24,7 @@ public class AccountsAppService implements AccountApiPort {
 
     @Override
     @Transactional
-    public Account createAccount(String accountNo, String name, String description)
-            throws DuplicateAccountNoException {
+    public Account createAccount(String accountNo, String name, String description) throws DuplicateAccountNoException {
 
         if (repo.accountExists(accountNo)) {
             throw new DuplicateAccountNoException(accountNo);
@@ -54,5 +53,4 @@ public class AccountsAppService implements AccountApiPort {
     public Account getAccount(String accountNo) throws NoSuchAccountException {
         return this.repo.findByAccountNo(accountNo);
     }
-
 }

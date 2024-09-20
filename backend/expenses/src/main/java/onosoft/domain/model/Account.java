@@ -1,7 +1,8 @@
 package onosoft.domain.model;
 
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
 @Data
 @Builder

@@ -21,6 +21,6 @@ public interface AccountApiMapper {
     List<AccountDto> domainListToDtoList(List<Account> domain);
 
     AccountDto dtoFromDO(AccountData dO);
-    List<AccountDto> dtoListFromDOList(List<AccountData> dataList);
 
+    List<AccountDto> dtoListFromDOList(List<AccountData> dataList);
 }
