@@ -11,8 +11,8 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class ErrorDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private UUID errorId;
-    private List<String> errorMessages;
+    private final UUID errorId;
+    private final List<String> errorMessages;
 
     public ErrorDto() {
         this.errorId = UUID.randomUUID();

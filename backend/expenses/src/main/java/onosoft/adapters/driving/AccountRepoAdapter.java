@@ -1,10 +1,9 @@
 package onosoft.adapters.driving;
 
-import onosoft.application.account.AccountDataMapper;
-import onosoft.ports.driven.account.NoSuchAccountException;
-import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import onosoft.application.account.AccountDataMapper;
 import onosoft.domain.model.Account;
+import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driving.AccountData;
 import onosoft.ports.driving.AccountRepoPort;
 
@@ -17,11 +16,7 @@ public class AccountRepoAdapter implements AccountRepoPort {
 
     public boolean accountExists(String accountNo) {
         Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
-        if(dataOpt.isPresent()) {
-            return true;
-        }
-
-        return false;
+        return dataOpt.isPresent();
     }
 
     public Account findByAccountNo(String accountNo) throws NoSuchAccountException {

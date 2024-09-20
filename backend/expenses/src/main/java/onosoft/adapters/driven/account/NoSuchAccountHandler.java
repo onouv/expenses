@@ -13,8 +13,6 @@ public class NoSuchAccountHandler implements ExceptionMapper<NoSuchAccountExcept
     public Response toResponse(NoSuchAccountException e) {
         ErrorDto dto = new ErrorDto(e.getMessage());
 
-        return Response.status(Response.Status.NOT_FOUND)
-                .entity(dto)
-                .build();
+        return Response.status(Response.Status.NOT_FOUND).entity(dto).build();
     }
 }
