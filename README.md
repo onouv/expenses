@@ -1,6 +1,6 @@
 # Expenses
 
-A web app to allow small businesses to track expenses.
+A web app to track expenses for small businesses.
 
 ## Summary
 

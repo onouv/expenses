@@ -17,8 +17,8 @@ public class AccountData {
     private String accountNo;
 
     @Column(name="account_name")
-    private String name;
+    private String accountName;
 
     @Column(name="account_description")
-    private String description;
+    private String accountDescription;
 }
