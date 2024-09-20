@@ -15,7 +15,6 @@ import { WaitingPrompt } from "@/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Grid";
 import TextFormInput from "@/components/form/TextFormInput";
-import FormInputPropsT from "@/components/form/FormInputPropsT";
 
 const CreateAccountForm: React.FC = (): ReactElement => {
   const { postCall, data, isLoading, error } = useCreateAccount();
@@ -24,9 +23,11 @@ const CreateAccountForm: React.FC = (): ReactElement => {
     defaultValues: defaultAccount,
     resolver: yupResolver(accountSchema),
   });
+
   const onSubmit = (data) => {
     console.log(data);
     postCall(data);
+    router.push(config.ACCOUNT_PARTIAL_URL);
   };
 
   if (error) {
