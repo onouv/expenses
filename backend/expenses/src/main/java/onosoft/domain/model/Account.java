@@ -15,10 +15,10 @@ public class Account {
 
     private String accountDescription;
 
-    //private List<Expense> expenses;
+    // private List<Expense> expenses;
 
     public void assignExpense(Expense expense) {
 
-        //this.expenses.add(expense);
+        // this.expenses.add(expense);
     }
 }

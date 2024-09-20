@@ -1,7 +1,6 @@
-package onosoft.ports.expense;
+package onosoft.ports.driven.expense;
 
 import onosoft.domain.model.Expense;
-
 
 public class NegativeAmountException extends ExpenseException {
 

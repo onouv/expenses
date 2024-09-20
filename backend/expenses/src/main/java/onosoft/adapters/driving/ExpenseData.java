@@ -5,7 +5,6 @@ import lombok.*;
 import onosoft.domain.model.PaymentStatus;
 import onosoft.domain.model.PaymentType;
 
-
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -34,5 +33,4 @@ public class ExpenseData {
         this.paymentType = paymentType;
         this.purpose = purpose;
     }
-
 }

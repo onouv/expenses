@@ -1,4 +1,4 @@
-package onosoft.ports.expense;
+package onosoft.ports.driven.expense;
 
 import lombok.Getter;
 import onosoft.domain.model.Expense;
@@ -12,5 +12,4 @@ public class ExpenseException extends RuntimeException {
         super(message);
         this.expense = expense;
     }
-
 }

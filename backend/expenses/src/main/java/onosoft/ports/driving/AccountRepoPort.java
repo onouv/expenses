@@ -6,6 +6,8 @@ import onosoft.ports.driven.account.NoSuchAccountException;
 
 public interface AccountRepoPort extends PanacheRepository<AccountData> {
     boolean accountExists(String accountNo);
+
     Account findByAccountNo(String accountNo) throws NoSuchAccountException;
+
     AccountData findDOByAccountNo(String accountNo) throws NoSuchAccountException;
 }

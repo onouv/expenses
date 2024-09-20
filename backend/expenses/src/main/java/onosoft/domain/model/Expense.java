@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.ToString;
-import onosoft.ports.expense.NegativeAmountException;
+import onosoft.ports.driven.expense.NegativeAmountException;
 
 import java.time.Instant;
 import java.util.Date;

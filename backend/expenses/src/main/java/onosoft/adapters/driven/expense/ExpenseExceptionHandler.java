@@ -4,7 +4,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import onosoft.adapters.driven.ErrorDto;
-import onosoft.ports.expense.ExpenseException;
+import onosoft.ports.driven.expense.ExpenseException;
 
 @Provider
 public class ExpenseExceptionHandler implements ExceptionMapper<ExpenseException> {
