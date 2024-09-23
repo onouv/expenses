@@ -8,8 +8,8 @@ import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
 import onosoft.ports.driven.account.NoSuchAccountException;
-import onosoft.ports.driving.AccountData;
-import onosoft.ports.driving.AccountRepoPort;
+import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountRepoPort;
 
 import java.util.List;
 

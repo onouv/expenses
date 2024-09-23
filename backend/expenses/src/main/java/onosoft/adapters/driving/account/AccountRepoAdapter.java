@@ -1,11 +1,11 @@
-package onosoft.adapters.driving;
+package onosoft.adapters.driving.account;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import onosoft.application.account.AccountDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.NoSuchAccountException;
-import onosoft.ports.driving.AccountData;
-import onosoft.ports.driving.AccountRepoPort;
+import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountRepoPort;
 
 import java.util.Optional;
 

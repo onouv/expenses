@@ -1,8 +1,11 @@
 package onosoft.domain.model;
 
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.ArrayList;
 
 @Data
 @Builder
@@ -15,10 +18,9 @@ public class Account {
 
     private String accountDescription;
 
-    // private List<Expense> expenses;
+    private ArrayList<Expense> expenses;
 
     public void assignExpense(Expense expense) {
-
-        // this.expenses.add(expense);
+        this.expenses.add(expense);
     }
 }

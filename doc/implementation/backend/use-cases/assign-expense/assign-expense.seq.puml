@@ -1,0 +1,37 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+actor User
+autonumber
+User -> Frontend: enter data
+Frontend -> Frontend: validate
+User -> Frontend: enter data
+Frontend -> Frontend: validate
+User -> Frontend: SAVE
+Frontend -> ExpenseEndpoint: POST account/1234/expense [ExpenseAssignmentDto]
+ExpenseEndpoint -> ExpenseService: assignExpenseToAccount(....)
+break try
+ExpenseService -> AccountRepoPort: findById(id)
+AccountRepoPort -> Account ** : create
+ExpenseService <-- AccountRepoPort: Account
+ExpenseService -> Expense ** : create
+
+
+ExpenseService -> Account: assignExpense(Expense)
+ExpenseService -> AccountRepoPort: save(Account)
+ExpenseEndpoint <-- ExpenseService: Expense
+Frontend <-- ExpenseEndpoint: 200 [ExpenseAssignmentSuccessDto]
+User <- Frontend: updated Account Page
+end break
+break ExpenseAlreadyAssigned
+ExpenseEndpoint <- ExpenseService: throw Error(ExpenseErrors.ExpenseAlreadyAssigned)
+Frontend <-- ExpenseEndpoint: 409 Error(ExpenseErrors.ExpenseAlreadyAssigned)
+User <- Frontend: Error Page
+end break
+break DatabaseException
+ExpenseService <- AccountRepoPort: throw Exception
+ExpenseEndpoint <- ExpenseService: throw Error(ExpenseErrors.DatabaseError)
+Frontend <-- ExpenseEndpoint: 500 Error(ExpenseErrors.DatabaseError)
+User <-- Frontend: Error Page
+end break
+
+@enduml

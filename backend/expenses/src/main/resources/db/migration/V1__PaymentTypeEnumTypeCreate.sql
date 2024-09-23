@@ -1,0 +1,1 @@
+CREATE TYPE payment_type_enum as ENUM ('Cash', 'CreditCard', 'ECCard', 'BankTransfer')

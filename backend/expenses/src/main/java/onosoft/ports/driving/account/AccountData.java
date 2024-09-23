@@ -1,10 +1,10 @@
-package onosoft.ports.driving;
+package onosoft.ports.driving.account;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+import onosoft.ports.driving.expense.ExpenseData;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,11 +12,11 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "accounts")
+@Table(name = "account")
 public class AccountData {
 
     @Id
-    @Column(name = "account_no", length = 25)
+    @Column(name = "account_no", length = 16)
     private String accountNo;
 
     @Column(name = "account_name")
@@ -24,4 +24,7 @@ public class AccountData {
 
     @Column(name = "account_description")
     private String accountDescription;
+
+    @OneToMany(mappedBy = "account")
+    private List<ExpenseData> expenses;
 }

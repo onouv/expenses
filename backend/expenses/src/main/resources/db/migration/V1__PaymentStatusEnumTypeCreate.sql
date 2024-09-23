@@ -1,0 +1,1 @@
+CREATE TYPE payment_status_enum AS ENUM ('Unknown', 'Planned', 'Obligo', 'Due')

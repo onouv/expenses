@@ -6,8 +6,8 @@ import jakarta.ws.rs.core.MediaType;
 import onosoft.application.account.AccountApiMapper;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
-import onosoft.ports.driving.AccountData;
-import onosoft.ports.driving.AccountRepoPort;
+import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountRepoPort;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.List;
