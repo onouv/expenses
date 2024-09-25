@@ -44,7 +44,7 @@ plannedSaved -[#Green]down-> "
 salt
 {+
     Recipient: | "Aral Kudamm 161" | <color:Blue>               Invoiced
-    Amount: | "52.43 EUR"
+    Obligo: | "52.43 EUR"
     Payment: {"20.01.2024" | planned}
     Invoice: { <&file> | Show | [ Change]}
     Receipt: | [<color:Green>Upload]
@@ -58,22 +58,22 @@ invoiced -down-> "
 salt
 {+
     Recipient: | "Aral Kudamm 161" | <color:Blue>   Due 20.01.2024
-    Amount: | "52.43 EUR"
-    Payment: {"20.01.2024" | [ Pay ]}
-    Invoice: { <&file> | Show }
-    Receipt: | [Upload]
+    Obligo: | "52.43 EUR"
+    Payment: {"20.01.2024" | planned }
+    Invoice: { <&file> | Show | [Change]}
+    Receipt: | [<color:Green>Upload]
     [Delete     ] | [Close    ]
 }
 }}
 " as due
 
-due -down-> "
+due -[#Green]down-> "
 {{
 salt
 {+
     Recipient: | Aral Kudamm 161 | <color:Blue>                      Paid
     Amount: | 52.43 EUR
-    Payment Date: |    20.01.2025
+    Payment: |    <color:red>29.01.2024 | actual
     Invoice: { <&file> | Show }
     Receipt: { <&file> | Show }
     | [Close     ]
