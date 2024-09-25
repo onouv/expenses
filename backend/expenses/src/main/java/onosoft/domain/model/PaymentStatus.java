@@ -2,7 +2,7 @@ package onosoft.domain.model;
 
 public enum PaymentStatus {
     Planned,
-    Obligo,
+    Invoiced,
     Due,
     Paid,
 }

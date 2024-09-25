@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface ExpenseApiPort {
 
-    void assignExpenseToAccount(Expense expense, String accountNo)
+    void assignExpenseToAccount(String accountNo, String purpose)
+            throws NoSuchAccountException;
+
+    void assignExpenseToAccount(String accountNo, String purpose, double amount)
             throws NoSuchAccountException;
     List<Expense> getExpenses(String accountNo);
 }

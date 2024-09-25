@@ -14,13 +14,16 @@ ExpenseService -> AccountRepoPort: findById(id)
 AccountRepoPort -> Account ** : create
 ExpenseService <-- AccountRepoPort: Account
 ExpenseService -> Expense ** : create
-
-
 ExpenseService -> Account: assignExpense(Expense)
 ExpenseService -> AccountRepoPort: save(Account)
 ExpenseEndpoint <-- ExpenseService: Expense
 Frontend <-- ExpenseEndpoint: 200 [ExpenseAssignmentSuccessDto]
 User <- Frontend: updated Account Page
+end break
+break NoSuchAccount
+ExpenseEndpoint <- AccountRepoPort: throw NoSuchAccountException
+Frontend <-- ExpenseEndpoint: 404 Error(Error.NoSuchAccount)
+User <- Frontend: Error Page
 end break
 break ExpenseAlreadyAssigned
 ExpenseEndpoint <- ExpenseService: throw Error(ExpenseErrors.ExpenseAlreadyAssigned)
