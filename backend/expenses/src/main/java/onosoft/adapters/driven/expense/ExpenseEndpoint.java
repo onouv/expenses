@@ -7,6 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import onosoft.adapters.driven.account.AccountDto;
 import onosoft.application.expense.ExpenseAppService;
 import onosoft.application.expense.MoneyDataMapper;
 
@@ -20,12 +21,18 @@ public class ExpenseEndpoint {
     @Inject MoneyDataMapper moneyDataMapper;
 
     @POST
-    public Response addExpenseToAccount(AssignExpenseRequestDto requestDto) {
-        expenseService.assignExpenseToAccount(
-                requestDto.accountNo(),
-                requestDto.expense().purpose(),
-                moneyDataMapper.dtoToDomain(requestDto.expense().amount()));
+    public Response addExpenseToAccount(PlannedExpenseDto request) {
+        PlannedExpenseResponseDto dto = expenseService.assignExpenseToAccount(
+                request.getAccountNo(),
+                request.getPurpose(),
+                moneyDataMapper.dtoToDomain(request.getAmount()));
 
-        return Response.ok().build();
+        return Response.ok(dto).build();
+    }
+
+    @POST
+    public Response addInvoiceToExpense(InvoicedExpenseDto request) {
+
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
     }
 }

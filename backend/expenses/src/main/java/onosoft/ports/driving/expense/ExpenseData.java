@@ -28,13 +28,16 @@ public class ExpenseData {
     @Embedded
     private MoneyData amount;
 
-    @Column(name="expense_purpose", length=120)
+    @Column(name = "expense_recipient", length = 120)
+    private String recipient;
+
+    @Column(name="expense_purpose", length = 120)
     private String purpose;
 
     @NotEmpty
     @NonNull
     @Length(max=32)
-    @Column(name="expense_payment_type", length=32)
+    @Column(name="expense_payment_type", length = 32)
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private PaymentType paymentType;
@@ -42,7 +45,7 @@ public class ExpenseData {
     @NotEmpty
     @NonNull
     @Length(max=32)
-    @Column(name="expense_payment_status", length=32)
+    @Column(name="expense_payment_status", length = 32)
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
