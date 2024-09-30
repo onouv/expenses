@@ -17,7 +17,7 @@ Frontend --> ExpensesEndpoint: GET expenses/{accountNo}/{expenseId}
 Frontend <-- ExpensesEndpoint: 200 { accountId, expenseId, amount, date, invoiceId, receiptId}
 User <- Frontend: Show Expense/Paid page
 else
-ExpensesService <-- Account
+ExpensesService <-- Account:
 end alt
 else No Such Account
 ExpensesService ->  NoSuchAccountException ** : throw

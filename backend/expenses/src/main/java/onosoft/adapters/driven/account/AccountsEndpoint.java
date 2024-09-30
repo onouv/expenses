@@ -32,7 +32,7 @@ public class AccountsEndpoint {
     public RestResponse<AccountDto> createAccount(AccountMetaDto dto) {
 
             Account account = this.port.createAccount(dto.accountNo(), dto.accountName(), dto.accountDescription());
-            return RestResponse.ok(AccountDto.of(account));
+            return RestResponse.ok(apiMapper.domainToDto(account));
 
     }
 
@@ -45,8 +45,8 @@ public class AccountsEndpoint {
     }
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{accountNo}")
+    @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<AccountDto> getAccount(String accountNo) {
         AccountData dO = this.repo.findDOByAccountNo(accountNo);
         AccountDto payload = this.apiMapper.dtoFromDO(dO);

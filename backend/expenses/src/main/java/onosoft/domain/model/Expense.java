@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.ToString;
+import onosoft.commons.money.Money;
 import onosoft.ports.driven.expense.NegativeAmountException;
 
 import java.time.Instant;
@@ -15,7 +16,7 @@ import java.util.Date;
 public class Expense {
 
     private String purpose;
-    private double amount;
+    private Money amount;
     private Date created;
 
     @NonNull
@@ -31,7 +32,7 @@ public class Expense {
             String purpose,
             PaymentType paymentType,
             PaymentStatus paymentStatus,
-            double amount
+            Money amount
             )
             throws NegativeAmountException {
 
@@ -40,10 +41,6 @@ public class Expense {
         this.paymentStatus = paymentStatus;
         this.created = Date.from(Instant.now());
         this.amount = amount;
-
-        if (amount < 0) {
-            throw new NegativeAmountException(this);
-        }
     }
 
     public Expense(
@@ -53,7 +50,7 @@ public class Expense {
 
         this.purpose = purpose;
         this.paymentType = paymentType;
-        this.paymentStatus = PaymentStatus.Unknown;
+        this.paymentStatus = PaymentStatus.Planned;
         this.created = Date.from(Instant.now());
     }
 }
