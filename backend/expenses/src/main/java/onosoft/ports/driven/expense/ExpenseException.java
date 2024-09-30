@@ -13,7 +13,7 @@ public class ExpenseException extends RuntimeException {
                 "Expense of %s for purpose'%s' from %s: %s",
                 expense.getAmount().toString(),
                 expense.getPurpose(),
-                expense.getCreated().toString(),
+                expense.getAccrued().toString(),
                 message));
         this.expense = expense;
     }

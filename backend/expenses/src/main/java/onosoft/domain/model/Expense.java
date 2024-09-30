@@ -17,7 +17,7 @@ public class Expense {
 
     private String purpose;
     private Money amount;
-    private Date created;
+    private Date accrued;
 
     @NonNull
     private PaymentType paymentType;
@@ -39,7 +39,7 @@ public class Expense {
         this.purpose = purpose;
         this.paymentType = paymentType;
         this.paymentStatus = paymentStatus;
-        this.created = Date.from(Instant.now());
+        this.accrued = Date.from(Instant.now());
         this.amount = amount;
     }
 
@@ -51,6 +51,6 @@ public class Expense {
         this.purpose = purpose;
         this.paymentType = paymentType;
         this.paymentStatus = PaymentStatus.Planned;
-        this.created = Date.from(Instant.now());
+        this.accrued = Date.from(Instant.now());
     }
 }
