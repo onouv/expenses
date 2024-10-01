@@ -1,26 +1,26 @@
 package onosoft.application.account;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import onosoft.adapters.driven.account.AccountDto;
-import onosoft.domain.model.Account;
+import onosoft.adapters.driven.account.AccountMetaDto;
+import onosoft.commons.money.AmountExceedsRangeException;
 import onosoft.ports.driving.account.AccountData;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper(componentModel = "jakarta-cdi")
-public interface AccountApiMapper {
-    Account dtoToDomain(AccountDto dto);
 
-    @InheritInverseConfiguration(name = "dtoToDomain")
-    AccountDto domainToDto(Account domain);
+@ApplicationScoped
+public class AccountApiMapper {
 
-    List<Account> dtoListToDomainList(List<AccountDto> dto);
+    AccountDto dtoFromDO(AccountData dO) {
+        return new AccountDto(
+                dO.getAccountNo(),
+                dO.getAccountName(),
+                dO.getAccountDescription(),
 
-    @InheritInverseConfiguration(name = "dtoListToDomainList")
-    List<AccountDto> domainListToDtoList(List<Account> domain);
+        )
+    }
 
-    AccountDto dtoFromDO(AccountData dO);
 
-    List<AccountDto> dtoListFromDOList(List<AccountData> dataList);
+    List<AccountMetaDto> dtoListFromDOList(List<AccountData> dataList)  throws AmountExceedsRangeException;
 }

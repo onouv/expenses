@@ -3,6 +3,7 @@ package onosoft.adapters.driven.commons.money;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Positive;
+import onosoft.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Currency;
 
 public record MoneyDto(

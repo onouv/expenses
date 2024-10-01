@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import onosoft.application.account.AccountApiMapper;
+import onosoft.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driving.account.AccountData;
@@ -29,25 +30,26 @@ public class AccountsEndpoint {
     @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public RestResponse<AccountDto> createAccount(AccountMetaDto dto) {
+    public RestResponse createAccount(AccountMetaDto dto)
+            throws AmountExceedsRangeException {
 
             Account account = this.port.createAccount(dto.accountNo(), dto.accountName(), dto.accountDescription());
-            return RestResponse.ok(apiMapper.domainToDto(account));
+            return RestResponse.ok();
 
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public RestResponse<List<AccountDto>> getAccounts() {
+    public RestResponse<List<AccountMetaDto>> getAccounts()  throws AmountExceedsRangeException {
         List<AccountData> accounts = this.repo.listAll();
-        List<AccountDto> payload = apiMapper.dtoListFromDOList(accounts);
+        List<AccountMetaDto> payload = apiMapper.dtoListFromDOList(accounts);
         return RestResponse.ok(payload);
     }
 
     @GET
     @Path("/{accountNo}")
     @Produces(MediaType.APPLICATION_JSON)
-    public RestResponse<AccountDto> getAccount(String accountNo) {
+    public RestResponse<AccountDto> getAccount(String accountNo) throws AmountExceedsRangeException {
         AccountData dO = this.repo.findDOByAccountNo(accountNo);
         AccountDto payload = this.apiMapper.dtoFromDO(dO);
 

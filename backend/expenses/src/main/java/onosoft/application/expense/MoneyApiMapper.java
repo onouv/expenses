@@ -1,18 +1,19 @@
 package onosoft.application.expense;
 
 import onosoft.adapters.driven.commons.money.MoneyDto;
+import onosoft.commons.money.AmountExceedsRangeException;
 import onosoft.commons.money.Money;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "jakarta-cdi")
-public interface MoneyApiMapper {
+public class MoneyApiMapper {
+    public static Money dtoToDomain(MoneyDto dto) throws AmountExceedsRangeException {
+        return new Money(
+                new Money.Value(dto.amountMajor(),dto.amountMinor()),
+                dto.currency());
+    }
 
-    MoneyApiMapper INSTANCE = Mappers.getMapper(MoneyApiMapper.class);
+    public static MoneyDto domainToDto(Money domain) {
+        final Money.Value amount = domain.getValue();
 
-    Money dtoToDomain(MoneyDto dto);
-
-    @InheritInverseConfiguration(name = "dtoToDomain")
-    MoneyDto domainToDto(Money domain);
+        return new MoneyDto(amount.major, amount.minor, domain.getCurrency());
+    }
 }

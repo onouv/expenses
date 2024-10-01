@@ -1,12 +1,12 @@
-package onosoft.adapters.driven.expense;
+package onosoft.adapters.driven.expense.dto;
 
 import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import onosoft.adapters.driven.expense.PaidExpenseDto;
+
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PaidExpenseResponseDto extends PaidExpenseDto {

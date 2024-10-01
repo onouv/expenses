@@ -4,16 +4,16 @@ import lombok.Getter;
 import onosoft.domain.model.Expense;
 
 @Getter
-public class ExpenseException extends RuntimeException {
+public abstract class ExpenseException extends RuntimeException {
 
     private final Expense expense;
 
-    public ExpenseException(Expense expense, String message) {
+    protected ExpenseException(Expense expense, String message) {
         super(String.format(
                 "Expense of %s for purpose'%s' from %s: %s",
                 expense.getAmount().toString(),
                 expense.getPurpose(),
-                expense.getAccrued().toString(),
+                expense.getAccruedDate().toString(),
                 message));
         this.expense = expense;
     }

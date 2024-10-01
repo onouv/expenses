@@ -7,7 +7,7 @@ import onosoft.adapters.driven.commons.error.ErrorDto;
 import onosoft.ports.driven.expense.ExpenseException;
 
 @Provider
-public class ExpenseExceptionHandler implements ExceptionMapper<ExpenseException> {
+public class ExpenseDefaultHandler implements ExceptionMapper<ExpenseException> {
 
     @Override
     public Response toResponse(ExpenseException exception) {

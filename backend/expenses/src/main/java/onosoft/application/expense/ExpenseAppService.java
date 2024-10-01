@@ -3,10 +3,11 @@ package onosoft.application.expense;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import onosoft.adapters.driven.expense.PlannedExpenseResponseDto;
+import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
+import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
 import onosoft.adapters.driving.account.AccountRepoAdapter;
 import onosoft.application.account.AccountDataMapper;
-import onosoft.commons.money.Money;
+import onosoft.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.*;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driven.expense.ExpenseApiPort;
@@ -27,14 +28,10 @@ public class ExpenseAppService implements ExpenseApiPort {
     AccountDataMapper dataMapper;
 
     @Transactional
-    public PlannedExpenseResponseDto assignExpenseToAccount(String accountNo, String purpose, Money value) throws NoSuchAccountException {
-        Account account = repo.findByAccountNo(accountNo);
-
-        Expense expense = Expense.builder()
-                .amount(value)
-                .paymentStatus(PaymentStatus.Planned)
-                .paymentType(PaymentType.Unknown)
-                .build();
+    public PlannedExpenseResponseDto assignExpenseToAccount(PlannedExpenseDto dto)
+            throws NoSuchAccountException, AmountExceedsRangeException {
+        Account account = repo.findByAccountNo(dto.getAccountNo());
+        Expense expense = apiMapper.fromPlannedExpenseDto(dto);
         account.addExpense(expense);
         repo.persist(dataMapper.toData(account));
 

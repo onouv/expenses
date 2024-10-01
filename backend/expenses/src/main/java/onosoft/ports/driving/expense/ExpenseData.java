@@ -11,6 +11,8 @@ import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 import org.hibernate.validator.constraints.Length;
 
+import java.sql.Date;
+
 @Getter
 @Setter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,14 +27,25 @@ public class ExpenseData {
     @Getter(AccessLevel.NONE)
     private long id;
 
-    @Embedded
-    private MoneyData amount;
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private AccountData account;
 
     @Column(name = "expense_recipient", length = 120)
     private String recipient;
 
     @Column(name="expense_purpose", length = 120)
     private String purpose;
+
+    @Embedded
+    private MoneyData amount;
+
+    @Column(name="expense_accrued_date")
+    private Date accruedDate;
+
+    @Column(name="expense_payment_date")
+    private Date paymentDate;
+    private boolean isInvoiced;
 
     @NotEmpty
     @NonNull
@@ -49,7 +62,5 @@ public class ExpenseData {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
-    private AccountData account;
+
 }

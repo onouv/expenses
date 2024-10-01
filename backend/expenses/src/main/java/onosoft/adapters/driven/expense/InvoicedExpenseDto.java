@@ -1,13 +1,12 @@
 package onosoft.adapters.driven.expense;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
 public class InvoicedExpenseDto extends PlannedExpenseDto {
     protected String invoiceUri;
 }
