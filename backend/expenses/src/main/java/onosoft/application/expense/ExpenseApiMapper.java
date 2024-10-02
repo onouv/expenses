@@ -1,9 +1,15 @@
 package onosoft.application.expense;
 
-import onosoft.adapters.driven.expense.*;
 import onosoft.adapters.driven.expense.dto.*;
 import onosoft.commons.money.AmountExceedsRangeException;
+import onosoft.commons.money.MoneyApiMapper;
+import onosoft.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Expense;
+import onosoft.ports.driving.expense.ExpenseData;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class ExpenseApiMapper {
     public static Expense fromPlannedExpenseDto(PlannedExpenseDto dto)
@@ -43,4 +49,30 @@ public class ExpenseApiMapper {
                 .accruedDate(domain.getAccruedDate())
                 .build();
     }
+
+    public static List<ExpenseInfoDto> toExpenseInfoDtoList(List<ExpenseData> data)
+            throws AmountExceedsRangeException {
+        List<ExpenseInfoDto> dtos = new ArrayList<>();
+        Iterator<ExpenseData> iter = data.iterator();
+
+        while(iter.hasNext()) {
+            dtos.add(ExpenseApiMapper.dataToExpenseInfo(iter.next()));
+        }
+        return dtos;
+    }
+
+    private static ExpenseInfoDto dataToExpenseInfo(ExpenseData data)
+            throws AmountExceedsRangeException {
+        return ExpenseInfoDto
+                .builder()
+                .expenseId(data.getId())
+                .recipient(data.getRecipient())
+                .purpose(data.getPurpose())
+                .amount(MoneyApiMapper
+                        .domainToDto(MoneyDataMapper
+                                .dataToDomain(data.getAmount())))
+                .accruedDate(data.getAccruedDate())
+                .build();
+    }
+
 }

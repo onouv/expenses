@@ -1,4 +1,4 @@
-package onosoft.application.expense;
+package onosoft.commons.money;
 
 import onosoft.adapters.driven.commons.money.MoneyDto;
 import onosoft.commons.money.AmountExceedsRangeException;

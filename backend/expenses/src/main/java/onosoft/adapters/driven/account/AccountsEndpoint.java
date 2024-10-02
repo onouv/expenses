@@ -11,6 +11,7 @@ import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.account.AccountRepoPort;
 import org.jboss.resteasy.reactive.RestResponse;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -33,7 +34,10 @@ public class AccountsEndpoint {
     public RestResponse createAccount(AccountMetaDto dto)
             throws AmountExceedsRangeException {
 
-            Account account = this.port.createAccount(dto.accountNo(), dto.accountName(), dto.accountDescription());
+            Account account = this.port.createAccount(
+                    dto.getAccountNo(),
+                    dto.getAccountName(),
+                    dto.getAccountDescription());
             return RestResponse.ok();
 
     }
@@ -41,8 +45,8 @@ public class AccountsEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<List<AccountMetaDto>> getAccounts()  throws AmountExceedsRangeException {
-        List<AccountData> accounts = this.repo.listAll();
-        List<AccountMetaDto> payload = apiMapper.dtoListFromDOList(accounts);
+        List<AccountData> data = this.repo.listAll();
+        List<AccountMetaDto> payload = AccountApiMapper.dtoListFromDataList(data);
         return RestResponse.ok(payload);
     }
 
@@ -50,8 +54,8 @@ public class AccountsEndpoint {
     @Path("/{accountNo}")
     @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<AccountDto> getAccount(String accountNo) throws AmountExceedsRangeException {
-        AccountData dO = this.repo.findDOByAccountNo(accountNo);
-        AccountDto payload = this.apiMapper.dtoFromDO(dO);
+        AccountData data = this.repo.findDOByAccountNo(accountNo);
+        AccountDto payload = this.apiMapper.dtoFromData(data);
 
         return RestResponse.ok(payload);
     }

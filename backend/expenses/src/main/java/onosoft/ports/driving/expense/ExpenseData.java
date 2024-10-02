@@ -24,7 +24,6 @@ public class ExpenseData {
     @Id
     @GeneratedValue
     @Column(name="expense_id")
-    @Getter(AccessLevel.NONE)
     private long id;
 
     @ManyToOne

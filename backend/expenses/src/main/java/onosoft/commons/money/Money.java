@@ -59,7 +59,7 @@ public class Money {
         this.currency = currency;
     }
 
-    private Money(long uUnits, Currency currency) throws AmountExceedsRangeException {
+    Money(long uUnits, Currency currency) throws AmountExceedsRangeException {
         if (uUnits / scale > range ) {
             throw new AmountExceedsRangeException(this);
         }

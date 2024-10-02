@@ -1,5 +1,6 @@
 package onosoft.application.expense;
 
+import onosoft.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Expense;
 import onosoft.ports.driving.expense.ExpenseData;
 import org.mapstruct.InheritInverseConfiguration;

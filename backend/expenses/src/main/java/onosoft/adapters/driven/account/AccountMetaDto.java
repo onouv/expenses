@@ -1,3 +1,13 @@
 package onosoft.adapters.driven.account;
 
-public record AccountMetaDto(String accountNo, String accountName, String accountDescription) {}
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
+@Data
+public class AccountMetaDto {
+    String accountNo;
+    String accountName;
+    String accountDescription;
+}
+

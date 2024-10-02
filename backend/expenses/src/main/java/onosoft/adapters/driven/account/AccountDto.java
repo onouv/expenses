@@ -1,13 +1,13 @@
 package onosoft.adapters.driven.account;
 
-import onosoft.adapters.driven.expense.dto.ExpenseDto;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+import onosoft.adapters.driven.expense.dto.ExpenseInfoDto;
 
 import java.util.List;
 
-
-public record AccountDto(
-        String accountNo,
-        String accountName,
-        String accountDescription,
-        List<ExpenseDto> expenses
-) {}
+@SuperBuilder
+@Data
+public class AccountDto extends AccountMetaDto {
+        List<ExpenseInfoDto> expenses;
+}
