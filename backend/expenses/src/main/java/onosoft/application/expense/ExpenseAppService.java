@@ -22,20 +22,17 @@ public class ExpenseAppService implements ExpenseApiPort {
     AccountRepoAdapter repo;
 
     @Inject
-    ExpenseApiMapper apiMapper;
-
-    @Inject
     AccountDataMapper dataMapper;
 
     @Transactional
     public PlannedExpenseResponseDto assignExpenseToAccount(PlannedExpenseDto dto)
             throws NoSuchAccountException, AmountExceedsRangeException {
         Account account = repo.findByAccountNo(dto.getAccountNo());
-        Expense expense = apiMapper.fromPlannedExpenseDto(dto);
+        Expense expense = ExpenseApiMapper.fromPlannedExpenseDto(dto);
         account.addExpense(expense);
         repo.persist(dataMapper.toData(account));
 
-        return apiMapper.toPlannedResponseDto(expense);
+        return ExpenseApiMapper.toPlannedResponseDto(expense);
     }
 
     @Override

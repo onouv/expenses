@@ -1,4 +1,4 @@
-package onosoft.adapters.driven.expense;
+package onosoft.adapters.driven.expense.dto;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;

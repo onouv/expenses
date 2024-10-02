@@ -1,12 +1,12 @@
-package onosoft.adapters.driven.expense;
+package onosoft.adapters.driven.expense.dto;
 
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
 public class InvoicedExpenseResponseDto extends InvoicedExpenseDto {
     @Size(max = 16)
     long expenseId;
