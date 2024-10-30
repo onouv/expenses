@@ -1,6 +1,4 @@
-package onosoft.commons.money;
-
-import onosoft.commons.money.Money;
+package onosoft.application.commons.money;
 
 public abstract class MoneyException extends Exception {
     private Money value;

@@ -4,7 +4,7 @@ import onosoft.adapters.driven.account.AccountDto;
 import onosoft.adapters.driven.account.AccountMetaDto;
 import onosoft.adapters.driven.expense.dto.ExpenseInfoDto;
 import onosoft.application.expense.ExpenseApiMapper;
-import onosoft.commons.money.AmountExceedsRangeException;
+import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.ports.driven.account.InvalidAccountDataException;
 import onosoft.ports.driving.account.AccountData;
 

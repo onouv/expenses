@@ -4,14 +4,13 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import onosoft.application.account.AccountApiMapper;
-import onosoft.commons.money.AmountExceedsRangeException;
+import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.account.AccountRepoPort;
 import org.jboss.resteasy.reactive.RestResponse;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -28,15 +27,12 @@ public class AccountsEndpoint {
     @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public RestResponse createAccount(AccountMetaDto dto)
-            throws AmountExceedsRangeException {
-
+    public RestResponse<Void> createAccount(AccountMetaDto dto) {
             Account account = this.port.createAccount(
                     dto.getAccountNo(),
                     dto.getAccountName(),
                     dto.getAccountDescription());
             return RestResponse.ok();
-
     }
 
     @GET

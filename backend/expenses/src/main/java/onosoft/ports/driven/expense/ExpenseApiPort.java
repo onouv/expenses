@@ -2,7 +2,7 @@ package onosoft.ports.driven.expense;
 
 import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
-import onosoft.commons.money.AmountExceedsRangeException;
+import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Expense;
 import onosoft.ports.driven.account.NoSuchAccountException;
 

@@ -10,15 +10,21 @@ import java.sql.Date;
 @Data
 @EqualsAndHashCode
 @SuperBuilder
+@NoArgsConstructor
 public class ExpenseDto {
 
+    @NonNull
     @Size(max = 120)
     protected String recipient;
 
+    @NonNull
     @Size(max = 120)
     protected String purpose;
 
+    @NonNull
     protected MoneyDto amount;
+
+    @NonNull
     protected Date accruedDate;
 
 

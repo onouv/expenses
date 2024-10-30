@@ -1,14 +1,15 @@
-package onosoft.commons.money;
+package onosoft.application.commons.money;
 
 import onosoft.adapters.driven.commons.money.MoneyDto;
-import onosoft.commons.money.AmountExceedsRangeException;
-import onosoft.commons.money.Money;
+import onosoft.domain.model.Currency;
 
 public class MoneyApiMapper {
-    public static Money dtoToDomain(MoneyDto dto) throws AmountExceedsRangeException {
-        return new Money(
+    public static CappedMoney dtoToDomain(MoneyDto dto) throws AmountExceedsRangeException {
+        final Currency currency = dto.currency();
+
+        return new CappedMoney(
                 new Money.Value(dto.amountMajor(),dto.amountMinor()),
-                dto.currency());
+                currency);
     }
 
     public static MoneyDto domainToDto(Money domain) {

@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Getter
 @Setter
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
 public class MoneyData {
@@ -16,13 +16,6 @@ public class MoneyData {
     @NotEmpty
     @Column(name="money_micro_units")
     private long microUnits;
-
-    /*
-    @NonNull
-    @NotEmpty
-    @Column(name="money_scale")
-    private short scale;
-     */
 
     @NotEmpty
     @Length(max=16)

@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.ToString;
-import onosoft.commons.money.Money;
+import onosoft.application.commons.money.CappedMoney;
 import java.sql.Date;
 
 
@@ -12,20 +12,16 @@ import java.sql.Date;
 @ToString
 @Builder
 public class Expense {
-    private String accountNo;
+    @NonNull private String accountNo;
     private long expenseId;
-    private String recipient;
-    private String purpose;
-    private Money amount;
-    private Date accruedDate;
-    private Date paymentDate;
-    private boolean isInvoiced;
-
-    @NonNull
+    @NonNull private String recipient;
+    @NonNull private String purpose;
+    @NonNull private CappedMoney amount;
+    @NonNull private Date accruedDate;
+    @NonNull private Date paymentDate;
+    private boolean invoiced;
     private PaymentType paymentType;
-
-    @NonNull
-    private PaymentStatus paymentStatus;
+    @NonNull private PaymentStatus paymentStatus;
 
     //private Receipt receipt;
 }

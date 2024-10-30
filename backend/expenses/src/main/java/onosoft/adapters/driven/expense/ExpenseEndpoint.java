@@ -11,7 +11,8 @@ import onosoft.adapters.driven.expense.dto.InvoicedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
 import onosoft.application.expense.ExpenseAppService;
-import onosoft.commons.money.AmountExceedsRangeException;
+import onosoft.application.commons.money.AmountExceedsRangeException;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 @Path("/expenses")
 @Produces(MediaType.APPLICATION_JSON)

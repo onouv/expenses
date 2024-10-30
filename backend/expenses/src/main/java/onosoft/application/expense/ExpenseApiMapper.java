@@ -1,9 +1,9 @@
 package onosoft.application.expense;
 
 import onosoft.adapters.driven.expense.dto.*;
-import onosoft.commons.money.AmountExceedsRangeException;
-import onosoft.commons.money.MoneyApiMapper;
-import onosoft.commons.money.MoneyDataMapper;
+import onosoft.application.commons.money.AmountExceedsRangeException;
+import onosoft.application.commons.money.MoneyApiMapper;
+import onosoft.application.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Expense;
 import onosoft.ports.driving.expense.ExpenseData;
 
@@ -18,7 +18,7 @@ public class ExpenseApiMapper {
                 .accountNo(dto.getAccountNo())
                 .paymentDate(dto.getPaymentDate())
                 .paymentType(dto.getPaymentType())
-                .isInvoiced(dto.isInvoiced())
+                .invoiced(dto.isInvoiced())
                 .recipient(dto.getRecipient())
                 .purpose(dto.getPurpose())
                 .amount(MoneyApiMapper.dtoToDomain(dto.getAmount()))

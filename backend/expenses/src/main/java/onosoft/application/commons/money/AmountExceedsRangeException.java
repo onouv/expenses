@@ -1,4 +1,4 @@
-package onosoft.commons.money;
+package onosoft.application.commons.money;
 
 public class AmountExceedsRangeException extends MoneyException {
     public AmountExceedsRangeException(Money amount) {

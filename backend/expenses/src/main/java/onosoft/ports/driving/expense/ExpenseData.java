@@ -13,8 +13,8 @@ import org.hibernate.validator.constraints.Length;
 
 import java.sql.Date;
 
-@Getter
-@Setter
+@Data
+@Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @Entity
@@ -22,12 +22,12 @@ import java.sql.Date;
 public class ExpenseData {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="expense_id")
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_account_no")
     private AccountData account;
 
     @Column(name = "expense_recipient", length = 120)
@@ -44,7 +44,9 @@ public class ExpenseData {
 
     @Column(name="expense_payment_date")
     private Date paymentDate;
-    private boolean isInvoiced;
+
+    @Column(name="expense_is_invoiced")
+    private boolean invoiced;
 
     @NotEmpty
     @NonNull
@@ -60,6 +62,5 @@ public class ExpenseData {
     @Column(name="expense_payment_status", length = 32)
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
-
 
 }
