@@ -8,9 +8,9 @@ If you want to learn more about Quarkus, please visit its website: https://quark
 
 The following variables can be configured by means of 
 
-| Variable Name | Values | Example | Default | Description                                  |
-|---|---|---|---|---|
-| MONETARY_MAX_VALUE | integer string | 50000  | 100000  | max. accepted monetary value in any currency |
+| Variable Name | Values              | Example | Default | Description                                  |
+|---|---------------------|---|---|---|
+| domain.money.max-value | long integer string | 50000  | 100000  | max. accepted monetary value in any currency |
 
 ## Running the application in dev mode
 
