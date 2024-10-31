@@ -16,7 +16,6 @@ CREATE TABLE expenses
     expense_recipient       VARCHAR(120),
     expense_purpose         VARCHAR(120),
     money_micro_units       BIGINT,
-    money_scale             SMALLINT,
     money_currency          NCHAR(3),
     expense_accrued_date    DATE,
     expense_payment_date    DATE,
