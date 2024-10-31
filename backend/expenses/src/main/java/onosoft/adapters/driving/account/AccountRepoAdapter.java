@@ -1,17 +1,19 @@
-package onosoft.adapters.driving;
+package onosoft.adapters.driving.account;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import onosoft.application.account.AccountDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.NoSuchAccountException;
-import onosoft.ports.driving.AccountData;
-import onosoft.ports.driving.AccountRepoPort;
+import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountRepoPort;
 
 import java.util.Optional;
 
 @ApplicationScoped
 public class AccountRepoAdapter implements AccountRepoPort {
 
+    @Inject
     AccountDataMapper accountMapper;
 
     public boolean accountExists(String accountNo) {
@@ -21,7 +23,7 @@ public class AccountRepoAdapter implements AccountRepoPort {
 
     public Account findByAccountNo(String accountNo) throws NoSuchAccountException {
         Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
-        if(dataOpt.isPresent()) {
+        if (dataOpt.isPresent()) {
             return accountMapper.toDomain(dataOpt.get());
         }
 
@@ -30,7 +32,7 @@ public class AccountRepoAdapter implements AccountRepoPort {
 
     public AccountData findDOByAccountNo(String accountNo) throws NoSuchAccountException {
         Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
-        if(dataOpt.isPresent()) {
+        if (dataOpt.isPresent()) {
             return dataOpt.get();
         }
 

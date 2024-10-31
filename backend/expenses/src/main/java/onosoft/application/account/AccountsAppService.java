@@ -8,8 +8,8 @@ import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
 import onosoft.ports.driven.account.NoSuchAccountException;
-import onosoft.ports.driving.AccountData;
-import onosoft.ports.driving.AccountRepoPort;
+import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountRepoPort;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class AccountsAppService implements AccountApiPort {
             throw new DuplicateAccountNoException(accountNo);
         }
 
+        try {
         Account account = Account.builder()
                 .accountNo(accountNo)
                 .accountName(name)
@@ -39,6 +40,10 @@ public class AccountsAppService implements AccountApiPort {
         repo.persist(accountMapper.toData(account));
 
         return account;
+        } catch (Exception x) {
+            System.out.println("BANNNGG!!");
+            return null;
+        }
     }
 
     @Override
@@ -51,6 +56,6 @@ public class AccountsAppService implements AccountApiPort {
 
     @Override
     public Account getAccount(String accountNo) throws NoSuchAccountException {
-        return this.repo.findByAccountNo(accountNo);
+        return repo.findByAccountNo(accountNo);
     }
 }

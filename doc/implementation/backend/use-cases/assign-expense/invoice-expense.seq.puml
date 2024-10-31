@@ -1,0 +1,37 @@
+@startuml
+actor User
+User -> Frontend: click 'Assign Expense'
+Frontend -> ExpensesEndpoint: POST expenses/invoice { accountNo, amount, date, invoiced}
+break try
+ExpensesEndpoint -> ExpensesService: createExpense(accountNo, amount, date, invoiced)
+ExpensesService -> AccountRepoPort: findByAccountNo(accountNo)
+alt Account exists
+AccountRepoPort -> Account ** : create
+ExpensesService -> Expense ** : create
+ExpensesService -> Account: assignExpense(Expense)
+alt No Such Expense
+ExpensesService -> AccountRepoPort: save(Account)
+ExpensesEndpoint <-- ExpensesService
+Frontend <-- ExpensesEndpoint: 200
+Frontend --> ExpensesEndpoint: GET expenses/{accountNo}/{expenseId}
+Frontend <-- ExpensesEndpoint: 200 { accountId, expenseId, amount, date, invoiceId, receiptId}
+User <- Frontend: Show Expense/Paid page
+else
+ExpensesService <-- Account:
+end alt
+else No Such Account
+ExpensesService ->  NoSuchAccountException ** : throw
+end alt
+end break
+break No Account
+NoSuchAccountExceptionHandler <- ExpensesService: throw NoSuchAccountException
+Frontend <-- NoSuchAccountExceptionHandler: 404 [Error(Error.NoSuchAccount)]
+User <- Frontend: show ErrorPage
+end break
+break Expense Preexisting
+
+end break
+
+
+
+@enduml

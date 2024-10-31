@@ -1,13 +1,15 @@
 package onosoft.application.account;
 
+import onosoft.application.expense.ExpenseDataMapper;
 import onosoft.domain.model.Account;
-import onosoft.ports.driving.AccountData;
+import onosoft.ports.driving.account.AccountData;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "jakarta-cdi")
+@Mapper(componentModel = "jakarta-cdi", uses= ExpenseDataMapper.class)
 public interface AccountDataMapper {
 
     Account toDomain(AccountData entity);

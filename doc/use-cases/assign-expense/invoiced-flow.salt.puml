@@ -1,0 +1,87 @@
+@startuml
+header Project: Expenses
+title Assign Expense Invoiced Flow
+(*) --> "
+{{
+salt
+{+
+    Recipient: | "<color:#9a9a9a>vendor name   " | <color:Blue>                  Planned
+    Amount: | "<color:#9a9a9a>00.00 EUR     "
+    Payment: {"<color:#9a9a9a>12.12.2023" | planned}
+    Invoice: { (X) Expected | () Non-Invoiced }
+    [<color:#9a9a9a>Save      ] | [Close    ]
+}
+}}
+" as initial
+initial -[#Red]right-> "
+{{
+salt
+{+
+    Recipient: | "<color:Red>Aral Kudamm  " | <color:Blue>                   Planned
+    Amount: | "<color:Red>52.43 EUR    "
+    Payment: {"<color:Red>20.01.2024" |planned}
+    Invoice: { (X) Expected | () Non-Invoiced }
+    [<color:Green>Save      ] | [Close    ]
+}
+}}
+" as plannedUnsaved
+
+plannedUnsaved -[#Green]right-> "
+{{
+salt
+{+
+    Recipient: | "Aral Kudamm  " | <color:Blue>                   Planned
+    Amount: | "52.43 EUR    "
+    Payment: {"20.01.2024" | planned}
+    Invoice: { (X) Expected | () Non-Invoiced | [<color:Green>Upload]}}
+    [Delete     ] | [Close    ]
+}
+}}
+" as plannedSaved
+
+plannedSaved -[#Green]down-> "
+{{
+salt
+{+
+    Recipient: | "Aral Kudamm 161" | <color:Blue>               Invoiced
+    Obligo: | "52.43 EUR"
+    Payment: {"20.01.2024" | planned}
+    Invoice: { <&file> | Show | [ Change]}
+    Receipt: | [<color:Green>Upload]
+    [Delete     ] | [Close    ]
+}
+}}
+" as invoiced
+
+invoiced -down-> "
+{{
+salt
+{+
+    Recipient: | "Aral Kudamm 161" | <color:Blue>   Due 20.01.2024
+    Obligo: | "52.43 EUR"
+    Payment: {"20.01.2024" | planned }
+    Invoice: { <&file> | Show | [Change]}
+    Receipt: | [<color:Green>Upload]
+    [Delete     ] | [Close    ]
+}
+}}
+" as due
+
+due -[#Green]down-> "
+{{
+salt
+{+
+    Recipient: | Aral Kudamm 161 | <color:Blue>                      Paid
+    Amount: | 52.43 EUR
+    Payment: |    <color:red>29.01.2024 | actual
+    Invoice: { <&file> | Show }
+    Receipt: { <&file> | Show }
+    | [Close     ]
+}
+}}
+" as paid
+
+invoiced -[#Green]-> paid
+
+
+@enduml

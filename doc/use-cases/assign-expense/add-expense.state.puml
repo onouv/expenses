@@ -3,13 +3,13 @@ state "Loading Expense List" as LEXL
 state "Expense List Loaded" as SEXL
 
 state "Data Entry" as Collecting {
-    state AmountInValid: AmountValid = false
+    state AmountInvalid: AmountValid = false
     state AmountValid: AmountValid = true
 
-    [*] --> AmountInValid
-    AmountInValid --> AmountValid : Valid \nInput
-    AmountInValid --> AmountInValid : Invalid \nInput
-    AmountValid --> AmountInValid : Invalid \nInput
+    [*] --> AmountInvalid
+    AmountInvalid --> AmountValid : Valid \nInput
+    AmountInvalid --> AmountInvalid : Invalid \nInput
+    AmountValid --> AmountInvalid : Invalid \nInput
 
     ||
     state "No Selection" as NSEL : PaymentTypeSelected = false

@@ -4,6 +4,14 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+## Configuration Points
+
+The following variables can be configured by means of 
+
+| Variable Name | Values | Example | Default | Description                                  |
+|---|---|---|---|---|
+| MONETARY_MAX_VALUE | integer string | 50000  | 100000  | max. accepted monetary value in any currency |
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:

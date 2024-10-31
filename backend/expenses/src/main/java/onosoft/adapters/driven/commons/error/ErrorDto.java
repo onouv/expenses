@@ -1,4 +1,4 @@
-package onosoft.adapters.driven;
+package onosoft.adapters.driven.commons.error;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.EqualsAndHashCode;
