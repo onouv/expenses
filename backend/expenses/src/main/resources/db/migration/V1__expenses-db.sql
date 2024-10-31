@@ -12,7 +12,7 @@ CREATE TABLE accounts
 CREATE TABLE expenses
 (
     expense_id              BIGINT PRIMARY KEY,
-    accounts_account_no      VARCHAR(16) REFERENCES accounts(account_no),
+    account_account_no      VARCHAR(16) REFERENCES accounts(account_no),
     expense_recipient       VARCHAR(120),
     expense_purpose         VARCHAR(120),
     money_micro_units       BIGINT,

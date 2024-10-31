@@ -29,7 +29,7 @@ public class ExpenseData {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accounts_account_no")
+    @JoinColumn(name = "account_account_no")
     private AccountData account;
 
     @Column(name = "expense_recipient", length = 120)
