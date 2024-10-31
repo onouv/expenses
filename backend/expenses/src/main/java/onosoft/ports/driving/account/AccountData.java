@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "account")
+@Table(name = "accounts")
 public class AccountData {
 
     @Id
