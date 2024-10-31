@@ -1,17 +1,17 @@
-package onosoft.adapters.driven.account;
+package onosoft.adapters.driven.commons;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import onosoft.adapters.driven.commons.error.ErrorDto;
-import onosoft.ports.driven.account.AccountException;
 
 @Provider
-public class AccountDefaultHandler implements ExceptionMapper<AccountException> {
-
+public class DefaultHandler implements ExceptionMapper<Exception> {
     @Override
-    public Response toResponse(AccountException exc) {
-        ErrorDto dto = new ErrorDto(exc.getMessage());
+    public Response toResponse(Exception exception) {
+        System.out.println(exception.getMessage());
+
+        ErrorDto dto = new ErrorDto("Unknown internal error of expenses service.");
 
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(dto)

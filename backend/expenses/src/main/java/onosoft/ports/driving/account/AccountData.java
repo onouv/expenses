@@ -6,8 +6,7 @@ import onosoft.ports.driving.expense.ExpenseData;
 
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -25,6 +24,6 @@ public class AccountData {
     @Column(name = "account_description")
     private String accountDescription;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExpenseData> expenses;
 }

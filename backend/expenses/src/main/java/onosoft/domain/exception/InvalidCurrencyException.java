@@ -1,8 +1,8 @@
 package onosoft.domain.exception;
 
-import onosoft.commons.money.MoneyException;
+import onosoft.application.commons.money.MoneyException;
 import onosoft.domain.model.Currency;
-import onosoft.commons.money.Money;
+import onosoft.domain.model.Money;
 
 public class InvalidCurrencyException extends MoneyException {
 

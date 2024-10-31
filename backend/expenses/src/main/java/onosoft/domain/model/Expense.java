@@ -4,53 +4,24 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.ToString;
-import onosoft.commons.money.Money;
-import onosoft.ports.driven.expense.NegativeAmountException;
 
-import java.time.Instant;
-import java.util.Date;
+import java.sql.Date;
 
 
 @Data
 @ToString
+@Builder
 public class Expense {
-
-    private String purpose;
-    private Money amount;
-    private Date created;
-
-    @NonNull
+    @NonNull private String accountNo;
+    private long expenseId;
+    @NonNull private String recipient;
+    @NonNull private String purpose;
+    @NonNull private CappedMoney amount;
+    @NonNull private Date accruedDate;
+    @NonNull private Date paymentDate;
+    private boolean invoiced;
     private PaymentType paymentType;
-
-    @NonNull
-    private PaymentStatus paymentStatus;
+    @NonNull private PaymentStatus paymentStatus;
 
     //private Receipt receipt;
-
-    @Builder
-    private Expense(
-            String purpose,
-            PaymentType paymentType,
-            PaymentStatus paymentStatus,
-            Money amount
-            )
-            throws NegativeAmountException {
-
-        this.purpose = purpose;
-        this.paymentType = paymentType;
-        this.paymentStatus = paymentStatus;
-        this.created = Date.from(Instant.now());
-        this.amount = amount;
-    }
-
-    public Expense(
-            String purpose,
-            PaymentType paymentType,
-            double amount) {
-
-        this.purpose = purpose;
-        this.paymentType = paymentType;
-        this.paymentStatus = PaymentStatus.Planned;
-        this.created = Date.from(Instant.now());
-    }
 }

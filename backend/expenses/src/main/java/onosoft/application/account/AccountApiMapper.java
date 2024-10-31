@@ -1,26 +1,56 @@
 package onosoft.application.account;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import onosoft.adapters.driven.account.AccountDto;
-import onosoft.domain.model.Account;
+import onosoft.adapters.driven.account.AccountMetaDto;
+import onosoft.adapters.driven.expense.dto.ExpenseInfoDto;
+import onosoft.application.expense.ExpenseApiMapper;
+import onosoft.application.commons.money.AmountExceedsRangeException;
+import onosoft.ports.driven.account.InvalidAccountDataException;
 import onosoft.ports.driving.account.AccountData;
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-@Mapper(componentModel = "jakarta-cdi")
-public interface AccountApiMapper {
-    Account dtoToDomain(AccountDto dto);
+@ApplicationScoped
+public class AccountApiMapper {
 
-    @InheritInverseConfiguration(name = "dtoToDomain")
-    AccountDto domainToDto(Account domain);
+    @Inject
+    ExpenseApiMapper expenseApiMapper;
 
-    List<Account> dtoListToDomainList(List<AccountDto> dto);
+    public AccountDto dtoFromData(AccountData data) {
+        final List<ExpenseInfoDto> expenses = new ArrayList<>();
 
-    @InheritInverseConfiguration(name = "dtoListToDomainList")
-    List<AccountDto> domainListToDtoList(List<Account> domain);
+        try {
+            return AccountDto
+                    .builder()
+                    .accountNo(data.getAccountNo())
+                    .accountName(data.getAccountName())
+                    .accountDescription(data.getAccountDescription())
+                    .expenses(expenseApiMapper.toExpenseInfoDtoList(data.getExpenses()))
+                    .build();
+        } catch (AmountExceedsRangeException x) {
+          throw new InvalidAccountDataException(data.getAccountNo(), x.getMessage());
+        }
+    }
 
-    AccountDto dtoFromDO(AccountData dO);
 
-    List<AccountDto> dtoListFromDOList(List<AccountData> dataList);
+    public static List<AccountMetaDto> dtoListFromDataList(List<AccountData> dataList) {
+        List<AccountMetaDto> dtos = new ArrayList<>();
+        Iterator<AccountData> iter = dataList.iterator();
+
+        while (iter.hasNext()) {
+            final AccountData data = iter.next();
+            dtos.add(AccountMetaDto
+                    .builder()
+                    .accountNo(data.getAccountNo())
+                    .accountName(data.getAccountName())
+                    .accountDescription(data.getAccountDescription())
+                    .build());
+        }
+
+        return dtos;
+    }
 }

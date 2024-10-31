@@ -1,6 +1,7 @@
 package onosoft.adapters.driving.account;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import onosoft.application.account.AccountDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.NoSuchAccountException;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @ApplicationScoped
 public class AccountRepoAdapter implements AccountRepoPort {
 
+    @Inject
     AccountDataMapper accountMapper;
 
     public boolean accountExists(String accountNo) {

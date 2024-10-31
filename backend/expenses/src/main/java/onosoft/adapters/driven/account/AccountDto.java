@@ -1,14 +1,17 @@
 package onosoft.adapters.driven.account;
 
-import onosoft.domain.model.Account;
-import onosoft.domain.model.Expense;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+import onosoft.adapters.driven.expense.dto.ExpenseInfoDto;
 
 import java.util.List;
 
-
-public record AccountDto(
-        String accountNo,
-        String accountName,
-        String accountDescription,
-        List<Expense> expenses
-) {}
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
+@Data
+@NoArgsConstructor
+public class AccountDto extends AccountMetaDto {
+        List<ExpenseInfoDto> expenses;
+}
