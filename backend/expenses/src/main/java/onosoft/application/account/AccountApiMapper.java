@@ -1,5 +1,7 @@
 package onosoft.application.account;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import onosoft.adapters.driven.account.AccountDto;
 import onosoft.adapters.driven.account.AccountMetaDto;
 import onosoft.adapters.driven.expense.dto.ExpenseInfoDto;
@@ -12,10 +14,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
+@ApplicationScoped
 public class AccountApiMapper {
 
-    public static AccountDto dtoFromData(AccountData data) {
+    @Inject
+    ExpenseApiMapper expenseApiMapper;
+
+    public AccountDto dtoFromData(AccountData data) {
         final List<ExpenseInfoDto> expenses = new ArrayList<>();
 
         try {
@@ -24,7 +29,7 @@ public class AccountApiMapper {
                     .accountNo(data.getAccountNo())
                     .accountName(data.getAccountName())
                     .accountDescription(data.getAccountDescription())
-                    .expenses(ExpenseApiMapper.toExpenseInfoDtoList(data.getExpenses()))
+                    .expenses(expenseApiMapper.toExpenseInfoDtoList(data.getExpenses()))
                     .build();
         } catch (AmountExceedsRangeException x) {
           throw new InvalidAccountDataException(data.getAccountNo(), x.getMessage());

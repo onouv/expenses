@@ -23,6 +23,9 @@ public class AccountsEndpoint {
     @Inject
     AccountRepoPort repo;
 
+    @Inject
+    AccountApiMapper accountApiMapper;
+
     @POST
     @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
@@ -48,7 +51,7 @@ public class AccountsEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<AccountDto> getAccount(String accountNo) throws AmountExceedsRangeException {
         AccountData data = this.repo.findDOByAccountNo(accountNo);
-        AccountDto payload = AccountApiMapper.dtoFromData(data);
+        AccountDto payload = accountApiMapper.dtoFromData(data);
 
         return RestResponse.ok(payload);
     }

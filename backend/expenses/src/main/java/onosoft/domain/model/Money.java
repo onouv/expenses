@@ -1,15 +1,17 @@
-package onosoft.application.commons.money;
+package onosoft.domain.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.exception.InvalidCurrencyException;
-import onosoft.domain.model.Currency;
 
 
 @Getter
+@NoArgsConstructor(force = true)
 public class Money {
 
     @AllArgsConstructor

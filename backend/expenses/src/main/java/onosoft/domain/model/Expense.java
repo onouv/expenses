@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.ToString;
-import onosoft.application.commons.money.CappedMoney;
+
 import java.sql.Date;
 
 

@@ -1,7 +1,7 @@
 package onosoft.ports.driving.expense;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import onosoft.domain.model.PaymentStatus;
 import onosoft.domain.model.PaymentType;
@@ -9,9 +9,11 @@ import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.commons.money.MoneyData;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
-import org.hibernate.validator.constraints.Length;
+
 
 import java.sql.Date;
+
+import static org.hibernate.Length.LONG32;
 
 @Data
 @Builder
@@ -48,18 +50,13 @@ public class ExpenseData {
     @Column(name="expense_is_invoiced")
     private boolean invoiced;
 
-    @NotEmpty
-    @NonNull
-    @Length(max=32)
-    @Column(name="expense_payment_type", length = 32)
+    @Column(name="expense_payment_type", length = LONG32)
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private PaymentType paymentType;
 
-    @NotEmpty
-    @NonNull
-    @Length(max=32)
-    @Column(name="expense_payment_status", length = 32)
+    @NotNull
+    @Column(name="expense_payment_status", length = LONG32)
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 

@@ -1,19 +1,30 @@
 package onosoft.application.commons.money;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import onosoft.domain.model.CappedMoney;
+import onosoft.domain.model.Money;
 import onosoft.ports.driving.commons.money.MoneyData;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+@ApplicationScoped
 public class MoneyDataMapper {
 
-    public static CappedMoney dataToDomain(MoneyData data) throws AmountExceedsRangeException {
+    // as a business policy, we refuse to handle amounts larger than
+    // this constant, for any currency.
+    @ConfigProperty(name = "domain.money.max-value")
+    protected long unitsLimit;
+
+    public CappedMoney dataToDomain(MoneyData data) throws AmountExceedsRangeException {
         return new CappedMoney(
                 data.getMicroUnits(),
-                data.getCurrency());
+                data.getCurrency(),
+                unitsLimit);
     }
 
-    public static MoneyData domainToData(Money domain) {
+    public MoneyData domainToData(Money domain) {
         return new MoneyData(
-                domain.microUnits,
-                domain.currency
+                domain.getMicroUnits(),
+                domain.getCurrency()
         );
     }
 

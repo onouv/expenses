@@ -1,5 +1,7 @@
 package onosoft.application.expense;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import onosoft.application.account.AccountDataMapper;
 import onosoft.application.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Expense;
@@ -9,22 +11,36 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "jakarta-cdi", uses = {MoneyDataMapper.class, AccountDataMapper.class})
-public interface ExpenseDataMapper {
-    ExpenseDataMapper instance = Mappers.getMapper(ExpenseDataMapper.class);
+@ApplicationScoped
+public class    ExpenseDataMapper {
 
-    @Mapping(target = "accountNo", expression = "java(data.getAccount().getAccountNo())")
-    @Mapping(source = "id", target = "expenseId")
-    Expense dataToDomain(ExpenseData data);
+    @Inject
+    MoneyDataMapper moneyDataMapper;
 
-    @InheritInverseConfiguration(name = "dataToDomain")
-    default ExpenseData domainToData(Expense domain) {
+    /*
+    Expense dataToDomain(ExpenseData data) {
+        return Expense.builder()
+                .accountNo(data.getAccount().getAccountNo())
+                .expenseId(data.getId())
+                .recipient(data.getRecipient())
+                .purpose(data.getPurpose())
+                .amount(moneyDataMapper.dataToDomain(data.getAmount()))
+                .accruedDate(data.getAccruedDate())
+                .paymentDate(data.getPaymentDate())
+                .invoiced(data.isInvoiced())
+                .paymentType(data.getPaymentType())
+                .paymentStatus(data.getPaymentStatus())
+                .build();
+    }
+     */
+
+    ExpenseData domainToData(Expense domain) {
 
         return ExpenseData.builder()
                 .id(domain.getExpenseId())
                 .recipient(domain.getRecipient())
                 .purpose(domain.getPurpose())
-                .amount(MoneyDataMapper.domainToData(domain.getAmount()))
+                .amount(moneyDataMapper.domainToData(domain.getAmount()))
                 .accruedDate(domain.getAccruedDate())
                 .paymentDate(domain.getPaymentDate())
                 .invoiced(domain.isInvoiced())

@@ -2,8 +2,6 @@ CREATE TYPE payment_status_enum AS ENUM ('Unknown', 'Planned', 'Invoiced', 'Due'
 
 CREATE TYPE payment_type_enum AS ENUM ('Unknown', 'Cash', 'CreditCard', 'ECCard', 'BankTransfer');
 
-
-/*
 CREATE TABLE expense
 (
     expense_id              BIGINT PRIMARY KEY,
@@ -25,5 +23,3 @@ CREATE TABLE account
     account_name        VARCHAR(127),
     account_description TEXT
 );
-
- */
