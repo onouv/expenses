@@ -24,7 +24,7 @@ import static org.hibernate.Length.LONG32;
 public class ExpenseData {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     @Column(name="expense_id")
     private long id;
 

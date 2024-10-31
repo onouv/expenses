@@ -2,6 +2,8 @@ CREATE TYPE payment_status_enum AS ENUM ('Unknown', 'Planned', 'Invoiced', 'Due'
 
 CREATE TYPE payment_type_enum AS ENUM ('Unknown', 'Cash', 'CreditCard', 'ECCard', 'BankTransfer');
 
+CREATE SEQUENCE expenses_seq START WITH 1 INCREMENT BY 1;
+
 CREATE TABLE accounts
 (
     account_no          VARCHAR(16) PRIMARY KEY,
@@ -21,5 +23,5 @@ CREATE TABLE expenses
     expense_payment_date    DATE,
     expense_payment_type    VARCHAR(32),
     expense_payment_status  VARCHAR(32),
-    expense_is_invoiced     BIT
+    expense_is_invoiced     BOOLEAN
 );
