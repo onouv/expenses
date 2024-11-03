@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
+import onosoft.application.account.AccountDataMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.*;
 import onosoft.ports.driven.account.NoSuchAccountException;
@@ -29,7 +30,7 @@ public class ExpenseAppService implements ExpenseApiPort {
     ExpenseRepoPort expenseRepo;
 
     @Inject
-    ExpenseDataMapper expenseDataMapper;
+    AccountDataMapper accountDataMapper;
 
     @Inject
     ExpenseApiMapper expenseApiMapper;
@@ -38,11 +39,10 @@ public class ExpenseAppService implements ExpenseApiPort {
     public PlannedExpenseResponseDto assignExpenseToAccount(PlannedExpenseDto dto)
             throws NoSuchAccountException, AmountExceedsRangeException {
         Account account = accountRepo.findByAccountNo(dto.getAccountNo());
-        Expense expense = expenseApiMapper.fromPlannedExpenseDto(dto);
-        account.addExpense(expense);
+        Expense expense = expenseApiMapper.fromPlannedExpenseDto(dto, account);
 
-        //accountRepo.persist(accountDataMapper.toData(account));
-        expenseRepo.persist(expenseDataMapper.domainToData(expense));
+        account.addExpense(expense);
+        accountRepo.persist(accountDataMapper.domainToData(account));
 
         return expenseApiMapper.toPlannedResponseDto(expense);
     }

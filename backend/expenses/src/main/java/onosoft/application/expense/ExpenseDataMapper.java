@@ -17,6 +17,9 @@ public class    ExpenseDataMapper {
     @Inject
     MoneyDataMapper moneyDataMapper;
 
+    @Inject
+    AccountDataMapper accountDataMapper;
+
     /*
     Expense dataToDomain(ExpenseData data) {
         return Expense.builder()
@@ -38,6 +41,7 @@ public class    ExpenseDataMapper {
 
         return ExpenseData.builder()
                 .id(domain.getExpenseId())
+                .account(accountDataMapper.domainToData(domain.getAccount()))
                 .recipient(domain.getRecipient())
                 .purpose(domain.getPurpose())
                 .amount(moneyDataMapper.domainToData(domain.getAmount()))

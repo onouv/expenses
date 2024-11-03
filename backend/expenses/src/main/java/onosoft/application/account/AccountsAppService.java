@@ -4,7 +4,12 @@ import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
+import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
+import onosoft.application.commons.money.AmountExceedsRangeException;
+import onosoft.application.expense.ExpenseApiMapper;
 import onosoft.domain.model.Account;
+import onosoft.domain.model.Expense;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
 import onosoft.ports.driven.account.NoSuchAccountException;
@@ -17,7 +22,7 @@ import java.util.List;
 public class AccountsAppService implements AccountApiPort {
 
     @Inject
-    private AccountRepoPort repo;
+    private AccountRepoPort accountRepo;
 
     @Inject
     private AccountDataMapper accountMapper;
@@ -26,7 +31,7 @@ public class AccountsAppService implements AccountApiPort {
     @Transactional
     public Account createAccount(String accountNo, String name, String description) throws DuplicateAccountNoException {
 
-        if (repo.accountExists(accountNo)) {
+        if (accountRepo.accountExists(accountNo)) {
             throw new DuplicateAccountNoException(accountNo);
         }
 
@@ -37,7 +42,7 @@ public class AccountsAppService implements AccountApiPort {
                 .accountDescription(description)
                 .build();
 
-        repo.persist(accountMapper.toData(account));
+        accountRepo.persist(accountMapper.domainToData(account));
 
         return account;
         } catch (Exception x) {
@@ -48,7 +53,7 @@ public class AccountsAppService implements AccountApiPort {
 
     @Override
     public List<Account> getAllAccounts() {
-        List<AccountData> dtos = repo.listAll(Sort.by("account-no"));
+        List<AccountData> dtos = accountRepo.listAll(Sort.by("account-no"));
         List<Account> accounts = accountMapper.toDomainList(dtos);
 
         return accounts;
@@ -56,6 +61,6 @@ public class AccountsAppService implements AccountApiPort {
 
     @Override
     public Account getAccount(String accountNo) throws NoSuchAccountException {
-        return repo.findByAccountNo(accountNo);
+        return accountRepo.findByAccountNo(accountNo);
     }
 }

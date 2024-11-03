@@ -12,7 +12,7 @@ import java.sql.Date;
 @ToString
 @Builder
 public class Expense {
-    @NonNull private String accountNo;
+    @NonNull private Account account;
     private long expenseId;
     @NonNull private String recipient;
     @NonNull private String purpose;

@@ -24,7 +24,7 @@ public class AccountRepoAdapter implements AccountRepoPort {
     public Account findByAccountNo(String accountNo) throws NoSuchAccountException {
         Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
         if (dataOpt.isPresent()) {
-            return accountMapper.toDomain(dataOpt.get());
+            return accountMapper.dataToDomain(dataOpt.get());
         }
 
         throw new NoSuchAccountException(accountNo);

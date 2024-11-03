@@ -6,6 +6,7 @@ import onosoft.adapters.driven.expense.dto.*;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.application.commons.money.MoneyApiMapper;
 import onosoft.application.commons.money.MoneyDataMapper;
+import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
 import onosoft.domain.model.PaymentStatus;
 import onosoft.ports.driving.expense.ExpenseData;
@@ -13,6 +14,7 @@ import onosoft.ports.driving.expense.ExpenseData;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 @ApplicationScoped
 public class ExpenseApiMapper {
@@ -23,10 +25,13 @@ public class ExpenseApiMapper {
     @Inject
     MoneyDataMapper moneyDataMapper;
 
-    public Expense fromPlannedExpenseDto(PlannedExpenseDto dto)
+    public Expense fromPlannedExpenseDto(PlannedExpenseDto dto, Account account)
             throws AmountExceedsRangeException {
+        if (!Objects.equals(account.getAccountNo(), dto.getAccountNo())) {
+            throw new IllegalArgumentException("Account and assigned Expense have different account numbers.");
+        }
         return Expense.builder()
-                .accountNo(dto.getAccountNo())
+                .account(account)
                 .recipient(dto.getRecipient())
                 .purpose(dto.getPurpose())
                 .amount(moneyApiMapper.dtoToDomain(dto.getAmount()))
@@ -41,7 +46,7 @@ public class ExpenseApiMapper {
     public PlannedExpenseResponseDto toPlannedResponseDto(Expense domain) {
         return PlannedExpenseResponseDto.builder()
                 .expenseId(domain.getExpenseId())
-                .accountNo(domain.getAccountNo())
+                .accountNo(domain.getAccount().getAccountNo())
                 .paymentDate(domain.getPaymentDate())
                 .paymentType(domain.getPaymentType())
                 .isInvoiced(domain.isInvoiced())
