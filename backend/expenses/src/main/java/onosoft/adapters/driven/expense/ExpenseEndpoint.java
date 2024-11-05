@@ -10,8 +10,8 @@ import jakarta.ws.rs.core.Response;
 import onosoft.adapters.driven.expense.dto.InvoicedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
-import onosoft.application.expense.ExpenseAppService;
 import onosoft.application.commons.money.AmountExceedsRangeException;
+import onosoft.ports.driven.expense.ExpenseApiPort;
 
 @Path("/expenses")
 @Produces(MediaType.APPLICATION_JSON)
@@ -19,7 +19,7 @@ import onosoft.application.commons.money.AmountExceedsRangeException;
 public class ExpenseEndpoint {
 
     @Inject
-    private ExpenseAppService expenseService;
+    private ExpenseApiPort expenseService;
 
     @POST
     @Path("/create")

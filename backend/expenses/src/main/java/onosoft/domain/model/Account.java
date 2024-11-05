@@ -22,7 +22,8 @@ public class Account {
 
     private String accountDescription;
 
-    private List<Expense> expenses;
+    @Builder.Default
+    private List<Expense> expenses = new ArrayList<>();
 
     public void addExpense(Expense expense) throws ExpensePreexistingException {
         if (this.expenses.contains(expense)) {
