@@ -3,6 +3,7 @@ package onosoft.adapters.driving.account;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import onosoft.application.account.AccountDataMapper;
+import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driving.account.AccountData;
@@ -21,10 +22,10 @@ public class AccountRepoAdapter implements AccountRepoPort {
         return dataOpt.isPresent();
     }
 
-    public Account findByAccountNo(String accountNo) throws NoSuchAccountException {
+    public Account findByAccountNo(String accountNo) throws NoSuchAccountException, AmountExceedsRangeException {
         Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
         if (dataOpt.isPresent()) {
-            return accountMapper.toDomain(dataOpt.get());
+            return accountMapper.dataToDomain(dataOpt.get());
         }
 
         throw new NoSuchAccountException(accountNo);

@@ -1,32 +1,31 @@
 package onosoft.application.account;
 
-import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
-import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.account.AccountRepoPort;
-
-import java.util.List;
 
 @ApplicationScoped
 public class AccountsAppService implements AccountApiPort {
 
     @Inject
-    private AccountRepoPort repo;
+    private AccountRepoPort accountRepo;
 
     @Inject
-    private AccountDataMapper accountMapper;
+    private AccountDataMapper accountDataMapper;
 
     @Override
     @Transactional
-    public Account createAccount(String accountNo, String name, String description) throws DuplicateAccountNoException {
+    public Account createAccount(String accountNo, String name, String description)
+            throws DuplicateAccountNoException, AmountExceedsRangeException
+    {
 
-        if (repo.accountExists(accountNo)) {
+        if (accountRepo.accountExists(accountNo)) {
             throw new DuplicateAccountNoException(accountNo);
         }
 
@@ -37,25 +36,14 @@ public class AccountsAppService implements AccountApiPort {
                 .accountDescription(description)
                 .build();
 
-        repo.persist(accountMapper.toData(account));
+        AccountData data = accountDataMapper.domainToData(account);
+        accountRepo.persist(data);
+
 
         return account;
         } catch (Exception x) {
             System.out.println("BANNNGG!!");
             return null;
         }
-    }
-
-    @Override
-    public List<Account> getAllAccounts() {
-        List<AccountData> dtos = repo.listAll(Sort.by("account-no"));
-        List<Account> accounts = accountMapper.toDomainList(dtos);
-
-        return accounts;
-    }
-
-    @Override
-    public Account getAccount(String accountNo) throws NoSuchAccountException {
-        return repo.findByAccountNo(accountNo);
     }
 }
