@@ -13,12 +13,15 @@ import onosoft.ports.driven.expense.ExpenseApiPort;
 import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.account.AccountRepoPort;
 import onosoft.ports.driving.expense.ExpenseData;
+import org.jboss.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
 public class ExpenseAppService implements ExpenseApiPort {
+
+    private static final Logger log = Logger.getLogger(ExpenseAppService.class);
 
     @Inject
     AccountRepoPort accountRepo;
@@ -28,6 +31,7 @@ public class ExpenseAppService implements ExpenseApiPort {
 
     @Inject
     ExpenseApiMapper expenseApiMapper;
+
     @Inject
     ExpenseDataMapper expenseDataMapper;
 
@@ -43,12 +47,13 @@ public class ExpenseAppService implements ExpenseApiPort {
         Expense expense = expenseApiMapper.fromPlannedExpenseDto(dto, account);
         ExpenseData expenseData = expenseDataMapper.domainToData(expense, accountData);
         List<ExpenseData> expenses = accountData.getExpenses();
+
+        // business logic in here
         expenses.add(expenseData);
+
         accountRepo.persist(accountData);
 
-        // this more logical code creates the exception
-        //account.addExpense(expense);
-        //accountRepo.persist(accountDataMapper.domainToData(account));
+        log.infof("Assigned expense of %s to account %s", expense.getAmount(),  dto.getAccountNo());
 
         return expenseApiMapper.toPlannedResponseDto(expense);
     }

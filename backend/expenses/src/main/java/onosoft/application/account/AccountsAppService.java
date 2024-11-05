@@ -9,9 +9,12 @@ import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
 import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.account.AccountRepoPort;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class AccountsAppService implements AccountApiPort {
+
+    private static final Logger log = Logger.getLogger(AccountsAppService.class);
 
     @Inject
     private AccountRepoPort accountRepo;
@@ -22,14 +25,12 @@ public class AccountsAppService implements AccountApiPort {
     @Override
     @Transactional
     public Account createAccount(String accountNo, String name, String description)
-            throws DuplicateAccountNoException, AmountExceedsRangeException
-    {
+            throws DuplicateAccountNoException    {
 
         if (accountRepo.accountExists(accountNo)) {
             throw new DuplicateAccountNoException(accountNo);
         }
 
-        try {
         Account account = Account.builder()
                 .accountNo(accountNo)
                 .accountName(name)
@@ -39,11 +40,9 @@ public class AccountsAppService implements AccountApiPort {
         AccountData data = accountDataMapper.domainToData(account);
         accountRepo.persist(data);
 
+        log.infof("Created account %s", accountNo);
 
         return account;
-        } catch (Exception x) {
-            System.out.println("BANNNGG!!");
-            return null;
-        }
+
     }
 }

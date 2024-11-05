@@ -82,7 +82,7 @@ public class Money {
 
     public String toString() {
         final Value amount = this.getValue();
-        return String.format("%s.%s%s", amount.major, amount.minor, currency);
+        return String.format("%s.%s %s", amount.major, amount.minor, currency);
     }
 
     protected int getNumDigits(long val) {
