@@ -7,14 +7,13 @@ import config from "@/app-config.json";
 import useGetAccountDetails from "@/features/accounts/features/details/api/useGetAccountDetails";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
+import { useSearchParams } from "next/navigation";
 
-type Props = {
-  params: Promise<{ accountNo: string }>;
-};
-
-const AccountDetailsPage = async ({ params }: Props) => {
-  const { accountNo } = await params;
-  const { data, error, isLoading } = useGetAccountDetails(accountNo);
+const AccountDetailsPage = () => {
+  const params = useSearchParams();
+  const { data, error, isLoading } = useGetAccountDetails(
+    params.get("id") as string,
+  );
 
   if (isLoading) {
     return <WaitingPrompt prompt="Loading data from server..." />;
