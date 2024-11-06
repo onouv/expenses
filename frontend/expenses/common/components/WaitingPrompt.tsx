@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 
 type Props = { prompt: string };
-export const WaitingPrompt: React.FC = ({ prompt }: Props): ReactElement => (
+export const WaitingPrompt = ({ prompt }: Props): ReactElement => (
   <>
     <Box
       display="flex"

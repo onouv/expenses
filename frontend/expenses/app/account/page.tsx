@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import AccountsListing from "@/features/account/components/AccountsListing";
+import AccountsListing from "@/features/accounts/components/AccountsListing";
 import { WaitingPrompt } from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
-import useGetAccounts from "@/features/account/api/useGetAccounts";
+import useGetAccounts from "@/features/accounts/api/useGetAccounts";
 
-const AccountsPage: React.FC = () => {
+const AccountsPage = () => {
   const { data, error, isLoading } = useGetAccounts();
 
   if (isLoading) {

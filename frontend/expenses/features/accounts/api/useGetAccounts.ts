@@ -1,4 +1,4 @@
-import AccountT from "@/features/account/types/AccountT";
+import AccountT from "@/features/accounts/types/AccountT";
 import config from "@/app-config.json";
 import fetcher from "@/common/api/fetcher";
 import useSWR, { SWRResponse } from "swr";

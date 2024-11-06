@@ -1,6 +1,6 @@
 "use client";
 
-import { AccountT } from "./types/AccountT";
+import AccountT from "../types/AccountT";
 import React, { ReactElement } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -16,11 +16,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 type Props = {
-  accounts: AccountT[];
+  accounts: AccountT[] | undefined;
 };
 
-const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => {
+const AccountsListing = ({ accounts }: Props): ReactElement => {
   const router = useRouter();
+  const cleanAccounts: AccountT[] = accounts ? accounts : [];
+
   return (
     <FeaturePage title="Accounts Overview">
       <Stack>
@@ -36,7 +38,7 @@ const AccountsListing: React.FC = ({ accounts }: Props): ReactElement => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {accounts.map((account: AccountT, index) => (
+              {cleanAccounts.map((account: AccountT, index) => (
                 <TableRow
                   onClick={() => {
                     router.push(

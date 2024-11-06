@@ -1,34 +1,27 @@
 "use client";
 
 import React, { ReactElement } from "react";
-import { IconButton, Link, Paper, Stack, Typography } from "@mui/material";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { Paper, Stack, Typography } from "@mui/material";
 
 import Grid from "@mui/material/Grid";
+import GoBackButton from "@/components/GoBackButton";
 
 type Props = {
   title: string;
-  backUrl: string | null;
-  children;
+  backUrl?: string;
+  children: ReactElement;
 };
 
-const FeaturePage: React.FC = ({
-  title,
-  backUrl,
-  children,
-}: Props): ReactElement => {
-  const backL = (backPath: string | null) => {
-    if (backPath) {
-      return (
-        <Link href={backPath}>
-          <IconButton>
-            <ArrowUpwardIcon />
-          </IconButton>
-        </Link>
-      );
-    } else return null;
-  };
-
+const FeaturePage = ({ title, backUrl, children }: Props): ReactElement => {
+  const backButton = backUrl ? (
+    <Grid item xs={8}>
+      <Grid container justifyContent="flex-end">
+        <Grid item>
+          <GoBackButton backUrl={backUrl} />
+        </Grid>
+      </Grid>
+    </Grid>
+  ) : null;
   return (
     <Stack spacing={2} padding={2}>
       <Paper elevation={3}>
@@ -36,11 +29,7 @@ const FeaturePage: React.FC = ({
           <Grid item xs={4}>
             <Typography variant="h6">{title}</Typography>
           </Grid>
-          <Grid item xs={8}>
-            <Grid container justifyContent="flex-end">
-              <Grid item>{backL(backUrl)}</Grid>
-            </Grid>
-          </Grid>
+          {backButton}
         </Grid>
       </Paper>
       <Paper elevation={3}>{children}</Paper>

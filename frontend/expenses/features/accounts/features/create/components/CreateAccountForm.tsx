@@ -6,10 +6,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AccountT, {
   accountSchema,
   defaultAccount,
-} from "@/features/account/types/AccountT";
+} from "@/features/accounts/types/AccountT";
 import config from "@/app-config.json";
-import { Box, Button, FormGroup, Stack, TextField } from "@mui/material";
-import useCreateAccount from "@/features/account/api/useCreateAccount";
+import { Box, Button, Stack } from "@mui/material";
+import useCreateAccount from "@/features/accounts/api/useCreateAccount";
 import ErrorPage from "@/components/ErrorPage";
 import { WaitingPrompt } from "@/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
