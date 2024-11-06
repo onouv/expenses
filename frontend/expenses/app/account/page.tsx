@@ -2,9 +2,10 @@
 
 import React from "react";
 import AccountsListing from "@/features/accounts/components/AccountsListing";
-import { WaitingPrompt } from "@/components/WaitingPrompt";
+import WaitingPrompt from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
 import useGetAccounts from "@/features/accounts/api/useGetAccounts";
+import FeaturePage from "@/components/FeaturePage";
 
 const AccountsPage = () => {
   const { data, error, isLoading } = useGetAccounts();
@@ -22,7 +23,11 @@ const AccountsPage = () => {
     );
   }
 
-  return <AccountsListing accounts={data} />;
+  return (
+    <FeaturePage title="Accounts Overview">
+      <AccountsListing accounts={data} />;
+    </FeaturePage>
+  );
 };
 
 export default AccountsPage;

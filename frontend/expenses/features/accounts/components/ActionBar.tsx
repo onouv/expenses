@@ -2,7 +2,10 @@ import { ReactElement } from "react";
 import { Box, Grid, Paper } from "@mui/material";
 import { Children } from "react";
 
-const ActionBar: React.FC = ({ children }): ReactElement => (
+type Props = {
+  children: ReactElement;
+};
+const ActionBar = ({ children }: Props): ReactElement => (
   <Box
     display="flex"
     justifyContent="center"

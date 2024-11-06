@@ -11,7 +11,6 @@ import TableRow from "@mui/material/TableRow";
 import Grid from "@mui/material/Grid";
 import config from "@/app-config.json";
 import { Button, Stack } from "@mui/material";
-import FeaturePage from "@/components/FeaturePage";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -24,52 +23,48 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
   const cleanAccounts: AccountT[] = accounts ? accounts : [];
 
   return (
-    <FeaturePage title="Accounts Overview">
-      <Stack>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={{ borderBottom: "none" }}>Account No</TableCell>
+    <Stack>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ borderBottom: "none" }}>Account No</TableCell>
+              <TableCell sx={{ borderBottom: "none" }}>Account Name</TableCell>
+              <TableCell sx={{ borderBottom: "none" }}>Description</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {cleanAccounts.map((account: AccountT, index) => (
+              <TableRow
+                onClick={() => {
+                  router.push(
+                    `${config.ACCOUNT_DETAILS_PARTIAL_URL}?id=${account.accountNo}`,
+                  );
+                }}
+                key={account.accountNo}
+              >
                 <TableCell sx={{ borderBottom: "none" }}>
-                  Account Name
+                  {account.accountNo}
                 </TableCell>
-                <TableCell sx={{ borderBottom: "none" }}>Description</TableCell>
+                <TableCell sx={{ borderBottom: "none" }}>
+                  {account.accountName}
+                </TableCell>
+                <TableCell sx={{ borderBottom: "none" }}>
+                  {account.accountDescription}
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {cleanAccounts.map((account: AccountT, index) => (
-                <TableRow
-                  onClick={() => {
-                    router.push(
-                      `${config.ACCOUNT_PARTIAL_URL}/${account.accountNo}`,
-                    );
-                  }}
-                  key={account.accountNo}
-                >
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    {account.accountNo}
-                  </TableCell>
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    {account.accountName}
-                  </TableCell>
-                  <TableCell sx={{ borderBottom: "none" }}>
-                    {account.accountDescription}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Grid container padding={3} justifyContent="center" alignItems="center">
-          <Grid item>
-            <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
-              <Button>New Account</Button>
-            </Link>
-          </Grid>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Grid container padding={3} justifyContent="center" alignItems="center">
+        <Grid item>
+          <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
+            <Button>New Account</Button>
+          </Link>
         </Grid>
-      </Stack>
-    </FeaturePage>
+      </Grid>
+    </Stack>
   );
 };
 
