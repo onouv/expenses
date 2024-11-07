@@ -4,5 +4,5 @@ public enum PaymentStatus {
     Planned,
     Invoiced,
     Due,
-    Paid,
+    Paid;
 }

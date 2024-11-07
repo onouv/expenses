@@ -1,37 +1,46 @@
 import AccountT from "@/features/accounts/types/AccountT";
 import { ReactElement } from "react";
-import { Divider, Stack, Typography } from "@mui/material";
+import { Divider, Paper, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableBody from "@mui/material/TableBody";
 
 type Props = {
   account: AccountT;
 };
 const AccountHeader = ({ account }: Props): ReactElement => (
-  <Stack>
-    <Grid container padding={2} spacing={2}>
-      <Grid item xs={4}>
-        <Typography variant="button">Account</Typography>
-      </Grid>
-      <Grid item xs={4}>
-        <Typography variant="button">Account Name</Typography>
-      </Grid>
-      <Grid item xs={4}>
-        <Typography variant="button">Description</Typography>
-      </Grid>
-    </Grid>
-    <Divider />
-    <Grid container padding={2} spacing={2}>
-      <Grid item xs={4}>
-        <Typography>{account.accountNo}</Typography>
-      </Grid>
-      <Grid item xs={4}>
-        <Typography>{account.accountName}</Typography>
-      </Grid>
-      <Grid item xs={4}>
-        <Typography>{account.accountDescription}</Typography>
-      </Grid>
-    </Grid>
-  </Stack>
+  <Paper elevation={3}>
+    <Stack>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ borderBottom: "none" }}>Account</TableCell>
+              <TableCell sx={{ borderBottom: "none" }}>Account Name</TableCell>
+              <TableCell sx={{ borderBottom: "none" }}>Description</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell sx={{ borderBottom: "none" }}>
+                {account.accountNo}
+              </TableCell>
+              <TableCell sx={{ borderBottom: "none" }}>
+                {account.accountName}
+              </TableCell>
+              <TableCell sx={{ borderBottom: "none" }}>
+                {account.accountDescription}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Stack>
+  </Paper>
 );
 
 export default AccountHeader;

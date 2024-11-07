@@ -88,6 +88,7 @@ public class ExpenseApiMapper {
                 .amount(moneyApiMapper
                         .domainToDto(moneyDataMapper.dataToDomain(data.getAmount())))
                 .accruedDate(data.getAccruedDate())
+                .paymentStatus(data.getPaymentStatus())
                 .build();
     }
 
