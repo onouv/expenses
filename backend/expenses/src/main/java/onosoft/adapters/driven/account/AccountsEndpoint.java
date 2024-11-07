@@ -17,7 +17,7 @@ import org.jboss.logging.Logger;
 import java.util.List;
 
 
-@Path("/account")
+@Path("/accounts")
 public class AccountsEndpoint {
 
     private static final Logger log = Logger.getLogger(AccountsEndpoint.class);
@@ -32,7 +32,7 @@ public class AccountsEndpoint {
     AccountApiMapper accountApiMapper;
 
     @POST
-    @Path("/create")
+    @Path("/account/create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public RestResponse<Void> createAccount(AccountMetaDto dto) throws AmountExceedsRangeException {
@@ -56,7 +56,7 @@ public class AccountsEndpoint {
     }
 
     @GET
-    @Path("/{accountNo}")
+    @Path("account/details/{accountNo}")
     @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<AccountDto> getAccount(String accountNo) throws NoSuchAccountException {
         log.infof("request to get account %s", accountNo);

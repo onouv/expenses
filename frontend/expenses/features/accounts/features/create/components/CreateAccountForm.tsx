@@ -11,7 +11,7 @@ import config from "@/app-config.json";
 import { Box, Button, Stack } from "@mui/material";
 import useCreateAccount from "@/features/accounts/api/useCreateAccount";
 import ErrorPage from "@/components/ErrorPage";
-import { WaitingPrompt } from "@/components/WaitingPrompt";
+import WaitingPrompt from "@/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Grid";
 import TextFormInput from "@/components/form/TextFormInput";

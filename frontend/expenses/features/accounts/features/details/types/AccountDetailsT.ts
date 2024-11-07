@@ -1,9 +1,7 @@
 import ExpenseT from "@/features/accounts/types/Expense";
+import AccountT from "@/features/accounts/types/AccountT";
 
-type AccountDetailsT = {
-  accountNo: string;
-  accountName: string;
-  accountDescription: string;
+type AccountDetailsT = AccountT & {
   expenses: ExpenseT[];
 };
 
