@@ -1,3 +1,5 @@
+"use client";
+
 import LoginPage from "@/features/login/LoginPage";
 import React, { ReactElement } from "react";
 import { Paper, Box } from "@mui/material";

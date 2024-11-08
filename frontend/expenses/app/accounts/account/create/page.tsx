@@ -1,13 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { ReactElement } from "react";
 import { useState } from "react";
-import AccountT, { defaultAccount } from "@/features/account/types/AccountT";
+import AccountT, { defaultAccount } from "@/features/accounts/types/AccountT";
 import FeaturePage from "@/components/FeaturePage";
+import CreateAccountForm from "@/features/accounts/features/create/components/CreateAccountForm";
 import config from "@/app-config.json";
-import CreateAccountForm from "@/features/account/features/create/components/CreateAccountForm";
 
-const CreateAccountPage: React.FC = (): Element => {
+const CreateAccountPage = (): ReactElement => {
   const [account, setAccount] = useState<AccountT>(defaultAccount);
 
   return (

@@ -1,8 +1,9 @@
 {
-  "BACKEND_SERVICE_BASE_URL": "http://localhost:8080",
-  "ACCOUNT_PARTIAL_URL": "/account",
-  "ACCOUNT_CREATE_PARTIAL_URL": "/account/create",
-  "EXPENSE_PARTIAL_URL": "/expense",
+  "BACKEND_SERVICE_BASE_URL": "http://localhost:5001",
+  "ACCOUNT_PARTIAL_URL": "/accounts",
+  "ACCOUNT_CREATE_PARTIAL_URL": "/accounts/account/create",
+  "ACCOUNT_DETAILS_PARTIAL_URL": "/accounts/account/details",
+  "EXPENSE_PARTIAL_URL": "/expenses",
   "EXPENSE_CREATE_PARTIAL_URL": "/expense/create",
   "REPORT_PARTIAL_URL": "/report"
 }

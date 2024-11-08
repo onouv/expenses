@@ -6,11 +6,8 @@ type Props = {
   advice?: string;
   nextRoute?: string;
 };
-const ErrorPage: React.FC = ({
-  prompt,
-  advice,
-  nextRoute,
-}: Props): ReactElement => {
+
+const ErrorPage = ({ advice, nextRoute, prompt }: Props): ReactElement => {
   const route = nextRoute ? nextRoute : "/";
 
   return (

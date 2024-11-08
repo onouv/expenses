@@ -1,6 +1,6 @@
 "use client";
 
-import AccountT from "@/features/account/types/AccountT";
+import AccountT from "@/features/accounts/types/AccountT";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import config from "@/app-config.json";

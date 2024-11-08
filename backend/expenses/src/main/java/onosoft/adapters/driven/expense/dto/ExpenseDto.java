@@ -1,7 +1,10 @@
 package onosoft.adapters.driven.expense.dto;
 
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import onosoft.adapters.driven.commons.money.MoneyDto;
 
@@ -26,6 +29,4 @@ public class ExpenseDto {
 
     @NonNull
     protected Date accruedDate;
-
-
 }

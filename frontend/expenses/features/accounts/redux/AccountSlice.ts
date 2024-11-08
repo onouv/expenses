@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import AccountT from "@/features/account/types/AccountT";
+import AccountT from "@/features/accounts/types/AccountT";
 
 type AccountState = {
   accounts: Array<AccountT>;
