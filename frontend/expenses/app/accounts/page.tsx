@@ -23,9 +23,13 @@ const AccountsPage = () => {
     );
   }
 
+  if (data == undefined) {
+    return null;
+  }
+
   return (
     <FeaturePage title="Accounts Overview">
-      <AccountsListing accounts={data} />;
+      <AccountsListing accounts={data} />
     </FeaturePage>
   );
 };
