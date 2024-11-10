@@ -10,7 +10,7 @@ const DetailsHome = (): ReactElement => {
     if (router.query.id) {
       router.push(`/${config.ACCOUNT_DETAILS_PARTIAL_URL}/${router.query.id}`);
     } else {
-      router.push(`/${config.ACCOUNT_PARTIAL_URL}`);
+      router.push(`/${config.ACCOUNTS_PARTIAL_URL}`);
     }
   }, [router.query.id]);
 

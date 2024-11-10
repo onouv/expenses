@@ -26,7 +26,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
 
   const onSubmit = async (data: AccountT) => {
     await postRequest(data);
-    router.push(config.ACCOUNT_PARTIAL_URL);
+    router.push(config.ACCOUNTS_PARTIAL_URL);
   };
 
   if (error) {
@@ -60,7 +60,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
           <Grid item>
             <Button
               onClick={() => {
-                router.push(config.ACCOUNT_PARTIAL_URL);
+                router.push(config.ACCOUNTS_PARTIAL_URL);
               }}
             >
               CANCEL

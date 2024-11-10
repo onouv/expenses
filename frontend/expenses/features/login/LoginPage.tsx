@@ -26,7 +26,7 @@ const LoginPage: React.FC = (): ReactElement => {
   const LoginButton = () => {
     if (data.nameIsValid && data.passwordIsValid) {
       return (
-        <Link href={config.ACCOUNT_PARTIAL_URL}>
+        <Link href={config.ACCOUNTS_PARTIAL_URL}>
           <Button>Login</Button>
         </Link>
       );

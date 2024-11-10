@@ -1,11 +1,11 @@
 {
   "BACKEND_SERVICE_BASE_URL": "http://localhost:5001",
-  "ACCOUNT_PARTIAL_URL": "/accounts",
+  "ACCOUNTS_PARTIAL_URL": "/accounts",
   "ACCOUNT_CREATE_PARTIAL_URL": "/accounts/account/create",
   "ACCOUNT_DETAILS_PARTIAL_URL": "/accounts/account/details",
-  "EXPENSE_PARTIAL_URL": "/expenses",
-  "EXPENSE_CREATE_PARTIAL_URL": "/expense/create",
-  "EXPENSE_INVOICE_PARTIAL_URL": "/expense/invoice",
-  "EXPENSE_PAID_PARTIAL_URL": "/expense/paid",
+  "EXPENSES_PARTIAL_URL": "/expenses",
+  "EXPENSE_CREATE_PARTIAL_URL": "expenses/expense/create",
+  "EXPENSE_INVOICE_PARTIAL_URL": "expenses/expense/invoice",
+  "EXPENSE_PAID_PARTIAL_URL": "expenses/expense/paid",
   "REPORT_PARTIAL_URL": "/report"
 }

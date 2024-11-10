@@ -23,7 +23,7 @@ const AccountDetailsPage = () => {
     return (
       <ErrorPage
         prompt="Error while loading data from server."
-        nextRoute={config.ACCOUNT_PARTIAL_URL}
+        nextRoute={config.ACCOUNTS_PARTIAL_URL}
       />
     );
   }
@@ -33,7 +33,7 @@ const AccountDetailsPage = () => {
   }
 
   return (
-    <FeaturePage title="Account Details" backUrl={config.ACCOUNT_PARTIAL_URL}>
+    <FeaturePage title="Account Details" backUrl={config.ACCOUNTS_PARTIAL_URL}>
       <AccountDetails account={data} />
     </FeaturePage>
   );
