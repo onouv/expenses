@@ -4,18 +4,11 @@ import AccountT from "@/features/accounts/types/AccountT";
 import { useCallback, useState } from "react";
 import axios from "axios";
 import config from "@/app-config.json";
+import PostResponseT from "@/common/api/PostResponseT";
 
 const url = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_CREATE_PARTIAL_URL;
 
-type PostCall<T> = (data: T) => void;
-//type PostResponse<T> = SWRResponse<T> & { postCall: PostCall<T> };
-type PostResponse<T> = {
-  data: T | undefined;
-  postRequest: PostCall<T>;
-  isLoading: boolean;
-  error: Error | undefined;
-};
-export default function useCreateAccount(): PostResponse<AccountT> {
+export default function useCreateAccountApi(): PostResponseT<AccountT> {
   const [response, setResponse] = useState<AccountT>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | undefined>(undefined);
@@ -28,11 +21,10 @@ export default function useCreateAccount(): PostResponse<AccountT> {
         .post<AccountT>(url, data)
         .then((res) => res.data);
       setResponse(resp);
-      setIsLoading(false);
-    } catch (err) {
+    } catch (err: any) {
       setError(err);
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }, []);
 
   return {

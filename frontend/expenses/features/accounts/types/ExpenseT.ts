@@ -1,5 +1,5 @@
-import PaymentStatusE from "@/features/accounts/types/PaymentStatusE";
-import MoneyT from "@/features/accounts/types/MoneyT";
+import PaymentStatusE from "@/common/types/PaymentStatusE";
+import MoneyT from "@/common/types/MoneyT";
 
 type ExpenseT = {
   expenseId: number;

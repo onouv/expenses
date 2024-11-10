@@ -5,6 +5,6 @@ import useSWR, { SWRResponse } from "swr";
 
 const url = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNTS_PARTIAL_URL;
 
-export default function useGetAccounts(): SWRResponse<AccountT[]> {
+export default function useGetAccountsApi(): SWRResponse<AccountT[]> {
   return useSWR<AccountT[]>(url, fetcher);
 }

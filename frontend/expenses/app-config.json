@@ -5,7 +5,7 @@
   "ACCOUNT_DETAILS_PARTIAL_URL": "/accounts/account/details",
   "EXPENSES_PARTIAL_URL": "/expenses",
   "EXPENSE_ASSIGN_PARTIAL_URL": "/expenses/expense/assign",
-  "EXPENSE_INVOICE_PARTIAL_URL": "expenses/expense/invoice",
-  "EXPENSE_PAID_PARTIAL_URL": "expenses/expense/paid",
+  "EXPENSE_INVOICE_PARTIAL_URL": "/expenses/expense/invoice",
+  "EXPENSE_PAID_PARTIAL_URL": "/expenses/expense/paid",
   "REPORT_PARTIAL_URL": "/report"
 }

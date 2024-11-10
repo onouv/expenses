@@ -1,16 +1,19 @@
 import { InferType, object, string } from "yup";
 
-export const accountSchema = object({
+export const AccountNumSchema = object({
   accountNo: string()
     .required()
     .matches(/([A-Z0-9]){1,8}/),
+});
+
+export const AccountSchema = AccountNumSchema.shape({
   accountName: string()
     .required()
     .matches(/(\w{1,32})/),
   accountDescription: string().matches(/(\w{1,64})/),
 });
 
-type AccountT = InferType<typeof accountSchema>;
+type AccountT = InferType<typeof AccountSchema>;
 /*
 type AccountT = {
   accountNo: string;

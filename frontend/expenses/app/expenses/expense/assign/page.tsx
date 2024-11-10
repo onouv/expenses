@@ -7,7 +7,9 @@ import WaitingPrompt from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
 import config from "@/app-config.json";
 import FeaturePage from "@/components/FeaturePage";
-import AssignExpenseForm from "@/features/expenses/features/assign/AssignExpenseForm";
+import AssignExpenseForm from "@/features/expenses/features/assign/components/AssignExpenseForm";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const ExpenseAssignPage = (): ReactElement => {
   const params = useSearchParams();
@@ -33,12 +35,14 @@ const ExpenseAssignPage = (): ReactElement => {
   }
 
   return (
-    <FeaturePage
-      title="Assign Expense to Account"
-      backUrl={`${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`}
-    >
-      <AssignExpenseForm account={data} />
-    </FeaturePage>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <FeaturePage
+        title="Assign Expense to Account"
+        backUrl={`${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`}
+      >
+        <AssignExpenseForm account={data} />
+      </FeaturePage>
+    </LocalizationProvider>
   );
 };
 
