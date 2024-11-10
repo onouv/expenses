@@ -79,7 +79,7 @@ salt
     Recipient: | "Aral Kudamm  " | <color:Blue>                   Planned
     Amount: | "52.43 EUR    "
     Payment: {"20.01.2024"}
-    Invoice: { (X) <color:Red>Expected | (X) Non-Invoiced }
+    Invoice: { (X) <color:Red>Expected | () Non-Invoiced }
     [Save      ] | [Delete     ] | [Close    ]
 }
 }}

@@ -8,7 +8,7 @@ salt
     Recipient: | "<color:#9a9a9a>vendor name   " | <color:Blue>                  Planned
     Amount: | "<color:#9a9a9a>00.00 EUR     "
     Payment: {"<color:#9a9a9a>12.12.2023" | planned}
-    Invoice: { (X) Expected | () Non-Invoiced }
+    Invoice: { (X) Expected | () Invoiced | () Not Invoiced }
     [<color:#9a9a9a>Save      ] | [Close    ]
 }
 }}
@@ -20,7 +20,7 @@ salt
     Recipient: | "<color:Red>Aral Kudamm  " | <color:Blue>                   Planned
     Amount: | "<color:Red>52.43 EUR    "
     Payment: {"<color:Red>20.01.2024" |planned}
-    Invoice: { (X) Expected | () Non-Invoiced }
+    Invoice: { (X) Expected | () Invoiced | () Not Invoiced }
     [<color:Green>Save      ] | [Close    ]
 }
 }}
@@ -33,7 +33,7 @@ salt
     Recipient: | "Aral Kudamm  " | <color:Blue>                   Planned
     Amount: | "52.43 EUR    "
     Payment: {"20.01.2024" | planned}
-    Invoice: { (X) Expected | () Non-Invoiced | [<color:Green>Upload]}}
+    Invoice: { (X) Expected | () Invoiced | () Not Invoiced | [<color:Green>Upload]}}
     [Delete     ] | [Close    ]
 }
 }}

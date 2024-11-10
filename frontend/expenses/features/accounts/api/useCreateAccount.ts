@@ -11,31 +11,32 @@ type PostCall<T> = (data: T) => void;
 //type PostResponse<T> = SWRResponse<T> & { postCall: PostCall<T> };
 type PostResponse<T> = {
   data: T | undefined;
-  postCall: PostCall<T>;
+  postRequest: PostCall<T>;
   isLoading: boolean;
-  error: Error;
+  error: Error | undefined;
 };
 export default function useCreateAccount(): PostResponse<AccountT> {
   const [response, setResponse] = useState<AccountT>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error>(null);
+  const [error, setError] = useState<Error | undefined>(undefined);
 
-  const postCall = useCallback(async (data: AccountT) => {
-    setError(null);
+  const postRequest = useCallback(async (data: AccountT) => {
+    setError(undefined);
     setIsLoading(true);
     try {
       const resp = await axios
         .post<AccountT>(url, data)
         .then((res) => res.data);
       setResponse(resp);
+      setIsLoading(false);
     } catch (err) {
       setError(err);
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   return {
-    postCall,
+    postRequest,
     data: response,
     isLoading,
     error,

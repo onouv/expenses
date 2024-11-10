@@ -25,7 +25,7 @@ public class ExpenseEndpoint {
     private ExpenseApiPort expenseService;
 
     @POST
-    @Path("/create")
+    @Path("/expense/create")
     public Response assignExpenseToAccount(PlannedExpenseDto request)
             throws AmountExceedsRangeException {
 
@@ -37,7 +37,7 @@ public class ExpenseEndpoint {
     }
 
     @POST
-    @Path("/invoice")
+    @Path("/expense/invoice")
     public Response addInvoiceToExpense(InvoicedExpenseDto request) {
         log.infof("Request to add invoice to expense: %s", request.getExpenseId());
         log.errorf("not implemented, returning internal server error.");

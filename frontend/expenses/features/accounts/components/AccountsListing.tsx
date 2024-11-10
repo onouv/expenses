@@ -57,7 +57,7 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid container padding={3} justifyContent="center" alignItems="center">
+      <Grid container padding={3} justifyContent="left" alignItems="center">
         <Grid item>
           <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
             <Button>New Account</Button>
