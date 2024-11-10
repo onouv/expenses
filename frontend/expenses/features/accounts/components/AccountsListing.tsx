@@ -38,7 +38,7 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
               <TableRow
                 onClick={() => {
                   router.push(
-                    `${config.ACCOUNT_DETAILS_PARTIAL_URL}?id=${account.accountNo}`,
+                    `${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${account.accountNo}`,
                   );
                 }}
                 key={account.accountNo}

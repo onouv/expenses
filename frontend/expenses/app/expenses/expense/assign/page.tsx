@@ -1,15 +1,15 @@
 "use client";
 
 import React, { ReactElement } from "react";
-import AccountDetails from "@/features/accounts/features/details/components/AccountDetails";
-import FeaturePage from "@/components/FeaturePage";
-import config from "@/app-config.json";
+import { useSearchParams } from "next/navigation";
 import useGetAccountDetails from "@/features/accounts/features/details/api/useGetAccountDetails";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
-import { useSearchParams } from "next/navigation";
+import config from "@/app-config.json";
+import FeaturePage from "@/components/FeaturePage";
+import AssignExpenseForm from "@/features/expenses/features/assign/AssignExpenseForm";
 
-const AccountDetailsPage = () => {
+const ExpenseAssignPage = (): ReactElement => {
   const params = useSearchParams();
   const { data, error, isLoading } = useGetAccountDetails(
     params.get("accountno") as string,
@@ -33,10 +33,13 @@ const AccountDetailsPage = () => {
   }
 
   return (
-    <FeaturePage title="Account Details" backUrl={config.ACCOUNTS_PARTIAL_URL}>
-      <AccountDetails account={data} />
+    <FeaturePage
+      title="Assign Expense to Account"
+      backUrl={`${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`}
+    >
+      <AssignExpenseForm account={data} />
     </FeaturePage>
   );
 };
 
-export default AccountDetailsPage;
+export default ExpenseAssignPage;

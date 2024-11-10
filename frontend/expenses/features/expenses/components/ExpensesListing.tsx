@@ -6,12 +6,11 @@ import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import config from "@/app-config.json";
 
-const ActionBar = (): ReactElement => {};
-
 type Props = {
+  account: string;
   expenses: ExpenseT[];
 };
-const ExpensesListing = ({ expenses }: Props): ReactElement => {
+const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
   return (
     <Paper elevation={3}>
       <Stack spacing={2} padding={2}>
@@ -21,7 +20,12 @@ const ExpensesListing = ({ expenses }: Props): ReactElement => {
         <ExpensesTable expenses={expenses} />
         <Grid container padding={3} justifyContent="left" alignItems="center">
           <Grid item>
-            <Link href={config.EXPENSE_CREATE_PARTIAL_URL}>
+            <Link
+              href={{
+                pathname: config.EXPENSE_ASSIGN_PARTIAL_URL,
+                query: { accountno: account },
+              }}
+            >
               <Button>Assign New Expense</Button>
             </Link>
           </Grid>
