@@ -18,6 +18,7 @@ import WaitingPrompt from "@/components/WaitingPrompt";
 import TextFormInput from "@/components/form/TextFormInput";
 import { DatePicker } from "@mui/x-date-pickers";
 import Grid from "@mui/material/Grid";
+import dayjs from "dayjs";
 
 type Props = {
   account: AccountDetailsT;
@@ -63,15 +64,23 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
             <Controller
               control={control}
               name="accruedDate"
-              render={({ field: { onChange, value } }) => (
-                <DatePicker label="Accrued" onChange={onChange} value={value} />
+              render={({ field: { onChange, value, ref } }) => (
+                <DatePicker
+                  label="Accrued"
+                  onChange={onChange}
+                  value={dayjs(value)}
+                />
               )}
             />
             <Controller
               control={control}
               name="paymentDate"
-              render={({ field: { onChange, value } }) => (
-                <DatePicker label="Payment" onChange={onChange} value={value} />
+              render={({ field: { onChange, value, ref } }) => (
+                <DatePicker
+                  label="Payment"
+                  onChange={onChange}
+                  value={dayjs(value)}
+                />
               )}
             />
 
