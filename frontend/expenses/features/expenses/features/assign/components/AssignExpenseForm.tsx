@@ -9,7 +9,7 @@ import PlannedExpenseT, {
   defaultPlannedExpense,
   PlannedExpenseTSchema,
 } from "@/features/expenses/features/assign/api/PlannedExpenseT";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import useAssignExpenseApi from "@/features/expenses/features/assign/api/useAssignExpenseApi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
@@ -60,8 +60,20 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
               label="Recipient"
             />
             <TextFormInput name="purpose" control={control} label="Purpose" />
-            <DatePicker label="Accrued" />
-            <DatePicker label="Payment" />
+            <Controller
+              control={control}
+              name="accruedDate"
+              render={({ field: { onChange, value } }) => (
+                <DatePicker label="Accrued" onChange={onChange} value={value} />
+              )}
+            />
+            <Controller
+              control={control}
+              name="paymentDate"
+              render={({ field: { onChange, value } }) => (
+                <DatePicker label="Payment" onChange={onChange} value={value} />
+              )}
+            />
 
             <Grid
               container
