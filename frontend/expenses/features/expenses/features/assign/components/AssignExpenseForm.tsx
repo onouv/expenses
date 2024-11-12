@@ -7,17 +7,22 @@ import {
   Box,
   Button,
   FormControlLabel,
+  InputLabel,
+  ListItemIcon,
+  ListItemText,
   Paper,
   Radio,
   RadioGroup,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
 import React, { ReactElement } from "react";
+import PlannedExpenseDTO from "@/features/expenses/types/PlannedExpenseT";
 import PlannedExpenseT, {
   defaultPlannedExpense,
   PlannedExpenseTSchema,
-} from "@/features/expenses/features/assign/api/PlannedExpenseT";
+} from "@/features/expenses/types/PlannedExpenseT";
 import { Controller, useForm } from "react-hook-form";
 import useAssignExpenseApi from "@/features/expenses/features/assign/api/useAssignExpenseApi";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -26,8 +31,29 @@ import ErrorPage from "@/components/ErrorPage";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import TextFormInput from "@/components/form/TextFormInput";
 import { DatePicker } from "@mui/x-date-pickers";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
 import dayjs from "dayjs";
+import CurrencyE from "@/features/accounts/types/CurrencyE";
+import CurrencyFrancIcon from "@mui/icons-material/CurrencyFranc";
+import EuroIcon from "@mui/icons-material/Euro";
+import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
+
+//type CurrencyT = keyof typeof CurrencyE;
+const currencies = [
+  {
+    key: CurrencyE.CHF,
+    name: "Swiss Francs",
+    icon: () => <CurrencyFrancIcon />,
+  },
+  { key: CurrencyE.EUR, name: "Euros", icon: () => <EuroIcon /> },
+  {
+    key: CurrencyE.GBP,
+    name: "British Pounds",
+    icon: () => <CurrencyPoundIcon />,
+  },
+];
 
 type Props = {
   account: AccountDetailsT;
@@ -40,7 +66,7 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
     resolver: yupResolver(PlannedExpenseTSchema),
   });
 
-  const onSubmit = async (data: PlannedExpenseT) => {
+  const onSubmit = async (data: PlannedExpenseDTO) => {
     await postRequest(data);
     router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
   };
@@ -89,7 +115,12 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
                     </Grid>
                   </Grid>
                   <Grid item>
-                    <Grid container direction="row" columnSpacing={2}>
+                    <Grid
+                      container
+                      direction="row"
+                      columnSpacing={2}
+                      alignItems="stretch"
+                    >
                       <Grid item xs={4}>
                         <Controller
                           control={control}
@@ -103,6 +134,56 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
                             />
                           )}
                         />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <TextFormInput
+                          name="amount"
+                          label="Amount"
+                          control={control}
+                        />
+                      </Grid>
+                      <Grid item xs={4}>
+                        <Grid container justifyContent="flex-end">
+                          <Grid item xs={12}>
+                            <Controller
+                              name="currency"
+                              control={control}
+                              render={({ field: { onChange, value } }) => (
+                                <FormControl size="small" fullWidth>
+                                  <Select
+                                    variant="filled"
+                                    value={value}
+                                    onChange={onChange}
+                                  >
+                                    {currencies.map((currency) => (
+                                      <MenuItem
+                                        key={currency.key}
+                                        value={currency.key}
+                                      >
+                                        <Grid
+                                          container
+                                          direction="row"
+                                          alignitems="center"
+                                        >
+                                          <Grid item>
+                                            <ListItemIcon>
+                                              {currency.icon()}
+                                            </ListItemIcon>
+                                          </Grid>
+                                          <Grid>
+                                            <ListItemText>
+                                              {currency.name}
+                                            </ListItemText>
+                                          </Grid>
+                                        </Grid>
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
+                                </FormControl>
+                              )}
+                            ></Controller>
+                          </Grid>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -128,7 +209,12 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
                     </RadioGroup>
                   </Grid>
                   <Grid item xs={8}>
-                    <Button>Upload Invoice</Button>
+                    <Grid container direction="row" columnSpacing={2}>
+                      <Grid item xs={4}></Grid>
+                      <Grid item xs={4}>
+                        <Button>Upload Invoice</Button>
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Box>

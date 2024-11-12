@@ -1,8 +1,12 @@
-import { MoneyTSchema } from "@/common/types/MoneyT";
 import { PaymentTypeESchema } from "@/common/types/PaymentTypeE";
 import { boolean, date, InferType, string } from "yup";
 import { AccountNumSchema } from "@/features/accounts/types/AccountT";
-import CurrencyE from "@/features/accounts/types/CurrencyE";
+import CurrencyE, {
+  CurrencyESchema,
+} from "@/features/accounts/types/CurrencyE";
+
+export const TWO_DIGIT_DECIMAL_US: RegExp =
+  /((\d{1,3}(,\d{3})+)|(\d*))(\.\d{1,2})?/g;
 
 export const PlannedExpenseTSchema = AccountNumSchema.shape({
   recipient: string()
@@ -11,12 +15,14 @@ export const PlannedExpenseTSchema = AccountNumSchema.shape({
   purpose: string()
     .required()
     .matches(/<w{1,120}/),
-  amount: MoneyTSchema.required(),
+  amount: string().required().matches(TWO_DIGIT_DECIMAL_US),
+  currency: CurrencyESchema,
   accruedDate: date().required(),
   paymentDate: date().required(),
   paymentTypeE: PaymentTypeESchema,
   isInvoiced: boolean().required(),
 });
+Object.freeze(PlannedExpenseTSchema);
 
 type PlannedExpenseT = InferType<typeof PlannedExpenseTSchema>;
 /*
@@ -24,7 +30,8 @@ type PlannedExpenseT = InferType<typeof PlannedExpenseTSchema>;
   accountNo: string;
   recipient: string;
   purpose: string;
-  amount: MoneyT;
+  amount: string;
+  currency: CurrencyE;
   accruedDate: Date;
   paymentDate: Date;
   paymentType: PaymentTypeE;
@@ -36,14 +43,12 @@ export const defaultPlannedExpense: PlannedExpenseT = {
   accountNo: "",
   recipient: "",
   purpose: "",
-  amount: {
-    amountMajor: 0,
-    amountMinor: 0,
-    currency: CurrencyE.EUR,
-  },
+  amount: "",
+  currency: CurrencyE.EUR,
   accruedDate: new Date(),
   paymentDate: new Date(),
   isInvoiced: true,
 };
 
+Object.freeze(defaultPlannedExpense);
 export default PlannedExpenseT;
