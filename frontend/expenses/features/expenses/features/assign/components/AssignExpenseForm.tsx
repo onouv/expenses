@@ -68,7 +68,9 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
 
   const onSubmit = async (data: PlannedExpenseT) => {
     const dto = ApiMapper.domainToApi(data);
-    console.info(`requesting to assign expense ${data.amount} ${data.currency} to account ${data.accountNo}`);
+    console.info(
+      `requesting to assign expense ${data.amount} ${data.currency} to account ${data.accountNo}`,
+    );
     await postRequest(dto);
     router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
   };
@@ -103,14 +105,14 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
                     <Grid container direction="row" columnSpacing={2}>
                       <Grid item xs={4}>
                         <TextFormInput
-                          name="recipient"
+                          fieldName="recipient"
                           control={control}
                           label="Recipient"
                         />
                       </Grid>
                       <Grid item xs={8}>
                         <TextFormInput
-                          name="purpose"
+                          fieldName="purpose"
                           control={control}
                           label="Purpose"
                         />
@@ -140,7 +142,7 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
                       </Grid>
                       <Grid item xs={4}>
                         <TextFormInput
-                          name="amount"
+                          fieldName="amount"
                           label="Amount"
                           control={control}
                         />

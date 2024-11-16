@@ -45,14 +45,18 @@ const CreateAccountForm: React.FC = (): ReactElement => {
   return (
     <Box padding={2}>
       <Stack spacing={2}>
-        <TextFormInput name="accountNo" control={control} label="Account No" />
         <TextFormInput
-          name="accountName"
+          fieldName="accountNo"
+          control={control}
+          label="Account No"
+        />
+        <TextFormInput
+          fieldName="accountName"
           control={control}
           label="Account Name"
         />
         <TextFormInput
-          name="accountDescription"
+          fieldName="accountDescription"
           control={control}
           label="Description"
         />
