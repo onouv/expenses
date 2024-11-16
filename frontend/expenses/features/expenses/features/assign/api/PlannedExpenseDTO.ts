@@ -8,7 +8,7 @@ type PlannedExpenseDTO = {
   amount: MoneyT;
   accruedDate: Date;
   paymentDate: Date;
-  paymentType: PaymentTypeE;
+  paymentType: PaymentTypeE | undefined;
   isInvoiced: boolean;
 };
 

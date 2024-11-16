@@ -1,7 +1,5 @@
-import { Control, FieldValues } from "react-hook-form";
-
 export type FormInputPropsT = {
-  control: Control<FieldValues> | undefined;
+  control: any;
   label: string;
   name: string;
   onChange?: (event: object) => void;

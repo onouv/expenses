@@ -1,6 +1,4 @@
-import CurrencyE, {
-  CurrencyESchema,
-} from "@/features/accounts/types/CurrencyE";
+import CurrencyE, { CurrencyESchema } from "@/common/types/CurrencyE";
 import { InferType, number, object } from "yup";
 
 export const MoneyTSchema = object({

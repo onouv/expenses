@@ -35,12 +35,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
 import dayjs from "dayjs";
-import CurrencyE from "@/features/accounts/types/CurrencyE";
+import CurrencyE from "@/common/types/CurrencyE";
 import CurrencyFrancIcon from "@mui/icons-material/CurrencyFranc";
 import EuroIcon from "@mui/icons-material/Euro";
 import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
+import ApiMapper from "@/features/expenses/features/assign/utils/ApiMapper";
 
-//type CurrencyT = keyof typeof CurrencyE;
 const currencies = [
   {
     key: CurrencyE.CHF,
@@ -66,8 +66,10 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
     resolver: yupResolver(PlannedExpenseTSchema),
   });
 
-  const onSubmit = async (data: PlannedExpenseDTO) => {
-    await postRequest(data);
+  const onSubmit = async (data: PlannedExpenseT) => {
+    const dto = ApiMapper.domainToApi(data);
+    console.info(`requesting to assign expense ${data.amount} ${data.currency} to account ${data.accountNo}`);
+    await postRequest(dto);
     router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
   };
 
@@ -84,6 +86,7 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
     return <WaitingPrompt prompt="Saving data to server..." />;
   }
 
+  // @ts-ignore
   return (
     <Stack spacing={2} padding={2}>
       <AccountHeader account={account} />

@@ -1,25 +1,19 @@
 import { PaymentTypeESchema } from "@/common/types/PaymentTypeE";
 import { boolean, date, InferType, string } from "yup";
 import { AccountNumSchema } from "@/features/accounts/types/AccountT";
-import CurrencyE, {
-  CurrencyESchema,
-} from "@/features/accounts/types/CurrencyE";
+import CurrencyE, { CurrencyESchema } from "@/common/types/CurrencyE";
 
 export const TWO_DIGIT_DECIMAL_US: RegExp =
   /((\d{1,3}(,\d{3})+)|(\d*))(\.\d{1,2})?/g;
 
 export const PlannedExpenseTSchema = AccountNumSchema.shape({
-  recipient: string()
-    .required()
-    .matches(/<w{1,120}/),
-  purpose: string()
-    .required()
-    .matches(/<w{1,120}/),
+  recipient: string().required().max(120),
+  purpose: string().required().max(120),
   amount: string().required().matches(TWO_DIGIT_DECIMAL_US),
-  currency: CurrencyESchema,
+  currency: CurrencyESchema.required(),
   accruedDate: date().required(),
   paymentDate: date().required(),
-  paymentTypeE: PaymentTypeESchema,
+  paymentType: PaymentTypeESchema,
   isInvoiced: boolean().required(),
 });
 Object.freeze(PlannedExpenseTSchema);
