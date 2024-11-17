@@ -16,4 +16,22 @@ type MoneyT = InferType<typeof MoneyTSchema>;
 };
  */
 
+export const defaultMoney: MoneyT = {
+  amountMajor: 0,
+  amountMinor: 0,
+  currency: CurrencyE.EUR,
+} as const;
+
+type MoneyFieldNamesT = {
+  amountMajor: keyof Pick<MoneyT, "amountMajor">;
+  amountMinor: keyof Pick<MoneyT, "amountMinor">;
+  currency: keyof Pick<MoneyT, "currency">;
+};
+
+export const fieldNames: MoneyFieldNamesT = {
+  amountMajor: "amountMajor",
+  amountMinor: "amountMinor",
+  currency: "currency",
+};
+
 export default MoneyT;

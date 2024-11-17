@@ -61,7 +61,7 @@ type Props = {
 const AssignExpenseForm = ({ account }: Props): ReactElement => {
   const { postRequest, isLoading, error } = useAssignExpenseApi();
   const router = useRouter();
-  const { control, handleSubmit } = useForm<PlannedExpenseT>({
+  const { control, handleSubmit, setValue } = useForm<PlannedExpenseT>({
     defaultValues: defaultPlannedExpense,
     resolver: yupResolver(PlannedExpenseTSchema),
   });
