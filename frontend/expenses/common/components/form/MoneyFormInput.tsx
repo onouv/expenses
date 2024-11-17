@@ -2,13 +2,40 @@
 
 import FormInputPropsT from "@/components/form/FormInputPropsT";
 import TextFormInput from "@/components/form/TextFormInput";
-import { ReactElement } from "react";
-import { Divider, Stack, Typography } from "@mui/material";
+import React, { ReactElement } from "react";
+import {
+  Divider,
+  ListItemIcon,
+  ListItemText,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { fieldNames } from "@/features/expenses/types/PlannedExpenseT";
 import MoneyMapper from "@/features/expenses/features/assign/utils/MoneyMapper";
-import MoneyT from "@/common/types/MoneyT";
 import CurrencyE from "@/common/types/CurrencyE";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import { Controller, useFormContext } from "react-hook-form";
+import CurrencyFrancIcon from "@mui/icons-material/CurrencyFranc";
+import EuroIcon from "@mui/icons-material/Euro";
+import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
+
+const currencies = [
+  {
+    key: CurrencyE.CHF,
+    name: "Swiss Francs",
+    icon: () => <CurrencyFrancIcon />,
+  },
+  { key: CurrencyE.EUR, name: "Euros", icon: () => <EuroIcon /> },
+  {
+    key: CurrencyE.GBP,
+    name: "British Pounds",
+    icon: () => <CurrencyPoundIcon />,
+  },
+];
 
 export const MoneyFormInput = ({
   control,
@@ -16,21 +43,6 @@ export const MoneyFormInput = ({
   fieldName,
   label,
 }: FormInputPropsT): ReactElement => {
-  const onChange = (event: object): void => {
-    // @ts-ignore
-    const value = event.target?.value;
-
-    const newAmount: MoneyT = MoneyMapper.asMoney(value, CurrencyE.EUR);
-    if (setValue) {
-      setValue(fieldNames.amount, newAmount);
-      return;
-    }
-
-    console.error(
-      "MoneyFormInput/onChange(): props.setValue needs to be initialized (FormInputProps)",
-    );
-  };
-
   return (
     <Stack>
       <Divider />
@@ -44,6 +56,28 @@ export const MoneyFormInput = ({
           />
         </Grid>
         <Grid item xs={4}>
+          <Controller
+            name={`${fieldName}.currency`}
+            control={control}
+            render={({ field: { value } }) => (
+              <FormControl size="small" fullWidth>
+                <Select variant="filled" value={value}>
+                  {currencies.map((currency) => (
+                    <MenuItem key={currency.key} value={currency.key}>
+                      <Grid container direction="row" alignitems="center">
+                        <Grid item>
+                          <ListItemIcon>{currency.icon()}</ListItemIcon>
+                        </Grid>
+                        <Grid>
+                          <ListItemText>{currency.name}</ListItemText>
+                        </Grid>
+                      </Grid>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+          />
           <TextFormInput
             control={control}
             fieldName={`${fieldName}.currency`}

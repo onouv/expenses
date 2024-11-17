@@ -1,11 +1,8 @@
 import { PaymentTypeESchema } from "@/common/types/PaymentTypeE";
 import { boolean, date, InferType, number, object, string } from "yup";
 import { AccountNumSchema } from "@/features/accounts/types/AccountT";
-import CurrencyE, { CurrencyESchema } from "@/common/types/CurrencyE";
-import MoneyT, { defaultMoney, MoneyTSchema } from "@/common/types/MoneyT";
-
-export const TWO_DIGIT_DECIMAL_US: RegExp =
-  /((\d{1,3}(,\d{3})+)|(\d*))(\.\d{1,2})?/g;
+import { CurrencyESchema } from "@/common/types/CurrencyE";
+import { defaultMoney, MoneyTSchema } from "@/common/types/MoneyT";
 
 export const PlannedExpenseTSchema = AccountNumSchema.shape({
   recipient: string().required().max(120),

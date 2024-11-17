@@ -41,20 +41,6 @@ import EuroIcon from "@mui/icons-material/Euro";
 import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
 import ApiMapper from "@/features/expenses/features/assign/utils/ApiMapper";
 
-const currencies = [
-  {
-    key: CurrencyE.CHF,
-    name: "Swiss Francs",
-    icon: () => <CurrencyFrancIcon />,
-  },
-  { key: CurrencyE.EUR, name: "Euros", icon: () => <EuroIcon /> },
-  {
-    key: CurrencyE.GBP,
-    name: "British Pounds",
-    icon: () => <CurrencyPoundIcon />,
-  },
-];
-
 type Props = {
   account: AccountDetailsT;
 };
