@@ -25,6 +25,7 @@
     "react-router-dom": "^6.26.2",
     "swr": "^2.2.5",
     "ts-results": "^3.3.0",
+    "tslog": "^4.9.3",
     "yup": "^1.4.0"
   },
   "devDependencies": {
