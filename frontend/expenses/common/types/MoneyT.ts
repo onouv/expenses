@@ -21,7 +21,7 @@ type MoneyFieldNamesT = {
   currency: keyof Pick<MoneyT, "currency">;
 };
 
-export const fieldNames: MoneyFieldNamesT = {
+export const moneyFieldNames: MoneyFieldNamesT = {
   value: "value",
   currency: "currency",
 };

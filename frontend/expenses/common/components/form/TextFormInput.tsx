@@ -1,9 +1,11 @@
 "use client";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { FormInputPropsT } from "./FormInputPropsT";
 
-const TextFormInput = ({ fieldName, control, label }: FormInputPropsT) => {
+const TextFormInput = ({ fieldName, label }: FormInputPropsT) => {
+  const { control } = useFormContext();
+
   return (
     <Controller
       name={fieldName}

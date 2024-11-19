@@ -18,19 +18,21 @@ import {
   Typography,
 } from "@mui/material";
 import React, { ReactElement } from "react";
-import PlannedExpenseDTO from "@/features/expenses/types/PlannedExpenseT";
+import PlannedExpenseDTO, {
+  plannedExpenseFieldNames,
+} from "@/features/expenses/types/PlannedExpenseT";
 import PlannedExpenseT, {
   defaultPlannedExpense,
   PlannedExpenseTSchema,
 } from "@/features/expenses/types/PlannedExpenseT";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import useAssignExpenseApi from "@/features/expenses/features/assign/api/useAssignExpenseApi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useRouter } from "next/navigation";
 import ErrorPage from "@/components/ErrorPage";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import TextFormInput from "@/components/form/TextFormInput";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Grid from "@mui/material/Grid";
@@ -39,28 +41,38 @@ import CurrencyE from "@/common/types/CurrencyE";
 import CurrencyFrancIcon from "@mui/icons-material/CurrencyFranc";
 import EuroIcon from "@mui/icons-material/Euro";
 import CurrencyPoundIcon from "@mui/icons-material/CurrencyPound";
-import ApiMapper from "@/features/expenses/features/assign/utils/ApiMapper";
+import MoneyFormInput from "@/components/form/MoneyFormInput";
+import DateFormInput from "@/components/form/DateFormInput";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import FormResetButton from "@/components/form/FormResetButton";
+import CheckboxFormInput from "@/components/form/CheckboxFormInput";
+
+const logout = (expense: PlannedExpenseT) => {
+  console.info(`requesting to assign expense to account ${expense.accountNo}:\
+    \n\trecipient: ${expense.recipient}\
+    \n\tpurpose: ${expense.purpose}\
+    \n\taccrued: ${expense.accruedDate}\
+    `);
+};
 
 type Props = {
   account: AccountDetailsT;
 };
 const AssignExpenseForm = ({ account }: Props): ReactElement => {
-  const { postRequest, isLoading, error } = useAssignExpenseApi();
-  const router = useRouter();
-  const { control, handleSubmit, setValue } = useForm<PlannedExpenseT>({
-    defaultValues: defaultPlannedExpense,
+  // const { postRequest, isLoading, error } = useAssignExpenseApi();
+  // const router = useRouter();
+  const formMethods = useForm<PlannedExpenseT>({
+    defaultValues: { ...defaultPlannedExpense, accountNo: account.accountNo },
     resolver: yupResolver(PlannedExpenseTSchema),
   });
 
-  const onSubmit = async (data: PlannedExpenseT) => {
-    const dto = ApiMapper.domainToApi(data);
-    console.info(
-      `requesting to assign expense ${data.amount} ${data.currency} to account ${data.accountNo}`,
-    );
-    await postRequest(dto);
-    router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
+  const onSubmit = (data: PlannedExpenseT) => {
+    logout(data);
+    //await postRequest(data);
+    //router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
   };
 
+  /*
   if (error) {
     return (
       <ErrorPage
@@ -73,194 +85,153 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
   if (isLoading) {
     return <WaitingPrompt prompt="Saving data to server..." />;
   }
+*/
 
-  // @ts-ignore
-  return (
-    <Stack spacing={2} padding={2}>
-      <AccountHeader account={account} />
-      <Paper elevation={3}>
-        <Grid container direction="column" rowSpacing={2} padding={2}>
-          <Grid item>
-            <Typography variant="subtitle2">Expense</Typography>
+  //
+  // Inner components for various form segments ...
+  //
+
+  const CoreDataSegment = (
+    <Paper elevation={3}>
+      <Box padding={2}>
+        <Grid container direction="row" columnSpacing={2}>
+          <Grid item xs={4}>
+            <TextFormInput
+              fieldName={plannedExpenseFieldNames.recipient}
+              label="Recipient"
+            />
           </Grid>
-          <Grid item>
-            <Paper elevation={3}>
-              <Box padding={2}>
-                <Grid container direction="column" rowSpacing={2}>
-                  <Grid item>
-                    <Grid container direction="row" columnSpacing={2}>
-                      <Grid item xs={4}>
-                        <TextFormInput
-                          fieldName="recipient"
-                          control={control}
-                          label="Recipient"
-                        />
-                      </Grid>
-                      <Grid item xs={8}>
-                        <TextFormInput
-                          fieldName="purpose"
-                          control={control}
-                          label="Purpose"
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item>
-                    <Grid
-                      container
-                      direction="row"
-                      columnSpacing={2}
-                      alignItems="stretch"
-                    >
-                      <Grid item xs={4}>
-                        <Controller
-                          control={control}
-                          name="accruedDate"
-                          render={({ field: { onChange, value, ref } }) => (
-                            <DatePicker
-                              label="Accrued"
-                              onChange={onChange}
-                              value={dayjs(value)}
-                              slotProps={{ textField: { fullWidth: true } }}
-                            />
-                          )}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <TextFormInput
-                          fieldName="amount"
-                          label="Amount"
-                          control={control}
-                        />
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Grid container justifyContent="flex-end">
-                          <Grid item xs={12}>
-                            <Controller
-                              name="currency"
-                              control={control}
-                              render={({ field: { onChange, value } }) => (
-                                <FormControl size="small" fullWidth>
-                                  <Select
-                                    variant="filled"
-                                    value={value}
-                                    onChange={onChange}
-                                  >
-                                    {currencies.map((currency) => (
-                                      <MenuItem
-                                        key={currency.key}
-                                        value={currency.key}
-                                      >
-                                        <Grid
-                                          container
-                                          direction="row"
-                                          alignitems="center"
-                                        >
-                                          <Grid item>
-                                            <ListItemIcon>
-                                              {currency.icon()}
-                                            </ListItemIcon>
-                                          </Grid>
-                                          <Grid>
-                                            <ListItemText>
-                                              {currency.name}
-                                            </ListItemText>
-                                          </Grid>
-                                        </Grid>
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                </FormControl>
-                              )}
-                            ></Controller>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper elevation={3}>
-              <Box padding={2}>
-                <Grid container direction="row" columnSpacing={2}>
-                  <Grid item xs={4}>
-                    <RadioGroup>
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Invoice Expected"
-                      />
-                      <FormControlLabel
-                        control={<Radio />}
-                        label="Not Invoiced"
-                        value={false}
-                      />
-                    </RadioGroup>
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Grid container direction="row" columnSpacing={2}>
-                      <Grid item xs={4}></Grid>
-                      <Grid item xs={4}>
-                        <Button>Upload Invoice</Button>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Paper elevation={3}>
-              <Box padding={2}>
-                <Grid container direction="row" columnSpacing={2}>
-                  <Grid item xs={4}>
-                    <Controller
-                      control={control}
-                      name="paymentDate"
-                      render={({ field: { onChange, value, ref } }) => (
-                        <DatePicker
-                          label="Payment"
-                          onChange={onChange}
-                          value={dayjs(value)}
-                          slotProps={{ textField: { fullWidth: true } }}
-                        />
-                      )}
-                    />
-                  </Grid>
-                  <Grid item xs={8}>
-                    <Button>Upload Receipt</Button>
-                  </Grid>
-                </Grid>
-              </Box>
-            </Paper>
-          </Grid>
-          <Grid item>
-            <Grid
-              container
-              direction="row"
-              sx={{
-                justifyContent: "flex-end",
-              }}
-            >
-              <Grid item xs={1}>
-                <Button
-                  onClick={() => {
-                    router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
-                  }}
-                >
-                  CANCEL
-                </Button>
-              </Grid>
-              <Grid item xs={1}>
-                <Button onClick={handleSubmit(onSubmit)}>SAVE</Button>
-              </Grid>
-            </Grid>
+          <Grid item xs={8}>
+            <TextFormInput
+              fieldName={plannedExpenseFieldNames.purpose}
+              label="Purpose"
+            />
           </Grid>
         </Grid>
-      </Paper>
-    </Stack>
+      </Box>
+    </Paper>
+  );
+
+  const AccruedDateSegment = (
+    <Paper elevation={3}>
+      <Box padding={2}>
+        <Grid container direction="row" columnSpacing={2}>
+          <Grid item xs={4}>
+            <Controller
+              control={formMethods.control}
+              name="accruedDate"
+              render={({ field: { onChange, value, ref } }) => (
+                <DatePicker
+                  label="Accrued"
+                  onChange={onChange}
+                  value={dayjs(value)}
+                  slotProps={{ textField: { fullWidth: true } }}
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+    </Paper>
+  );
+
+  const UploadButton = (isInvoiced: boolean) => {
+    if (isInvoiced) {
+      return (
+        <Button
+          onClick={() => {
+            console.log(`Uploading invoice...`);
+          }}
+        >
+          Upload Invoice
+        </Button>
+      );
+    }
+
+    return <Button disabled>Upload Invoice</Button>;
+  };
+
+  const isInvoiced = formMethods.watch(plannedExpenseFieldNames.isInvoiced);
+  const InvoicingSegment = (
+    <Paper elevation={3}>
+      <Box padding={2}>
+        <Grid container direction="row" columnSpacing={2}>
+          <Grid item xs={4}>
+            <CheckboxFormInput
+              fieldName={plannedExpenseFieldNames.isInvoiced}
+              label="With Invoice"
+            />
+          </Grid>
+          <Grid item xs={8}>
+            {UploadButton(isInvoiced)}
+          </Grid>
+        </Grid>
+      </Box>
+    </Paper>
+  );
+
+  const PaymentSegment = (
+    <Paper elevation={3}>
+      <Box padding={2}></Box>
+    </Paper>
+  );
+
+  const FormButtonSegment = (
+    <Grid
+      container
+      direction="row"
+      columnSpacing={2}
+      sx={{
+        justifyContent: "flex-end",
+      }}
+    >
+      <Grid item xs={1}>
+        <FormResetButton />
+      </Grid>
+      <Grid item xs={1}>
+        <Button
+          onClick={() => {
+            console.log("Canceled.");
+            //router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
+          }}
+        >
+          Cancel
+        </Button>
+      </Grid>
+      <Grid item xs={1}>
+        <Button onClick={formMethods.handleSubmit(onSubmit)}>Save</Button>
+      </Grid>
+    </Grid>
+  );
+
+  //
+  // ... inner components for segments
+  //
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <FormProvider {...formMethods}>
+        <Stack spacing={2} padding={2}>
+          <AccountHeader account={account} />
+          <Paper elevation={3}>
+            <Stack spacing={2} padding={2}>
+              <Typography variant="subtitle2">Expense</Typography>
+              <Paper elevation={3}>
+                <Box padding={2}>
+                  <Stack spacing={2}>
+                    {CoreDataSegment}
+                    {AccruedDateSegment}
+                    {InvoicingSegment}
+                    {PaymentSegment}
+                    {FormButtonSegment}
+                  </Stack>
+                </Box>
+              </Paper>
+            </Stack>
+          </Paper>
+        </Stack>
+      </FormProvider>
+    </LocalizationProvider>
   );
 };
 
