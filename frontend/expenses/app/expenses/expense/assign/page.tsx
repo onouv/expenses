@@ -10,6 +10,7 @@ import FeaturePage from "@/components/FeaturePage";
 import AssignExpenseForm from "@/features/expenses/features/assign/components/AssignExpenseForm";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import DummyForm from "@/features/expenses/features/assign/components/DummyForm";
 
 const ExpenseAssignPage = (): ReactElement => {
   const params = useSearchParams();
@@ -35,15 +36,17 @@ const ExpenseAssignPage = (): ReactElement => {
   }
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <FeaturePage
-        title="Assign Expense to Account"
-        backUrl={`${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`}
-      >
-        <AssignExpenseForm account={data} />
-      </FeaturePage>
-    </LocalizationProvider>
+    <FeaturePage
+      title="Assign Expense to Account"
+      backUrl={`${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`}
+    >
+      <AssignExpenseForm account={data} />
+    </FeaturePage>
   );
 };
 
 export default ExpenseAssignPage;
+// <LocalizationProvider dateAdapter={AdapterDayjs}>
+// </LocalizationProvider>
+// <DummyForm />
+// <AssignExpenseForm account={data} />

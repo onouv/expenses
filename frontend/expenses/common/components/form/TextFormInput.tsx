@@ -1,21 +1,18 @@
 "use client";
-import { Controller } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { FormInputPropsT } from "./FormInputPropsT";
 
-const TextFormInput = ({ name, control, label }: FormInputPropsT) => {
+const TextFormInput = ({ fieldName, label }: FormInputPropsT) => {
+  const { control } = useFormContext();
+
   return (
     <Controller
-      name={name}
+      name={fieldName}
       control={control}
-      render={({
-        field: { onChange, value },
-        fieldState: { error },
-        formState,
-      }) => (
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
         <TextField
           helperText={error ? error.message : null}
-          size="small"
           error={!!error}
           onChange={onChange}
           value={value}

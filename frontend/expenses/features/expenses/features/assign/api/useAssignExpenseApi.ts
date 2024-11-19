@@ -2,9 +2,9 @@
 
 import config from "@/app-config.json";
 import PostResponseT from "@/common/api/PostResponseT";
-import PlannedExpenseT from "@/features/expenses/features/assign/api/PlannedExpenseT";
 import { useCallback, useState } from "react";
 import axios from "axios";
+import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 
 const url = config.BACKEND_SERVICE_BASE_URL + config.EXPENSE_ASSIGN_PARTIAL_URL;
 
