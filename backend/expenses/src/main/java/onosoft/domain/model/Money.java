@@ -24,6 +24,9 @@ public class Money {
         public long toMicroUnits() {
             return major * scale + minor * Money.minorFactor;
         }
+        public String toString() {
+            return String.format("%,3d.%2d", major, minor);
+        }
     }
 
     // microUnits/unit
