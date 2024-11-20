@@ -1,23 +1,22 @@
 package onosoft.domain.model;
 
 
+import jakarta.inject.Inject;
 import jakarta.validation.constraints.Positive;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import onosoft.application.commons.money.AmountExceedsRangeException;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
+import onosoft.domain.services.MoneyConfigService;
 
 @NoArgsConstructor(force = true)
 public class CappedMoney extends Money {
 
-    // as a business policy, we refuse to handle amounts larger than
-    // this constant, for any currency.
-    @ConfigProperty(name = "domain.money.max-value")
-    protected long unitsLimit;
+    @Inject
+    protected MoneyConfigService moneyConfig;
 
-    private final long uUnitsLimit;
+    protected final long uUnitsLimit;
 
-    public CappedMoney(@NonNull Value amount, @NonNull Currency currency)
+    public CappedMoney(@NonNull Value amount, @NonNull Currency currency, @NonNull long unitsLimit)
             throws AmountExceedsRangeException {
         super(amount, currency);
         this.uUnitsLimit = unitsLimit * scale;

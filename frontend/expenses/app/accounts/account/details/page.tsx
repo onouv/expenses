@@ -11,9 +11,8 @@ import { useSearchParams } from "next/navigation";
 
 const AccountDetailsPage = () => {
   const params = useSearchParams();
-  const { data, error, isLoading } = useGetAccountDetails(
-    params.get("accountno") as string,
-  );
+  const accountNo = params.get("accountno") as string;
+  const { data, error, isLoading } = useGetAccountDetails(accountNo);
 
   if (isLoading) {
     return <WaitingPrompt prompt="Loading data from server..." />;

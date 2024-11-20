@@ -24,8 +24,13 @@ public class Money {
         public long toMicroUnits() {
             return major * scale + minor * Money.minorFactor;
         }
+
         public String toString() {
-            return String.format("%,3d.%2d", major, minor);
+
+            if(this.minor < 10) {
+                return String.format("%s.0%s", this.major, this.minor);
+            }
+            return String.format("%s.%s", this.major, this.minor);
         }
     }
 
@@ -84,8 +89,7 @@ public class Money {
     }
 
     public String toString() {
-        final Value amount = this.getValue();
-        return String.format("%s.%s %s", amount.major, amount.minor, currency);
+        return String.format("%s %s", this.getValue().toString(), currency);
     }
 
     protected int getNumDigits(long val) {

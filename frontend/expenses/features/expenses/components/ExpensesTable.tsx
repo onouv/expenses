@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import ExpenseT from "@/features/accounts/types/Expense";
+import ExpenseT from "@/features/accounts/types/ExpenseT";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -7,7 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import MoneyAmount from "@/features/expenses/components/MoneyAmount";
 import TableContainer from "@mui/material/TableContainer";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   expenses: ExpenseT[];
@@ -30,22 +30,22 @@ const ExpensesTable = ({ expenses }: Props): ReactElement => (
           {expenses.map((expense: ExpenseT) => (
             <TableRow key={expense.expenseId}>
               <TableCell sx={{ borderBottom: "none" }}>
-                {expense.expenseId}
+                <Typography>{expense.expenseId}</Typography>
               </TableCell>
               <TableCell sx={{ borderBottom: "none" }}>
-                <MoneyAmount amount={expense.amount} />
+                <Typography>{`${expense.amount.value} ${expense.amount.currency}`}</Typography>
               </TableCell>
               <TableCell sx={{ borderBottom: "none" }}>
-                {expense.recipient}
+                <Typography>{expense.recipient}</Typography>
               </TableCell>
               <TableCell sx={{ borderBottom: "none" }}>
-                {expense.accruedDate}
+                <Typography>{expense.accruedDate}</Typography>
               </TableCell>
               <TableCell sx={{ borderBottom: "none" }}>
-                {expense.purpose}
+                <Typography>{expense.purpose}</Typography>
               </TableCell>
               <TableCell sx={{ borderBottom: "none" }}>
-                {expense.paymentStatus}
+                <Typography>{expense.paymentStatus}</Typography>
               </TableCell>
             </TableRow>
           ))}
