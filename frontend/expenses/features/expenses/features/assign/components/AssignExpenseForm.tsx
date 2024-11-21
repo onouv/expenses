@@ -97,7 +97,7 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
             />
           </Grid>
           <Grid item xs={8}>
-            <MoneyFormInput fieldName={plannedExpenseFieldNames.amount} />
+            <TextFormInput fieldName="amount.value" label={"Amount"} />
           </Grid>
         </Grid>
       </Stack>
@@ -225,3 +225,5 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
 };
 
 export default AssignExpenseForm;
+
+//<MoneyFormInput fieldName={plannedExpenseFieldNames.amount} />
