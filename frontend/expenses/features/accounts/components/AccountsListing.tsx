@@ -36,6 +36,7 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
           <TableBody>
             {cleanAccounts.map((account: AccountT, index) => (
               <TableRow
+                hover
                 onClick={() => {
                   router.push(
                     `${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${account.accountNo}`,

@@ -5,7 +5,6 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import MoneyAmount from "@/features/expenses/components/MoneyAmount";
 import TableContainer from "@mui/material/TableContainer";
 import { Box, Typography } from "@mui/material";
 
@@ -28,7 +27,7 @@ const ExpensesTable = ({ expenses }: Props): ReactElement => (
         </TableHead>
         <TableBody>
           {expenses.map((expense: ExpenseT) => (
-            <TableRow key={expense.expenseId}>
+            <TableRow hover key={expense.expenseId}>
               <TableCell sx={{ borderBottom: "none" }}>
                 <Typography>{expense.expenseId}</Typography>
               </TableCell>
@@ -39,7 +38,7 @@ const ExpensesTable = ({ expenses }: Props): ReactElement => (
                 <Typography>{expense.recipient}</Typography>
               </TableCell>
               <TableCell sx={{ borderBottom: "none" }}>
-                <Typography>{expense.accruedDate}</Typography>
+                <Typography>{expense.accruedDate.toString()}</Typography>
               </TableCell>
               <TableCell sx={{ borderBottom: "none" }}>
                 <Typography>{expense.purpose}</Typography>
