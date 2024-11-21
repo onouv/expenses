@@ -7,9 +7,12 @@ import onosoft.domain.model.CappedMoney;
 import onosoft.domain.model.Currency;
 import onosoft.domain.model.Money;
 import onosoft.domain.services.MoneyConfigService;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class MoneyApiMapper {
+    private static final Logger log = Logger.getLogger(MoneyApiMapper.class);
+
 
     @Inject
     protected MoneyConfigService moneyConfigService;
@@ -34,16 +37,29 @@ public class MoneyApiMapper {
 
     // TODO: reliably parse money value: Locale, edge cases
     protected Money.Value parseAmount(String amount) {
+
         if(!amount.matches(moneyFormat)) {
             throw new NumberFormatException(errorMsg(amount));
         }
 
-        final String[] amountStrs = amount.split("\\.");
+        String cleaned = amount.replaceAll(",", "");
 
-        return switch (amountStrs.length) {
-            case 1 -> new Money.Value(Long.parseLong(amountStrs[0]), 0);
-            case 2 -> new Money.Value(Long.parseLong(amountStrs[0]), Integer.parseInt(amountStrs[1]));
-            default -> throw new NumberFormatException(errorMsg(String.format("%s.%s",amountStrs[0], amountStrs[1])));
-        };
+        final String[] amountStrs = cleaned.split("\\.");
+
+        if(amountStrs.length == 1) {
+            final long major = Long.parseLong(amountStrs[0]);
+
+            return new Money.Value(major, 0);
+        }
+
+        if (amountStrs.length == 2) {
+            final long major = Long.parseLong(amountStrs[0]);
+            final int minor = Integer.parseInt(amountStrs[1]);
+
+            return new Money.Value(major, minor);
+        }
+
+        throw new NumberFormatException(errorMsg(String.format("%s.%s",amountStrs[0], amountStrs[1])));
+
     }
 }
