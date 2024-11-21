@@ -10,5 +10,6 @@ export default function useGetAccountDetails(
   accountNo: string,
 ): SWRResponse<AccountDetailsT> {
   const url = BASE_URL + `/${accountNo}`;
+  console.info(`requesting ${url}`);
   return useSWR<AccountDetailsT>(url, fetcher);
 }

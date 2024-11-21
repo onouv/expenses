@@ -25,7 +25,7 @@ public class ExpenseEndpoint {
     private ExpenseApiPort expenseService;
 
     @POST
-    @Path("/expense/create")
+    @Path("/expense/assign")
     public Response assignExpenseToAccount(PlannedExpenseDto request)
             throws AmountExceedsRangeException {
 

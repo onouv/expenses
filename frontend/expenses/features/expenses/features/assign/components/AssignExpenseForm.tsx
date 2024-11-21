@@ -50,7 +50,9 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
   const onSubmit = async (data: PlannedExpenseT) => {
     logout(data);
     await postRequest(data);
-    router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
+    const url = `${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`;
+    console.info(`routing to ${url}...`);
+    router.push(url);
   };
 
   if (error) {

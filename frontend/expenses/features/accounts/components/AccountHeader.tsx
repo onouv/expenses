@@ -29,13 +29,13 @@ const AccountHeader = ({ account }: Props): ReactElement => (
             <TableBody>
               <TableRow>
                 <TableCell sx={{ borderBottom: "none" }}>
-                  {account.accountNo}
+                  <Typography>{account.accountNo}</Typography>
                 </TableCell>
                 <TableCell sx={{ borderBottom: "none" }}>
-                  {account.accountName}
+                  <Typography>{account.accountName}</Typography>
                 </TableCell>
                 <TableCell sx={{ borderBottom: "none" }}>
-                  {account.accountDescription}
+                  <Typography>{account.accountDescription}</Typography>
                 </TableCell>
               </TableRow>
             </TableBody>
