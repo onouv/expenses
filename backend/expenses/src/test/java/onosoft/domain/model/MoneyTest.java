@@ -1,10 +1,9 @@
 package onosoft.domain.model;
 
-import org.apache.commons.math3.util.Precision;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 class MoneyTest {
 
     @Test
@@ -44,5 +43,25 @@ class MoneyTest {
         } catch (Exception e) {
             fail(e.getMessage());
         }
+    }
+
+    @Test
+    void correctlyShowsSingleDigitDecimals() {
+        Money m1 = new Money(new Money.Value(105, 2), Currency.EUR);
+        assertEquals("105.02 EUR", m1.toString());
+        assertEquals("105.02", m1.getValue().toString());
+    }
+
+    @Test
+    void correctlyShowsDoubleDigitDecimals() {
+        Money m1 = new Money(new Money.Value(105, 12), Currency.GBP);
+        assertEquals("105.12 GBP", m1.toString());
+        assertEquals("105.12", m1.getValue().toString());
+    }
+
+    @Test
+    void fluffy() {
+        Money m1 = new Money(new Money.Value(105, 2), Currency.EUR);
+
     }
 }

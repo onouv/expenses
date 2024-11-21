@@ -1,4 +1,4 @@
-import MoneyT from "@/features/accounts/types/MoneyT";
+import MoneyT from "@/common/types/MoneyT";
 import { ReactElement } from "react";
 
 type Props = {

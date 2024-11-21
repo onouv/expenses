@@ -11,7 +11,7 @@ const CreateAccountPage = (): ReactElement => {
   const [account, setAccount] = useState<AccountT>(defaultAccount);
 
   return (
-    <FeaturePage title="Create Account" backUrl={config.ACCOUNT_PARTIAL_URL}>
+    <FeaturePage title="Create Account" backUrl={config.ACCOUNTS_PARTIAL_URL}>
       <CreateAccountForm />
     </FeaturePage>
   );

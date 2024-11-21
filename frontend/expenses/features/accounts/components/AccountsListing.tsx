@@ -38,7 +38,7 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
               <TableRow
                 onClick={() => {
                   router.push(
-                    `${config.ACCOUNT_DETAILS_PARTIAL_URL}?id=${account.accountNo}`,
+                    `${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${account.accountNo}`,
                   );
                 }}
                 key={account.accountNo}
@@ -57,7 +57,7 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
           </TableBody>
         </Table>
       </TableContainer>
-      <Grid container padding={3} justifyContent="center" alignItems="center">
+      <Grid container padding={3} justifyContent="left" alignItems="center">
         <Grid item>
           <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
             <Button>New Account</Button>

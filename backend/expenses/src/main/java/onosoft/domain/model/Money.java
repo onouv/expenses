@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import onosoft.domain.exception.InvalidCurrencyException;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 
 @Getter
 @NoArgsConstructor(force = true)
@@ -23,6 +26,16 @@ public class Money {
 
         public long toMicroUnits() {
             return major * scale + minor * Money.minorFactor;
+        }
+
+        public String toString() {
+            NumberFormat format = NumberFormat.getInstance(Locale.US);
+            final String major = format.format(this.major);
+
+            if(this.minor < 10) {
+                return String.format("%s.0%s", major, this.minor);
+            }
+            return String.format("%s.%s", major, this.minor);
         }
     }
 
@@ -81,8 +94,7 @@ public class Money {
     }
 
     public String toString() {
-        final Value amount = this.getValue();
-        return String.format("%s.%s %s", amount.major, amount.minor, currency);
+        return String.format("%s %s", this.getValue().toString(), currency);
     }
 
     protected int getNumDigits(long val) {

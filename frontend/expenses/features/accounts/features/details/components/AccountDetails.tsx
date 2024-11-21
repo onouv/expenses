@@ -12,7 +12,10 @@ const AccountDetails = ({ account }: Props): ReactElement => {
   return (
     <Stack spacing={2} padding={2}>
       <AccountHeader account={account} />
-      <ExpensesListing expenses={account.expenses} />
+      <ExpensesListing
+        account={account.accountNo}
+        expenses={account.expenses}
+      />
     </Stack>
   );
 };

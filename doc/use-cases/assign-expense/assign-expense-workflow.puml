@@ -1,0 +1,20 @@
+@startuml
+start
+:Enter Expense Data;
+: Save as PLANNED;
+
+if () then (Not Invoiced)
+else (Invoice Expected)
+    fork
+        : May Update Expense Data;
+    fork again
+        : Enter { invoiceID };
+        : Upload Invoice Copy;
+    end fork
+    : Save as INVOICED;
+endif
+:Upload Receipt Copy;
+:Save as PAID;
+
+stop
+@enduml
