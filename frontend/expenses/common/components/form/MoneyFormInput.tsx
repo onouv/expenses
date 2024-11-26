@@ -10,6 +10,7 @@ import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import { Controller, useFormContext } from "react-hook-form";
 import { moneyFieldNames } from "@/common/types/MoneyT";
+import MoneyValueFormInput from "@/components/form/MoneyValueFormInput";
 
 export const MoneyFormInput = ({
   fieldName,
@@ -25,7 +26,7 @@ export const MoneyFormInput = ({
       <Typography variant="subtitle1">{label}</Typography>
       <Grid container direction="row" columnSpacing={2}>
         <Grid item xs={8}>
-          <TextFormInput fieldName={valueName} label="Amount" />
+          <MoneyValueFormInput fieldName={valueName} label="Amount" />
         </Grid>
         <Grid item xs={4}>
           <Controller

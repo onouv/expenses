@@ -2,7 +2,7 @@ import CurrencyE, { CurrencyESchema } from "@/common/types/CurrencyE";
 import { InferType, number, object, string } from "yup";
 
 export const TWO_DIGIT_DECIMAL_US: RegExp =
-  /((^([1-9](\d{0,2}))(,\d{3})*)(\.\d{1,2})?)|0(\.\d{1,2})?/g;
+  /^(0|[1-9][0-9]{0,2}(?:(,[0-9]{3})*|[0-9]*))(\.[0-9]{1,2}){0,1}$/g;
 
 export const MoneyTSchema = object({
   value: string().required().matches(TWO_DIGIT_DECIMAL_US),

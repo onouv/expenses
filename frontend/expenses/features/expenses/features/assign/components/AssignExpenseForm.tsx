@@ -51,7 +51,6 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
     logout(data);
     await postRequest(data);
     const url = `${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`;
-    console.info(`routing to ${url}...`);
     router.push(url);
   };
 
@@ -225,3 +224,5 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
 };
 
 export default AssignExpenseForm;
+
+//<MoneyFormInput fieldName={plannedExpenseFieldNames.amount} />
