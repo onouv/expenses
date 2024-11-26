@@ -4,35 +4,42 @@ import config from "@/app-config.json";
 import PostResponseT from "@/common/api/PostResponseT";
 import { useCallback, useState } from "react";
 import axios from "axios";
-import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
+import PlannedExpenseT, {
+  defaultPlannedExpense,
+} from "@/features/expenses/types/PlannedExpenseT";
+
+type ApiState = {
+  response: PlannedExpenseT | null;
+  isLoading: boolean;
+  error: Error | null;
+};
 
 const url = config.BACKEND_SERVICE_BASE_URL + config.EXPENSE_ASSIGN_PARTIAL_URL;
 
 export default function useAssignExpenseApi(): PostResponseT<PlannedExpenseT> {
-  const [response, setResponse] = useState<PlannedExpenseT>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | undefined>(undefined);
+  const [apiState, setApiState] = useState<ApiState>({
+    response: null,
+    isLoading: false,
+    error: null,
+  });
 
   const postRequest = useCallback(async (data: PlannedExpenseT) => {
-    setError(undefined);
-    setIsLoading(true);
+    setApiState({ ...apiState, isLoading: true, error: null });
 
     try {
       const axiosResponse = await axios
         .post<PlannedExpenseT>(url, data)
         .then((resp) => resp.data);
-      setResponse(axiosResponse);
+      setApiState({ ...apiState, isLoading: false, response: axiosResponse });
     } catch (err: any) {
-      setError(err);
+      setApiState({ ...apiState, isLoading: false, error: err });
     }
-
-    setIsLoading(false);
   }, []);
 
   return {
     postRequest,
-    data: response,
-    isLoading,
-    error,
+    data: apiState.response,
+    isLoading: apiState.isLoading,
+    error: apiState.error,
   };
 }
