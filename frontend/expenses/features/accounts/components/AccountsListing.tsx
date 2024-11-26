@@ -13,6 +13,7 @@ import config from "@/app-config.json";
 import { Button, Stack } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { detailsUrl } from "@/features/accounts/features/details/utils/route";
 
 type Props = {
   accounts: AccountT[] | undefined;
@@ -38,9 +39,7 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
               <TableRow
                 hover
                 onClick={() => {
-                  router.push(
-                    `${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${account.accountNo}`,
-                  );
+                  router.push(detailsUrl(account));
                 }}
                 key={account.accountNo}
               >

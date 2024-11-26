@@ -4,7 +4,7 @@ import config from "@/app-config.json";
 import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
 import AccountHeader from "@/features/accounts/components/AccountHeader";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { plannedExpenseFieldNames } from "@/features/expenses/types/PlannedExpenseT";
 import PlannedExpenseT, {
   defaultPlannedExpense,
@@ -25,42 +25,31 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import FormResetButton from "@/components/form/FormResetButton";
 import CheckboxFormInput from "@/components/form/CheckboxFormInput";
 import PaymentTypeInput from "@/features/expenses/components/PaymentTypeInput";
-
-const logout = (expense: PlannedExpenseT) => {
-  console.info(`requesting to assign expense to account ${expense.accountNo}:\
-    \n\trecipient: ${expense.recipient}\
-    \n\tpurpose: ${expense.purpose}\
-    \n\tamount: ${expense.amount.value} ${expense.amount.currency}\
-    \n\taccrued: ${expense.accruedDate}\
-    \n\tpayment: ${expense.paymentDate}\
-    \n\tisInvoiced: ${expense.isInvoiced}`);
-};
+import { detailsUrl } from "@/features/accounts/features/details/utils/route";
 
 type Props = {
   account: AccountDetailsT;
 };
 const AssignExpenseForm = ({ account }: Props): ReactElement => {
-  const { postRequest, isLoading, error } = useAssignExpenseApi();
+  const { postRequest, isLoading, data, error } = useAssignExpenseApi();
   const router = useRouter();
   const formMethods = useForm<PlannedExpenseT>({
     defaultValues: { ...defaultPlannedExpense, accountNo: account.accountNo },
     resolver: yupResolver(PlannedExpenseTSchema),
   });
 
-  const onSubmit = async (data: PlannedExpenseT) => {
-    logout(data);
-    await postRequest(data);
-    const url = `${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`;
-    router.push(url);
+  useEffect(() => {
+    if (data) {
+      router.push(detailsUrl(account));
+    }
+  }, [data, router]);
+
+  const onSubmit = async (expense: PlannedExpenseT) => {
+    await postRequest(expense);
   };
 
   if (error) {
-    return (
-      <ErrorPage
-        prompt="Error while saving expense to server."
-        nextRoute={config.ACCOUNT_DETAILS_PARTIAL_URL}
-      />
-    );
+    return <ErrorPage prompt={error.message} nextRoute={detailsUrl(account)} />;
   }
 
   if (isLoading) {
@@ -181,7 +170,7 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
         <Button
           onClick={() => {
             console.log("Canceled.");
-            router.push(config.ACCOUNT_DETAILS_PARTIAL_URL);
+            router.push(detailsUrl(account));
           }}
         >
           Cancel

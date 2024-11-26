@@ -1,10 +1,10 @@
 import PostCallT from "@/common/api/PostCallT";
 
 type PostResponse<T> = {
-  data: T | undefined;
+  data: T | null;
   postRequest: PostCallT<T>;
   isLoading: boolean;
-  error: Error | undefined;
+  error: Error | null;
 };
 
 export default PostResponse;
