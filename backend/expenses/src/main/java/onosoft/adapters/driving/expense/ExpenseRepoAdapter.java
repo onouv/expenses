@@ -4,4 +4,5 @@ import jakarta.enterprise.context.ApplicationScoped;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
 
 @ApplicationScoped
-public class ExpenseRepoAdapter implements ExpenseRepoPort {}
+public class ExpenseRepoAdapter implements ExpenseRepoPort {
+}
