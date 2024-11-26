@@ -1,3 +1,3 @@
-type PostCallT<T> = (data: T) => void;
+type PostCallT<T> = (data: T) => Promise<void>;
 
 export default PostCallT;

@@ -40,22 +40,16 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
 
   useEffect(() => {
     if (data) {
-      const url = `${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data?.accountNo}`;
-      router.push(url);
+      router.push(detailsUrl(account));
     }
   }, [data, router]);
 
-  const onSubmit = async (data: PlannedExpenseT) => {
-    await postRequest(data);
+  const onSubmit = async (expense: PlannedExpenseT) => {
+    await postRequest(expense);
   };
 
   if (error) {
-    return (
-      <ErrorPage
-        prompt="Error while saving expense to server."
-        nextRoute={config.ACCOUNT_DETAILS_PARTIAL_URL}
-      />
-    );
+    return <ErrorPage prompt={error.message} nextRoute={detailsUrl(account)} />;
   }
 
   if (isLoading) {
