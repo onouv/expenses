@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import onosoft.adapters.driven.expense.dto.DeleteExpenseListRequestDto;
 import onosoft.adapters.driven.expense.dto.InvoicedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
@@ -42,10 +43,10 @@ public class ExpenseEndpoint {
     }
 
     @DELETE
-    @Path("/expense/delete/{expenseId}")
-    public Response deleteExpense(long expenseId) {
-        log.infof("Request to delete expense: %d", expenseId);
-        this.expenseService.deleteExpense(expenseId);
+    @Path("/delete")
+    public Response deleteExpenseList(DeleteExpenseListRequestDto dto) {
+        log.infof("Request to delete %d expenses", dto.expenseIds().size());
+        this.expenseService.deleteExpenseList(dto.expenseIds());
         return Response.ok().build();
     }
 }

@@ -69,13 +69,19 @@ public class ExpenseAppService implements ExpenseApiPort {
         return new ArrayList<Expense>();
     }
 
+
     @Override
     @Transactional
-    public void  deleteExpense(long expenseId) throws NoSuchExpenseException {
-        if (this.expenseRepo.count("id", expenseId) == 0) {
-            throw new NoSuchExpenseException(expenseId);
-        }
-        this.expenseRepo.deleteById(expenseId);
-        log.infof("Deleted expense %s", expenseId);
-    };
+    public void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException {
+        expenseIds.forEach(expenseId -> {
+            if (this.expenseRepo.count("id", expenseId) == 0) {
+                throw new NoSuchExpenseException(expenseId);
+            }
+        });
+
+        expenseIds.forEach(expenseId -> {
+            this.expenseRepo.deleteById(expenseId);
+            log.infof("Deleted expense with id %s", expenseId);
+        });
+    }
 }
