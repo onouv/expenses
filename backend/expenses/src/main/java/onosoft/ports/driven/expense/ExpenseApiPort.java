@@ -12,6 +12,8 @@ public interface ExpenseApiPort {
 
     PlannedExpenseResponseDto assignExpenseToAccount(PlannedExpenseDto expense)
             throws NoSuchAccountException, AmountExceedsRangeException;
+
     List<Expense> getExpenses(String accountNo);
-    void  deleteExpense(long expenseId) throws NoSuchExpenseException;
+
+    void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException;
 }
