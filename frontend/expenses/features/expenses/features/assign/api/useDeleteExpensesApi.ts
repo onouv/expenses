@@ -1,30 +1,34 @@
-"use client";
-
-import config from "@/app-config.json";
 import RequestApiT from "@/common/api/RequestApiT";
+import config from "@/app-config.json";
 import { useCallback, useState } from "react";
-import axios from "axios";
-import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 import ApiStateT from "@/common/api/ApiStateT";
+import axios from "axios";
 
-const url = config.BACKEND_SERVICE_BASE_URL + config.EXPENSE_ASSIGN_PARTIAL_URL;
+const url =
+  config.BACKEND_SERVICE_BASE_URL + config.EXPENSES_DELETE_PARTIAL_URL;
 
-export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
-  const [apiState, setApiState] = useState<ApiStateT<PlannedExpenseT>>({
-    response: null,
+export default function useDeleteExpensesApi(): RequestApiT<number[]> {
+  const [apiState, setApiState] = useState<ApiStateT<number[]>>({
     isLoading: false,
+    isSuccessful: false,
     error: null,
   });
 
-  const postRequest = useCallback(
-    async (data: PlannedExpenseT) => {
+  const deleteRequest = useCallback(
+    async (ids: number[]) => {
       setApiState({ ...apiState, isLoading: true, error: null });
 
       try {
         const axiosResponse = await axios
-          .post<PlannedExpenseT>(url, data)
-          .then((resp) => resp.data);
-        setApiState({ ...apiState, isLoading: false, response: axiosResponse });
+          .request<number[]>({
+            url: url,
+            method: "delete",
+            data: {
+              expenseIds: ids,
+            },
+          })
+          .finally();
+        setApiState({ ...apiState, isSuccessful: true, isLoading: false });
       } catch (err: any) {
         const errorMsg =
           err.response.data.errorMessages.length > 0
@@ -42,9 +46,9 @@ export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
   );
 
   return {
-    requestCall: postRequest,
-    response: apiState.response,
+    requestCall: deleteRequest,
     isLoading: apiState.isLoading,
+    isSuccessful: apiState.isSuccessful,
     error: apiState.error,
   };
 }

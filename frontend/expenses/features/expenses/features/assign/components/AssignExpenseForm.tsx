@@ -1,6 +1,5 @@
 "use client";
 
-import config from "@/app-config.json";
 import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
 import AccountHeader from "@/features/accounts/components/AccountHeader";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
@@ -25,13 +24,13 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import FormResetButton from "@/components/form/FormResetButton";
 import CheckboxFormInput from "@/components/form/CheckboxFormInput";
 import PaymentTypeInput from "@/features/expenses/components/PaymentTypeInput";
-import { detailsUrl } from "@/features/accounts/features/details/utils/route";
+import { detailsUrlPartial } from "@/features/accounts/features/details/utils/route";
 
 type Props = {
   account: AccountDetailsT;
 };
 const AssignExpenseForm = ({ account }: Props): ReactElement => {
-  const { postRequest, isLoading, data, error } = useAssignExpenseApi();
+  const { requestCall, isLoading, response, error } = useAssignExpenseApi();
   const router = useRouter();
   const formMethods = useForm<PlannedExpenseT>({
     defaultValues: { ...defaultPlannedExpense, accountNo: account.accountNo },
@@ -39,17 +38,22 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
   });
 
   useEffect(() => {
-    if (data) {
-      router.push(detailsUrl(account));
+    if (response) {
+      router.push(detailsUrlPartial(account.accountNo));
     }
-  }, [data, router]);
+  }, [response, router, account.accountNo]);
 
   const onSubmit = async (expense: PlannedExpenseT) => {
-    await postRequest(expense);
+    await requestCall(expense);
   };
 
   if (error) {
-    return <ErrorPage prompt={error.message} nextRoute={detailsUrl(account)} />;
+    return (
+      <ErrorPage
+        prompt={error.message}
+        nextRoute={detailsUrlPartial(account.accountNo)}
+      />
+    );
   }
 
   if (isLoading) {
@@ -170,7 +174,7 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
         <Button
           onClick={() => {
             console.log("Canceled.");
-            router.push(detailsUrl(account));
+            router.push(detailsUrlPartial(account.accountNo));
           }}
         >
           Cancel

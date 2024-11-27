@@ -1,10 +1,20 @@
-import { ReactElement, useEffect, useState } from "react";
+"use client";
+
+import React, { ReactElement, useEffect, useState } from "react";
 import ExpenseT from "@/features/accounts/types/ExpenseT";
 import { Button, Paper, Stack, Typography } from "@mui/material";
 import ExpensesTable from "@/features/expenses/components/ExpensesTable";
 import Grid from "@mui/material/Grid";
 import Link from "next/link";
 import config from "@/app-config.json";
+import useDeleteExpensesApi from "@/features/expenses/features/assign/api/useDeleteExpensesApi";
+import ErrorPage from "@/components/ErrorPage";
+import {
+  detailsUrl,
+  detailsUrlPartial,
+} from "@/features/accounts/features/details/utils/route";
+import WaitingPrompt from "@/components/WaitingPrompt";
+import { useRouter } from "next/navigation";
 
 const clone = (arr: number[]): number[] => {
   const clone: number[] = [];
@@ -22,6 +32,31 @@ type Props = {
 };
 const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
   const [selections, setSelections] = useState<Selections>([]);
+  const { requestCall, isLoading, isSuccessful, error } =
+    useDeleteExpensesApi();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isSuccessful) {
+      //router.push(detailsUrl(account));
+      //router.refresh();
+      // @ts-ignore
+      window.location = detailsUrlPartial(account);
+    }
+  }, [isSuccessful, router, account]);
+
+  if (error) {
+    return (
+      <ErrorPage
+        prompt={error.message}
+        nextRoute={detailsUrlPartial(account)}
+      />
+    );
+  }
+
+  if (isLoading) {
+    return <WaitingPrompt prompt="Deleting selections from server..." />;
+  }
 
   return (
     <Paper elevation={3}>
@@ -46,7 +81,14 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
             });
           }}
         />
-        <Grid container padding={3} justifyContent="left" alignItems="center">
+        <Grid
+          container
+          padding={3}
+          direction="row"
+          columnSpacing={2}
+          justifyContent="left"
+          alignItems="center"
+        >
           <Grid item>
             <Link
               href={{
@@ -56,6 +98,16 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
             >
               <Button>Assign New Expense</Button>
             </Link>
+          </Grid>
+          <Grid item>
+            <Button
+              onClick={async () => {
+                await requestCall(selections);
+              }}
+              disabled={selections.length == 0}
+            >
+              Delete
+            </Button>
           </Grid>
         </Grid>
       </Stack>

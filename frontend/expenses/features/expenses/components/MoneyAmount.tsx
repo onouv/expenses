@@ -1,3 +1,5 @@
+"use client";
+
 import MoneyT from "@/common/types/MoneyT";
 import { ReactElement } from "react";
 
@@ -11,6 +13,6 @@ const MoneyAmount = ({ amount }: Props): ReactElement => {
 };
 
 const toString = (amount: MoneyT): string =>
-  `${amount.amountMajor},${amount.amountMinor} ${amount.currency}`;
+  `${amount.value} ${amount.currency}`;
 
 export default MoneyAmount;
