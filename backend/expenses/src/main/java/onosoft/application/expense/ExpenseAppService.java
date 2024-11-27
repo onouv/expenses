@@ -7,12 +7,15 @@ import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
 import onosoft.application.account.AccountDataMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
-import onosoft.domain.model.*;
+import onosoft.domain.model.Account;
+import onosoft.domain.model.Expense;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driven.expense.ExpenseApiPort;
+import onosoft.ports.driven.expense.NoSuchExpenseException;
 import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.account.AccountRepoPort;
 import onosoft.ports.driving.expense.ExpenseData;
+import onosoft.ports.driving.expense.ExpenseRepoPort;
 import org.jboss.logging.Logger;
 
 import java.util.ArrayList;
@@ -25,6 +28,9 @@ public class ExpenseAppService implements ExpenseApiPort {
 
     @Inject
     AccountRepoPort accountRepo;
+
+    @Inject
+    ExpenseRepoPort expenseRepo;
 
     @Inject
     AccountDataMapper accountDataMapper;
@@ -61,5 +67,21 @@ public class ExpenseAppService implements ExpenseApiPort {
     @Override
     public List<Expense> getExpenses(String accountNo) {
         return new ArrayList<Expense>();
+    }
+
+
+    @Override
+    @Transactional
+    public void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException {
+        expenseIds.forEach(expenseId -> {
+            if (this.expenseRepo.count("id", expenseId) == 0) {
+                throw new NoSuchExpenseException(expenseId);
+            }
+        });
+
+        expenseIds.forEach(expenseId -> {
+            this.expenseRepo.deleteById(expenseId);
+            log.infof("Deleted expense with id %s", expenseId);
+        });
     }
 }

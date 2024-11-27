@@ -16,7 +16,7 @@ public class CappedMoney extends Money {
 
     protected final long uUnitsLimit;
 
-    public CappedMoney(@NonNull Value amount, @NonNull Currency currency, @NonNull long unitsLimit)
+    public CappedMoney(@NonNull Value amount, @NonNull Currency currency, long unitsLimit)
             throws AmountExceedsRangeException {
         super(amount, currency);
         this.uUnitsLimit = unitsLimit * scale;

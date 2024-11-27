@@ -21,7 +21,7 @@ const AccountDetailsPage = () => {
   if (error) {
     return (
       <ErrorPage
-        prompt="Error while loading data from server."
+        prompt="Cannot load account data."
         nextRoute={config.ACCOUNTS_PARTIAL_URL}
       />
     );

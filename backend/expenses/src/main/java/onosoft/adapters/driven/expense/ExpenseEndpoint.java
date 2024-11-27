@@ -1,12 +1,10 @@
 package onosoft.adapters.driven.expense;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import onosoft.adapters.driven.expense.dto.DeleteExpenseListRequestDto;
 import onosoft.adapters.driven.expense.dto.InvoicedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
 import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
@@ -42,5 +40,13 @@ public class ExpenseEndpoint {
         log.infof("Request to add invoice to expense: %s", request.getExpenseId());
         log.errorf("not implemented, returning internal server error.");
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+    }
+
+    @DELETE
+    @Path("/delete")
+    public Response deleteExpenseList(DeleteExpenseListRequestDto dto) {
+        log.infof("Request to delete %d expenses", dto.expenseIds().size());
+        this.expenseService.deleteExpenseList(dto.expenseIds());
+        return Response.ok().build();
     }
 }

@@ -1,7 +1,8 @@
+"use client";
+
 import AccountT from "@/features/accounts/types/AccountT";
 import { ReactElement } from "react";
-import { Box, Divider, Paper, Stack, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";

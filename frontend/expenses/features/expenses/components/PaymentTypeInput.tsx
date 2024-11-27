@@ -1,3 +1,5 @@
+"use client";
+
 import FormInputPropsT from "@/components/form/FormInputPropsT";
 import React, { ReactElement } from "react";
 import { Controller, useFormContext } from "react-hook-form";
