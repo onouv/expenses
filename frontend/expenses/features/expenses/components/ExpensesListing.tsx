@@ -9,10 +9,7 @@ import Link from "next/link";
 import config from "@/app-config.json";
 import useDeleteExpensesApi from "@/features/expenses/features/assign/api/useDeleteExpensesApi";
 import ErrorPage from "@/components/ErrorPage";
-import {
-  detailsUrl,
-  detailsUrlPartial,
-} from "@/features/accounts/features/details/utils/route";
+import { detailsUrlPartial } from "@/features/accounts/features/details/utils/route";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
 
