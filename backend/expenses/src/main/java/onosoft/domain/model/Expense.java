@@ -18,10 +18,11 @@ public class Expense {
     @NonNull private String purpose;
     @NonNull private CappedMoney amount;
     @NonNull private Date accruedDate;
-    @NonNull private Date paymentDate;
-    private boolean invoiced;
+    private Date paymentTargetDate;
+    private Date paymentActualDate;
+    private boolean isInvoiced;
     private PaymentType paymentType;
-    @NonNull private PaymentStatus paymentStatus;
+    @NonNull private ExpenseStatus paymentStatus;
 
     //private Receipt receipt;
 }

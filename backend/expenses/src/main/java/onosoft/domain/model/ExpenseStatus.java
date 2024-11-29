@@ -1,8 +1,9 @@
 package onosoft.domain.model;
 
-public enum PaymentStatus {
+public enum ExpenseStatus {
     Planned,
     Invoiced,
     Due,
-    Paid;
+    PastDue,
+    Paid
 }

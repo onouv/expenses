@@ -13,7 +13,6 @@ AssignExpenseRequestDto {
     accountNo: string
     expense: ExpenseDto {
         ...
-        expenseState: Planned
         isInvoiced: true
     }
 }
@@ -30,6 +29,7 @@ AccountDto {
             expenseId
             expenseState: Planned
             isInvoiced: true
+            paymentTargetDate
         },
         ...
     ]

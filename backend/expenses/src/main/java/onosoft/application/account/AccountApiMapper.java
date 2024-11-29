@@ -4,7 +4,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import onosoft.adapters.driven.account.AccountDto;
 import onosoft.adapters.driven.account.AccountMetaDto;
-import onosoft.adapters.driven.expense.dto.ExpenseInfoDto;
+import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.expense.ExpenseApiMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.ports.driven.account.InvalidAccountDataException;
@@ -21,7 +21,7 @@ public class AccountApiMapper {
     ExpenseApiMapper expenseApiMapper;
 
     public AccountDto dtoFromData(AccountData data) {
-        final List<ExpenseInfoDto> expenses = new ArrayList<>();
+        final List<ExpenseEntityDto> expenses = new ArrayList<>();
 
         try {
             return AccountDto
