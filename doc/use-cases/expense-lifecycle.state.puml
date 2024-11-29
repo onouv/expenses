@@ -1,0 +1,14 @@
+@startuml
+[*] --> Planned
+Planned --> Invoiced: upload invoice
+Invoiced --> Paid: upload receipt
+Invoiced --> Due: date == due date
+Due --> PastDue: date >  due date
+Due --> Paid: upload receipt
+PastDue --> Paid: upload receipt
+Planned --> Paid: upload receipt
+Planned --> Due: date == due date
+Planned --> PastDue: date >  due date
+Invoiced --> PastDue: date >  due date
+
+@enduml

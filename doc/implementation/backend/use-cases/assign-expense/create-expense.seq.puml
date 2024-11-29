@@ -7,7 +7,7 @@ Frontend -> Frontend: validate
 User -> Frontend: enter data
 Frontend -> Frontend: validate
 User -> Frontend: SAVE
-Frontend -> ExpenseEndpoint: POST account/1234/expense [ExpenseAssignmentDto]
+Frontend -> ExpenseEndpoint: POST account/1234/expense [UnpaidExpenseDto]
 ExpenseEndpoint -> ExpenseService: assignExpenseToAccount(....)
 break try
 ExpenseService -> AccountRepoPort: findById(id)

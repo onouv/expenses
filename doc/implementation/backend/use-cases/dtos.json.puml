@@ -1,0 +1,35 @@
+@startjson
+{
+    "UnpaidExpenseRequestDto": {
+        "recipient": "String",
+        "purpose": "String",
+        "amount": "MoneyString",
+        "accruedDate": "DateString",
+        "invoiceState": ["Expected", "Invoiced", "NotInvoiced"],
+        "paymentTargetDate": "DateString",
+        "paymentType": ["Unknown", "Cash", "CreditCard", "ECCard", "BankTransfer"]
+    },
+    "UnpaidExpenseDto": {
+        "expenseId": "number",
+        "expenseState": ["Planned", "Invoiced", "Due", "PastDue", "Paid"],
+        "recipient": "String",
+        "purpose": "String",
+        "amount": "MoneyString",
+        "accruedDate": "DateString",
+        "invoiceState": ["Expected", "Invoiced", "NotInvoiced"],
+        "paymentTargetDate": "DateString",
+        "paymentType": ["Unknown", "Cash", "CreditCard", "ECCard", "BankTransfer"]
+    },
+    "InvoicedExpenseDto": {
+        "expenseId": "number",
+        "expenseState": ["Planned", "Invoiced", "Due", "PastDue", "Paid"],
+        "recipient": "String",
+        "purpose": "String",
+        "amount": "MoneyString",
+        "accruedDate": "DateString",
+        "invoiceState": ["Expected", "Invoiced", "NotInvoiced"],
+        "paymentTargetDate": "DateString",
+        "paymentType": ["Unknown", "Cash", "CreditCard", "ECCard", "BankTransfer"]
+    }
+}
+@endjson
