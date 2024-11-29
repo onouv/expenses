@@ -3,8 +3,8 @@ package onosoft.application.expense;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
-import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
+import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
+import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.account.AccountDataMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Account;
@@ -42,7 +42,7 @@ public class ExpenseAppService implements ExpenseApiPort {
     ExpenseDataMapper expenseDataMapper;
 
     @Transactional
-    public PlannedExpenseResponseDto assignExpenseToAccount(PlannedExpenseDto dto)
+    public ExpenseEntityDto assignExpenseToAccount(AssignExpenseRequestDto dto)
             throws NoSuchAccountException, AmountExceedsRangeException {
 
         // TODO : work the domain entity rather than directly with the data entity
@@ -50,7 +50,7 @@ public class ExpenseAppService implements ExpenseApiPort {
         // manipulating the domain entity is a different instance from the one read
         AccountData accountData = accountRepo.findDOByAccountNo(dto.getAccountNo());
         Account account = accountDataMapper.dataToDomain(accountData);
-        Expense expense = expenseApiMapper.fromPlannedExpenseDto(dto, account);
+        Expense expense = expenseApiMapper.dtoToDomain(dto, account);
         ExpenseData expenseData = expenseDataMapper.domainToData(expense, accountData);
         List<ExpenseData> expenses = accountData.getExpenses();
 
@@ -61,7 +61,7 @@ public class ExpenseAppService implements ExpenseApiPort {
 
         log.infof("Assigned expense of %s to account %s", expense.getAmount(),  dto.getAccountNo());
 
-        return expenseApiMapper.toPlannedResponseDto(expense);
+        return expenseApiMapper.domainToDto(expense);
     }
 
     @Override

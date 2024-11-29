@@ -8,7 +8,7 @@ import onosoft.application.commons.money.MoneyApiMapper;
 import onosoft.application.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
-import onosoft.domain.model.PaymentStatus;
+import onosoft.domain.model.ExpenseStatus;
 import onosoft.ports.driving.expense.ExpenseData;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class ExpenseApiMapper {
     @Inject
     MoneyDataMapper moneyDataMapper;
 
-    public Expense fromPlannedExpenseDto(PlannedExpenseDto dto, Account account)
+    public Expense dtoToDomain(AssignExpenseRequestDto dto, Account account)
             throws AmountExceedsRangeException {
         if (!Objects.equals(account.getAccountNo(), dto.getAccountNo())) {
             throw new IllegalArgumentException("Account and assigned Expense have different account numbers.");
@@ -36,18 +36,15 @@ public class ExpenseApiMapper {
                 .purpose(dto.getPurpose())
                 .amount(moneyApiMapper.dtoToDomain(dto.getAmount()))
                 .accruedDate(dto.getAccruedDate())
-                .paymentDate(dto.getPaymentDate())
-                .invoiced(dto.isInvoiced())
+                .isInvoiced(dto.isInvoiced())
                 .paymentType(dto.getPaymentType())
-                .paymentStatus(PaymentStatus.Planned)
+                .paymentStatus(ExpenseStatus.Planned)
                 .build();
     }
 
-    public PlannedExpenseResponseDto toPlannedResponseDto(Expense domain) {
-        return PlannedExpenseResponseDto.builder()
+    public ExpenseEntityDto domainToDto(Expense domain) {
+        return ExpenseEntityDto.builder()
                 .expenseId(domain.getExpenseId())
-                .accountNo(domain.getAccount().getAccountNo())
-                .paymentDate(domain.getPaymentDate())
                 .paymentType(domain.getPaymentType())
                 .isInvoiced(domain.isInvoiced())
                 .recipient(domain.getRecipient())
@@ -56,8 +53,8 @@ public class ExpenseApiMapper {
                 .accruedDate(domain.getAccruedDate())
                 .build();
     }
-    public ExpenseInfoDto toExpenseInfoDto(Expense domain) {
-        return ExpenseInfoDto
+    public ExpenseEntityDto toExpenseInfoDto(Expense domain) {
+        return ExpenseEntityDto
                 .builder()
                 .expenseId(domain.getExpenseId())
                 .recipient(domain.getRecipient())
@@ -67,9 +64,9 @@ public class ExpenseApiMapper {
                 .build();
     }
 
-    public List<ExpenseInfoDto> toExpenseInfoDtoList(List<ExpenseData> data)
+    public List<ExpenseEntityDto> toExpenseInfoDtoList(List<ExpenseData> data)
             throws AmountExceedsRangeException {
-        List<ExpenseInfoDto> dtos = new ArrayList<>();
+        List<ExpenseEntityDto> dtos = new ArrayList<>();
         Iterator<ExpenseData> iter = data.iterator();
 
         while(iter.hasNext()) {
@@ -78,9 +75,9 @@ public class ExpenseApiMapper {
         return dtos;
     }
 
-    private ExpenseInfoDto dataToExpenseInfo(ExpenseData data)
+    private ExpenseEntityDto dataToExpenseInfo(ExpenseData data)
             throws AmountExceedsRangeException {
-        return ExpenseInfoDto
+        return ExpenseEntityDto
                 .builder()
                 .expenseId(data.getId())
                 .recipient(data.getRecipient())
@@ -88,7 +85,7 @@ public class ExpenseApiMapper {
                 .amount(moneyApiMapper
                         .domainToDto(moneyDataMapper.dataToDomain(data.getAmount())))
                 .accruedDate(data.getAccruedDate())
-                .paymentStatus(data.getPaymentStatus())
+                .expenseStatus(data.getPaymentStatus())
                 .build();
     }
 

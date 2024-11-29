@@ -13,15 +13,16 @@ CREATE TABLE accounts
 
 CREATE TABLE expenses
 (
-    expense_id              BIGINT PRIMARY KEY,
-    account_no              VARCHAR(16) REFERENCES accounts(account_no),
-    expense_recipient       VARCHAR(120),
-    expense_purpose         VARCHAR(120),
-    money_micro_units       BIGINT,
-    money_currency          NCHAR(3),
-    expense_accrued_date    DATE,
-    expense_payment_date    DATE,
-    expense_payment_type    VARCHAR(32),
-    expense_payment_status  VARCHAR(32),
-    expense_is_invoiced     BOOLEAN
+    expense_id          BIGINT PRIMARY KEY,
+    account_no          VARCHAR(16) REFERENCES accounts(account_no),
+    recipient           VARCHAR(120),
+    purpose             VARCHAR(120),
+    money_micro_units   BIGINT,
+    money_currency      NCHAR(3),
+    accrued_date        DATE,
+    payment_target_date DATE,
+    payment_actual_date DATE,
+    payment_type        VARCHAR(32),
+    payment_status      VARCHAR(32),
+    is_invoiced         BOOLEAN
 );

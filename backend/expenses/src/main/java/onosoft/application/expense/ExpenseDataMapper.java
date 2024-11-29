@@ -2,7 +2,6 @@ package onosoft.application.expense;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import onosoft.application.account.AccountDataMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.application.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Account;
@@ -25,8 +24,9 @@ public class    ExpenseDataMapper {
                 .purpose(data.getPurpose())
                 .amount(moneyDataMapper.dataToDomain(data.getAmount()))
                 .accruedDate(data.getAccruedDate())
-                .paymentDate(data.getPaymentDate())
-                .invoiced(data.isInvoiced())
+                .paymentTargetDate(data.getPaymentTargetDate())
+                .paymentActualDate(data.getPaymentActualDate())
+                .isInvoiced(data.isInvoiced())
                 .paymentType(data.getPaymentType())
                 .paymentStatus(data.getPaymentStatus())
                 .build();
@@ -48,8 +48,8 @@ public class    ExpenseDataMapper {
                 .purpose(domain.getPurpose())
                 .amount(moneyDataMapper.domainToData(domain.getAmount()))
                 .accruedDate(domain.getAccruedDate())
-                .paymentDate(domain.getPaymentDate())
-                .invoiced(domain.isInvoiced())
+                .paymentTargetDate(domain.getPaymentTargetDate())
+                .isInvoiced(domain.isInvoiced())
                 .paymentType(domain.getPaymentType())
                 .paymentStatus(domain.getPaymentStatus())
                 .build();
