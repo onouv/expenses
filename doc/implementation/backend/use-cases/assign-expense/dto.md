@@ -3,7 +3,7 @@
 |---------------------------|-------------|-------------|------------------|-------------|----------|-----------|---------------|--------------|---------------------|---------------------|-----------------------|
 |                           | `string`    | `number`    | `ExpenseStatusE` | `string`    | `string` | `string`  | DateString    | `boolean`    | DateString          | DateString          | `PaymentTypeE`        |
 | `AssignExpenseRequestDto` | Req.        | --          | --               | Req.        | Req.     | Req.      | Req.          | Req.         | Opt.                | --                  | Req. Def: "Unknown"   |
-| `ExpenseEntityDto`        | --          | Req.        | Req.             | Req.        | Req.     | Req.      | Req.          | Req.         | Opt.                | Opt.                | Req. Def: "Unknown"   |
+| `ExpenseEntityDto`        | Req.        | Req.        | Req.             | Req.        | Req.     | Req.      | Req.          | Req.         | Opt.                | Opt.                | Req. Def: "Unknown"   |
 
 
 | DTO                       | `accountNo` | `expenseId` | `expenseState`  | `recipient` | `amount` | `purpose` | `accruedDate` | `isInvoiced` | document | `paymentTargetDate` | `paymentActualDate` | `paymentType`  |

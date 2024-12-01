@@ -48,13 +48,15 @@ public class ExpenseAppService implements ExpenseApiPort {
         // TODO : work the domain entity rather than directly with the data entity
         // but that creates a Hibernate exception, because the data entity (DO) generated after
         // manipulating the domain entity is a different instance from the one read
-        AccountData accountData = accountRepo.findDOByAccountNo(dto.getAccountNo());
-        Account account = accountDataMapper.dataToDomain(accountData);
-        Expense expense = expenseApiMapper.dtoToDomain(dto, account);
+        //AccountData accountData = accountRepo.findDOByAccountNo(dto.getAccountNo());
+        Account account = accountRepo.findByAccountNo(dto.getAccountNo());//accountDataMapper.dataToDomain(accountData);
+        Expense expense = expenseApiMapper.assignmentDtoToDomain(dto, account);
+        account.addExpense(expense);
+
         ExpenseData expenseData = expenseDataMapper.domainToData(expense, accountData);
         List<ExpenseData> expenses = accountData.getExpenses();
 
-        // business logic in here
+        // business logic would go here...
         expenses.add(expenseData);
 
         accountRepo.persist(accountData);
@@ -62,6 +64,25 @@ public class ExpenseAppService implements ExpenseApiPort {
         log.infof("Assigned expense of %s to account %s", expense.getAmount(),  dto.getAccountNo());
 
         return expenseApiMapper.domainToDto(expense);
+    }
+
+    @Override
+    ExpenseEntityDto updateExpenseEntity(ExpenseEntityDto expenseDto)
+            throws NoSuchExpenseException, AmountExceedsRangeException {
+
+        Account account = accountRepo.findByAccountNo(expenseDto.getAccountNo());
+
+        final ExpenseData expenseDO = this.expenseRepo.findById(expenseDto.getExpenseId());
+        if (expenseDO == null) {
+            throw new NoSuchExpenseException(expenseDto.getExpenseId());
+        }
+
+        final Expense storedExpense = expenseDataMapper.dataToDomain(expenseDO, account);
+        final Expense updatingExpense = expenseApiMapper.entityDtoToDomain(expenseDto, account);
+
+        storedExpense.updateWith(updatingExpense);
+
+
     }
 
     @Override

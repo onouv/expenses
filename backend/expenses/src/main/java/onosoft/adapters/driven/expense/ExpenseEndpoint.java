@@ -33,6 +33,14 @@ public class ExpenseEndpoint {
         return Response.ok(dto).build();
     }
 
+    @PATCH
+    @Path("/expense/{expenseId}")
+    public Response updateExpense(ExpenseEntityDto dto, @PathParam("expenseId") long expenseId) {
+        log.infof("Request to update expense: %s", dto);
+
+
+    }
+
     @POST
     @Path("/expense/invoice")
     public Response addInvoiceToExpense(ExpenseEntityDto request) {

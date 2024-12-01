@@ -25,11 +25,24 @@ public class ExpenseApiMapper {
     @Inject
     MoneyDataMapper moneyDataMapper;
 
-    public Expense dtoToDomain(AssignExpenseRequestDto dto, Account account)
+    public Expense assignmentDtoToDomain(AssignExpenseRequestDto dto, Account account)
             throws AmountExceedsRangeException {
         if (!Objects.equals(account.getAccountNo(), dto.getAccountNo())) {
             throw new IllegalArgumentException("Account and assigned Expense have different account numbers.");
         }
+        return Expense.builder()
+                .account(account)
+                .recipient(dto.getRecipient())
+                .purpose(dto.getPurpose())
+                .amount(moneyApiMapper.dtoToDomain(dto.getAmount()))
+                .accruedDate(dto.getAccruedDate())
+                .isInvoiced(dto.isInvoiced())
+                .paymentType(dto.getPaymentType())
+                .paymentStatus(ExpenseStatus.Planned)
+                .build();
+    }
+
+    public Expense entityDtoToDomain(ExpenseEntityDto dto, Account account) throws AmountExceedsRangeException {
         return Expense.builder()
                 .account(account)
                 .recipient(dto.getRecipient())

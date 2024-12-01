@@ -1,5 +1,6 @@
 @startjson
 {
+    "accountNo": "string",
     "expenseId": "number",
     "expenseState": ["Planned", "Invoiced", "Due", "PastDue", "Paid"],
     "recipient": "String",
