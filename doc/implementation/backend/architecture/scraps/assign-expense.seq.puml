@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Endpoint -> ExpenseService: assignExpense(accountNo, expenseDto)
+
+ExpenseService -> AccountRepo: loadAccount(accountNo)
+activate AccountRepo
+AccountRepo -> PanacheRepository: findBy...()
+PanacheRepository -> AccountJpaData **: load/create
+AccountRepo <-- PanacheRepository: jpaEntity
+AccountRepo -> Account **: create
+AccountRepo <-- Account: account
+ExpenseService <-- AccountRepo: account
+deactivate
+
+ExpenseService -> ExpenseRepo: existExpense(expenseId)
+ExpenseRepo <-- Account: false
+
+ExpenseService -> Expense **: create
+ExpenseService <-- Expense: expense
+ExpenseService -> Account: account.assignExpense(expense)
+
+ExpenseService -> AccountRepo: persist(account)
+activate AccountRepo
+AccountRepo -> AccountJpaData: jpaEntity.setPropA(account.getPropA())
+AccountRepo -> AccountJpaData: jpaEntity.setPropB(account.getPropB())
+AccountRepo -> PanacheRepository: persist(jpaEntity)
+deactivate AccountRepo
+
+@enduml

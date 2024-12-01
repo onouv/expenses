@@ -1,0 +1,47 @@
+@startuml
+
+hide empty members
+left to right direction
+package adapters {
+
+    class AccountRepoImpl
+
+    class AccountPanacheRepo
+    class AccountJpaData
+    AccountRepoImpl -u-> AccountJpaData
+    AccountRepoImpl *-> "1" AccountPanacheRepo
+
+    class ExpenseJpaData
+
+    AccountJpaData o..> ExpenseJpaData: @OneToMany
+    AccountPanacheRepo --> AccountJpaData
+}
+
+package ports {
+    interface AccountRepo
+
+}
+
+package Application <<transaction owners>> {
+    class ExpenseService
+}
+
+package domain {
+    class Expense
+    class Account
+
+    Account "1" o-- "*" Expense
+}
+
+ExpenseService -down-> Account
+
+
+ExpenseService --> AccountRepo
+
+AccountRepoImpl .down.|> AccountRepo
+
+AccountRepoImpl .down.> Account
+
+
+
+@enduml

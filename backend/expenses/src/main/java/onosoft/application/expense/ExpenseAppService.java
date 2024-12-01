@@ -12,7 +12,6 @@ import onosoft.domain.model.Expense;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driven.expense.ExpenseApiPort;
 import onosoft.ports.driven.expense.NoSuchExpenseException;
-import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.account.AccountRepoPort;
 import onosoft.ports.driving.expense.ExpenseData;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
@@ -32,8 +31,6 @@ public class ExpenseAppService implements ExpenseApiPort {
     @Inject
     ExpenseRepoPort expenseRepo;
 
-    @Inject
-    AccountDataMapper accountDataMapper;
 
     @Inject
     ExpenseApiMapper expenseApiMapper;

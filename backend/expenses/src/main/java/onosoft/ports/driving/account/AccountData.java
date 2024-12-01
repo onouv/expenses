@@ -24,6 +24,6 @@ public class AccountData {
     @Column(name = "account_description")
     private String accountDescription;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY )
     private List<ExpenseData> expenses;
 }
