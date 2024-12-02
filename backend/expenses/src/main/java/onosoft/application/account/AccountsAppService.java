@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
-import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.account.AccountRepoPort;
 import org.jboss.logging.Logger;
 
@@ -17,9 +16,6 @@ public class AccountsAppService implements AccountApiPort {
 
     @Inject
     private AccountRepoPort accountRepo;
-
-    @Inject
-    private AccountDataMapper accountDataMapper;
 
     @Override
     @Transactional
@@ -36,8 +32,7 @@ public class AccountsAppService implements AccountApiPort {
                 .accountDescription(description)
                 .build();
 
-        AccountJpaData data = accountDataMapper.domainToData(account);
-        accountRepo.persist(data);
+        accountRepo.saveAccount(account);
 
         log.infof("Created account %s", accountNo);
 

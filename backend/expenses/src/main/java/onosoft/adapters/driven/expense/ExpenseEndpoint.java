@@ -28,17 +28,18 @@ public class ExpenseEndpoint {
 
         log.infof("Request to assign expense to account: %s", request);
 
-        ExpenseEntityDto dto = expenseService.assignExpenseToAccount(request);
+        expenseService.assignExpenseToAccount(request);
 
-        return Response.ok(dto).build();
+        return Response.ok().build();
     }
 
     @PATCH
     @Path("/expense/{expenseId}")
-    public Response updateExpense(ExpenseEntityDto dto, @PathParam("expenseId") long expenseId) {
+    public Response updateExpense(ExpenseEntityDto dto, @PathParam("expenseId") long expenseId)
+        throws AmountExceedsRangeException {
         log.infof("Request to update expense: %s", dto);
 
-
+        expenseService.updateExpenseEntity(dto);
     }
 
     @POST

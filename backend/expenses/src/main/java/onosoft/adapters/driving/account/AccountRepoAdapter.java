@@ -1,26 +1,23 @@
 package onosoft.adapters.driving.account;
 
-import io.quarkus.arc.WithCaching;
-import jakarta.enterprise.inject.Instance;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import onosoft.application.account.AccountDataMapper;
-import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.application.expense.ExpenseDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.account.AccountRepoPort;
-import onosoft.ports.driving.expense.ExpenseJpaData;
 
 import java.util.List;
 import java.util.Optional;
 
-
+@ApplicationScoped
 public class AccountRepoAdapter implements AccountRepoPort {
 
     @Inject
-    @WithCaching
-    protected Instance<AccountPanacheRepo> accountRepo;
+    protected AccountPanacheRepo accountRepo;
 
     @Inject
     protected ExpenseDataMapper expenseDataMapper;
@@ -28,39 +25,43 @@ public class AccountRepoAdapter implements AccountRepoPort {
     @Inject
     protected AccountDataMapper accountDataMapper;
 
-    protected AccountJpaData accountData;
-
     @Override
     public Account loadAccount(String accountNo)
-            throws NoSuchAccountException, AmountExceedsRangeException {
-        Optional<AccountJpaData> opt = this.accountRepo.get()
+            throws NoSuchAccountException {
+        Optional<AccountJpaData> opt = this.accountRepo
                 .find("accountNo", accountNo)
                 .stream()
                 .findFirst();
 
         if (opt.isPresent()) {
-            this.accountData = opt.get();
-            return this.accountDataMapper.dataToDomain(this.accountData);
+            return this.accountDataMapper.dataToDomain(opt.get());
         }
 
         throw new NoSuchAccountException(accountNo);
     }
 
-    public void saveAccount(Account account) {
-
+    @Override
+    public List<Account> loadAllAccounts() {
+        return this.accountRepo.listAll().stream().map((data) -> {
+            return accountDataMapper.dataToDomain(data);
+        }).toList();
     }
 
+    public void saveAccount(Account account) {
+        AccountJpaData dto = this.accountDataMapper.domainToData(account);
+        this.accountRepo.persist(dto);
+    }
+
+    @Override
     public boolean accountExists(String accountNo) {
         return false;
     }
 
-    protected void updateDataFromAccountDomainEntity(Account account) {
-        this.accountData.setAccountDescription(account.getAccountDescription());
-        this.accountData.setAccountName(account.getAccountName());
-        final List<ExpenseJpaData> expenses = account.getExpenses()
-                .stream()
-                .map((expense -> expenseDataMapper.domainToData(expense, this.accountData)))
-                .toList();
-        this.accountData.setExpenses(expenses);
+    @Override
+    public void updateAccount(Account account) {
+        AccountJpaData dto = this.accountDataMapper.domainToData(account);
+
+        EntityManager em = this.accountRepo.getEntityManager();
+        em.merge(dto);
     }
 }

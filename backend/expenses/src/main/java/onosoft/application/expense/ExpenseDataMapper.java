@@ -16,7 +16,7 @@ public class    ExpenseDataMapper {
     protected MoneyDataMapper moneyDataMapper;
 
 
-    public Expense dataToDomain(ExpenseJpaData data, Account account) throws AmountExceedsRangeException {
+    public Expense dataToDomain(ExpenseJpaData data, Account account) {
         return Expense.builder()
                 .account(account)
                 .expenseId(data.getId())

@@ -12,12 +12,12 @@ import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driven.expense.ExpenseApiPort;
 import onosoft.ports.driven.expense.NoSuchExpenseException;
 import onosoft.ports.driving.account.AccountRepoPort;
-import onosoft.ports.driving.expense.ExpenseJpaData;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
 import org.jboss.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class ExpenseAppService implements ExpenseApiPort {
@@ -30,7 +30,6 @@ public class ExpenseAppService implements ExpenseApiPort {
     @Inject
     ExpenseRepoPort expenseRepo;
 
-
     @Inject
     ExpenseApiMapper expenseApiMapper;
 
@@ -38,7 +37,7 @@ public class ExpenseAppService implements ExpenseApiPort {
     ExpenseDataMapper expenseDataMapper;
 
     @Transactional
-    public ExpenseEntityDto assignExpenseToAccount(AssignExpenseRequestDto dto)
+    public void assignExpenseToAccount(AssignExpenseRequestDto dto)
             throws NoSuchAccountException, AmountExceedsRangeException {
 
         if (! accountRepo.accountExists(dto.getAccountNo())) {
@@ -53,25 +52,24 @@ public class ExpenseAppService implements ExpenseApiPort {
 
         log.infof("Assigned expense of %s to account %s", expense.getAmount(),  dto.getAccountNo());
 
-        return expenseApiMapper.domainToDto(expense);
     }
 
     @Override
-    ExpenseEntityDto updateExpenseEntity(ExpenseEntityDto expenseDto)
+    public void updateExpenseEntity(ExpenseEntityDto dto)
             throws NoSuchExpenseException, AmountExceedsRangeException {
 
-        Account account = accountRepo.findByAccountNo(expenseDto.getAccountNo());
+        Account account = accountRepo.loadAccount(dto.getAccountNo());
+        Optional<Expense> opt = account.getExpense(dto.getExpenseId());
 
-        final ExpenseJpaData expenseDO = this.expenseRepo.findById(expenseDto.getExpenseId());
-        if (expenseDO == null) {
-            throw new NoSuchExpenseException(expenseDto.getExpenseId());
+        if(opt.isEmpty()) {
+            throw new NoSuchExpenseException(dto.getExpenseId());
         }
 
-        final Expense storedExpense = expenseDataMapper.dataToDomain(expenseDO, account);
-        final Expense updatingExpense = expenseApiMapper.entityDtoToDomain(expenseDto, account);
+        Expense expense = opt.get();
+        Expense update = expenseApiMapper.entityDtoToDomain(dto, account);
+        expense.updateWith(update);
 
-        storedExpense.updateWith(updatingExpense);
-
+        accountRepo.updateAccount(account);
 
     }
 
@@ -80,18 +78,15 @@ public class ExpenseAppService implements ExpenseApiPort {
         return new ArrayList<Expense>();
     }
 
-
     @Override
     @Transactional
     public void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException {
         expenseIds.forEach(expenseId -> {
-            if (this.expenseRepo.count("id", expenseId) == 0) {
+            if (! this.expenseRepo.expenseExists(expenseId)) {
                 throw new NoSuchExpenseException(expenseId);
             }
-        });
 
-        expenseIds.forEach(expenseId -> {
-            this.expenseRepo.deleteById(expenseId);
+            this.expenseRepo.deleteExpense(expenseId);
             log.infof("Deleted expense with id %s", expenseId);
         });
     }

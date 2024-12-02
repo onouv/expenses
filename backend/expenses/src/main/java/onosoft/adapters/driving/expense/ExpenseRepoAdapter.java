@@ -1,24 +1,29 @@
 package onosoft.adapters.driving.expense;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.ApplicationScoped;
-import onosoft.domain.model.Account;
-import onosoft.ports.driven.account.NoSuchAccountException;
+import jakarta.inject.Inject;
+import onosoft.ports.driven.expense.NoSuchExpenseException;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
 
 @ApplicationScoped
 public class ExpenseRepoAdapter implements ExpenseRepoPort {
 
+    @Inject
+    ExpenseRepo expenseRepo;
 
 
-    public Account loadAccount(String accountId) throws NoSuchAccountException {
+    @Override
+    public boolean expenseExists(long expenseId) {
+        PanacheQuery<Long> query = expenseRepo.find("expenseId").project(Long.class);
 
+        return query.count() > 0;
     }
 
-    public void saveAccount(Account account) {
-
-    }
-
-    public boolean accountExists(String accountId) {
-        return false;
+    @Override
+    public void deleteExpense(long expenseId) throws NoSuchExpenseException {
+        if (! this.expenseRepo.deleteById(expenseId)) {
+            throw new NoSuchExpenseException(expenseId);
+        }
     }
 }
