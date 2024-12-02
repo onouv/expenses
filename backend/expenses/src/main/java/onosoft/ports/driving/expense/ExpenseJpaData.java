@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import onosoft.domain.model.ExpenseStatus;
 import onosoft.domain.model.PaymentType;
-import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.commons.money.MoneyData;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
@@ -21,7 +21,7 @@ import static org.hibernate.Length.LONG32;
 @NoArgsConstructor
 @Entity
 @Table(name="expenses")
-public class ExpenseData {
+public class ExpenseJpaData {
 
     @Id
     @GeneratedValue
@@ -30,7 +30,7 @@ public class ExpenseData {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_no")
-    private AccountData account;
+    private AccountJpaData account;
 
     @Column(name = "recipient", length = 120)
     private String recipient;

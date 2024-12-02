@@ -8,7 +8,7 @@ import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.NoSuchAccountException;
-import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.account.AccountRepoPort;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.logging.Logger;
@@ -49,7 +49,7 @@ public class AccountsEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<List<AccountMetaDto>> getAccounts() {
         log.info("request to get accounts");
-        List<AccountData> data = this.repo.listAll();
+        List<AccountJpaData> data = this.repo.listAll();
         List<AccountMetaDto> payload = AccountApiMapper.dtoListFromDataList(data);
 
         return RestResponse.ok(payload);
@@ -60,7 +60,7 @@ public class AccountsEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<AccountDto> getAccount(String accountNo) throws NoSuchAccountException {
         log.infof("request to get account %s", accountNo);
-        AccountData data = this.repo.findDOByAccountNo(accountNo);
+        AccountJpaData data = this.repo.findDOByAccountNo(accountNo);
         AccountDto payload = accountApiMapper.dtoFromData(data);
 
         return RestResponse.ok(payload);

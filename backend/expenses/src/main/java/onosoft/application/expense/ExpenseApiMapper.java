@@ -9,7 +9,7 @@ import onosoft.application.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
 import onosoft.domain.model.ExpenseStatus;
-import onosoft.ports.driving.expense.ExpenseData;
+import onosoft.ports.driving.expense.ExpenseJpaData;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -77,10 +77,10 @@ public class ExpenseApiMapper {
                 .build();
     }
 
-    public List<ExpenseEntityDto> toExpenseInfoDtoList(List<ExpenseData> data)
+    public List<ExpenseEntityDto> toExpenseInfoDtoList(List<ExpenseJpaData> data)
             throws AmountExceedsRangeException {
         List<ExpenseEntityDto> dtos = new ArrayList<>();
-        Iterator<ExpenseData> iter = data.iterator();
+        Iterator<ExpenseJpaData> iter = data.iterator();
 
         while(iter.hasNext()) {
             dtos.add(dataToExpenseInfo(iter.next()));
@@ -88,7 +88,7 @@ public class ExpenseApiMapper {
         return dtos;
     }
 
-    private ExpenseEntityDto dataToExpenseInfo(ExpenseData data)
+    private ExpenseEntityDto dataToExpenseInfo(ExpenseJpaData data)
             throws AmountExceedsRangeException {
         return ExpenseEntityDto
                 .builder()

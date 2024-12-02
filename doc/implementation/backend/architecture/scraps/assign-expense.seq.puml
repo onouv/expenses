@@ -4,6 +4,7 @@
 autonumber
 
 Endpoint -> ExpenseService: assignExpense(accountNo, expenseDto)
+participant "AccountRepoPort::AccountRepoAdapter" as AccountRepo
 
 ExpenseService -> AccountRepo: loadAccount(accountNo)
 activate AccountRepo
@@ -22,7 +23,7 @@ ExpenseService -> Expense **: create
 ExpenseService <-- Expense: expense
 ExpenseService -> Account: account.assignExpense(expense)
 
-ExpenseService -> AccountRepo: persist(account)
+ExpenseService -> AccountRepo: saveAccount(account)
 activate AccountRepo
 AccountRepo -> AccountJpaData: jpaEntity.setPropA(account.getPropA())
 AccountRepo -> AccountJpaData: jpaEntity.setPropB(account.getPropB())

@@ -2,14 +2,15 @@
 
 hide empty members
 left to right direction
+
 package adapters {
 
-    class AccountRepoImpl
+    class AccountRepoAdapter
 
     class AccountPanacheRepo
     class AccountJpaData
-    AccountRepoImpl -u-> AccountJpaData
-    AccountRepoImpl *-> "1" AccountPanacheRepo
+    AccountRepoAdapter -u-> AccountJpaData
+    AccountRepoAdapter *-> "1" AccountPanacheRepo
 
     class ExpenseJpaData
 
@@ -18,7 +19,7 @@ package adapters {
 }
 
 package ports {
-    interface AccountRepo
+    interface AccountRepoPort
 
 }
 
@@ -34,14 +35,8 @@ package domain {
 }
 
 ExpenseService -down-> Account
-
-
-ExpenseService --> AccountRepo
-
-AccountRepoImpl .down.|> AccountRepo
-
-AccountRepoImpl .down.> Account
-
-
+ExpenseService --> AccountRepoPort
+AccountRepoAdapter ..|> AccountRepoPort
+AccountRepoPort .left.> Account
 
 @enduml

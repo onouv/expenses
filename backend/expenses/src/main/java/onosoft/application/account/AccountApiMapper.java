@@ -8,7 +8,7 @@ import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.expense.ExpenseApiMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.ports.driven.account.InvalidAccountDataException;
-import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountJpaData;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ public class AccountApiMapper {
     @Inject
     ExpenseApiMapper expenseApiMapper;
 
-    public AccountDto dtoFromData(AccountData data) {
+    public AccountDto dtoFromData(AccountJpaData data) {
         final List<ExpenseEntityDto> expenses = new ArrayList<>();
 
         try {
@@ -37,12 +37,12 @@ public class AccountApiMapper {
     }
 
 
-    public static List<AccountMetaDto> dtoListFromDataList(List<AccountData> dataList) {
+    public static List<AccountMetaDto> dtoListFromDataList(List<AccountJpaData> dataList) {
         List<AccountMetaDto> dtos = new ArrayList<>();
-        Iterator<AccountData> iter = dataList.iterator();
+        Iterator<AccountJpaData> iter = dataList.iterator();
 
         while (iter.hasNext()) {
-            final AccountData data = iter.next();
+            final AccountJpaData data = iter.next();
             dtos.add(AccountMetaDto
                     .builder()
                     .accountNo(data.getAccountNo())

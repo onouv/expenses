@@ -1,42 +1,66 @@
 package onosoft.adapters.driving.account;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import io.quarkus.arc.WithCaching;
+import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import onosoft.application.account.AccountDataMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
+import onosoft.application.expense.ExpenseDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.NoSuchAccountException;
-import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.account.AccountRepoPort;
+import onosoft.ports.driving.expense.ExpenseJpaData;
 
+import java.util.List;
 import java.util.Optional;
 
-@ApplicationScoped
+
 public class AccountRepoAdapter implements AccountRepoPort {
 
     @Inject
-    AccountDataMapper accountMapper;
+    @WithCaching
+    protected Instance<AccountPanacheRepo> accountRepo;
+
+    @Inject
+    protected ExpenseDataMapper expenseDataMapper;
+
+    @Inject
+    protected AccountDataMapper accountDataMapper;
+
+    protected AccountJpaData accountData;
+
+    @Override
+    public Account loadAccount(String accountNo)
+            throws NoSuchAccountException, AmountExceedsRangeException {
+        Optional<AccountJpaData> opt = this.accountRepo.get()
+                .find("accountNo", accountNo)
+                .stream()
+                .findFirst();
+
+        if (opt.isPresent()) {
+            this.accountData = opt.get();
+            return this.accountDataMapper.dataToDomain(this.accountData);
+        }
+
+        throw new NoSuchAccountException(accountNo);
+    }
+
+    public void saveAccount(Account account) {
+
+    }
 
     public boolean accountExists(String accountNo) {
-        Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
-        return dataOpt.isPresent();
+        return false;
     }
 
-    public Account findByAccountNo(String accountNo) throws NoSuchAccountException, AmountExceedsRangeException {
-        Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
-        if (dataOpt.isPresent()) {
-            return accountMapper.dataToDomain(dataOpt.get());
-        }
-
-        throw new NoSuchAccountException(accountNo);
-    }
-
-    public AccountData findDOByAccountNo(String accountNo) throws NoSuchAccountException {
-        Optional<AccountData> dataOpt = find("accountNo", accountNo).stream().findFirst();
-        if (dataOpt.isPresent()) {
-            return dataOpt.get();
-        }
-
-        throw new NoSuchAccountException(accountNo);
+    protected void updateDataFromAccountDomainEntity(Account account) {
+        this.accountData.setAccountDescription(account.getAccountDescription());
+        this.accountData.setAccountName(account.getAccountName());
+        final List<ExpenseJpaData> expenses = account.getExpenses()
+                .stream()
+                .map((expense -> expenseDataMapper.domainToData(expense, this.accountData)))
+                .toList();
+        this.accountData.setExpenses(expenses);
     }
 }

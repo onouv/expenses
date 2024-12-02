@@ -5,7 +5,6 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
 import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
-import onosoft.application.account.AccountDataMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
@@ -13,7 +12,7 @@ import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driven.expense.ExpenseApiPort;
 import onosoft.ports.driven.expense.NoSuchExpenseException;
 import onosoft.ports.driving.account.AccountRepoPort;
-import onosoft.ports.driving.expense.ExpenseData;
+import onosoft.ports.driving.expense.ExpenseJpaData;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
 import org.jboss.logging.Logger;
 
@@ -42,21 +41,15 @@ public class ExpenseAppService implements ExpenseApiPort {
     public ExpenseEntityDto assignExpenseToAccount(AssignExpenseRequestDto dto)
             throws NoSuchAccountException, AmountExceedsRangeException {
 
-        // TODO : work the domain entity rather than directly with the data entity
-        // but that creates a Hibernate exception, because the data entity (DO) generated after
-        // manipulating the domain entity is a different instance from the one read
-        //AccountData accountData = accountRepo.findDOByAccountNo(dto.getAccountNo());
-        Account account = accountRepo.findByAccountNo(dto.getAccountNo());//accountDataMapper.dataToDomain(accountData);
+        if (! accountRepo.accountExists(dto.getAccountNo())) {
+            throw new NoSuchAccountException(dto.getAccountNo());
+        }
+
+        Account account = accountRepo.loadAccount(dto.getAccountNo());
         Expense expense = expenseApiMapper.assignmentDtoToDomain(dto, account);
         account.addExpense(expense);
 
-        ExpenseData expenseData = expenseDataMapper.domainToData(expense, accountData);
-        List<ExpenseData> expenses = accountData.getExpenses();
-
-        // business logic would go here...
-        expenses.add(expenseData);
-
-        accountRepo.persist(accountData);
+        accountRepo.saveAccount(account);
 
         log.infof("Assigned expense of %s to account %s", expense.getAmount(),  dto.getAccountNo());
 
@@ -69,7 +62,7 @@ public class ExpenseAppService implements ExpenseApiPort {
 
         Account account = accountRepo.findByAccountNo(expenseDto.getAccountNo());
 
-        final ExpenseData expenseDO = this.expenseRepo.findById(expenseDto.getExpenseId());
+        final ExpenseJpaData expenseDO = this.expenseRepo.findById(expenseDto.getExpenseId());
         if (expenseDO == null) {
             throw new NoSuchExpenseException(expenseDto.getExpenseId());
         }

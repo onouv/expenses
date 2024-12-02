@@ -3,11 +3,10 @@ package onosoft.application.account;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.AccountApiPort;
 import onosoft.ports.driven.account.DuplicateAccountNoException;
-import onosoft.ports.driving.account.AccountData;
+import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.account.AccountRepoPort;
 import org.jboss.logging.Logger;
 
@@ -37,7 +36,7 @@ public class AccountsAppService implements AccountApiPort {
                 .accountDescription(description)
                 .build();
 
-        AccountData data = accountDataMapper.domainToData(account);
+        AccountJpaData data = accountDataMapper.domainToData(account);
         accountRepo.persist(data);
 
         log.infof("Created account %s", accountNo);
