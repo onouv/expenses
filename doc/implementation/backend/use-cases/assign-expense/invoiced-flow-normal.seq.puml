@@ -1,0 +1,100 @@
+@startuml
+autonumber
+participant Alice
+participant Frontend
+participant ExpenseEndpoint
+
+note over Alice, Frontend: Normal Invoiced Workflow
+
+Alice -> Frontend: Enter Core Data
+Frontend -> ExpenseEndpoint: POST /expenses/expense/assign
+note right
+AssignExpenseRequestDto {
+    accountNo: string
+    expense: ExpenseDto {
+        ...
+        isInvoiced: true
+    }
+}
+end note
+Frontend <-- ExpenseEndpoint: 201 CREATED
+Frontend -> AccountEndpoint: GET /accounts//account/details/{accountNo}
+Frontend <-- AccountEndpoint: 200 OK AccountDto
+note left
+AccountDto {
+    ...AccountMetaDto
+    expenses: [
+        ExpenseEntityDto {
+            ...
+            expenseId
+            expenseState: Planned
+            isInvoiced: true
+            paymentTargetDate
+        },
+        ...
+    ]
+}
+end note
+Alice <-- Frontend: show updated Expense list
+Alice --> Frontend: upload invoice
+Frontend -> ExpenseEndpoint: PUT /expenses/expense/invoice
+note right
+    multipart/form-data {
+        data: ExpenseEntityDto {
+            ...
+            expenseState: Invoiced
+        },
+        document: invoiceFile
+    }
+end note
+Frontend <-- ExpenseEndpoint: 200 OK
+Frontend -> AccountEndpoint: GET /accounts//account/details/{accountNo}
+Frontend <-- AccountEndpoint: 200 OK AccountDto
+note left
+AccountDto {
+    ...AccountMetaDto
+    expenses: [
+        ExpenseEntityDto {
+            ...
+            expenseId
+            expenseState: Invoiced
+            isInvoiced: true
+            paymentTargetDate
+        },
+        ...
+    ]
+}
+end note
+
+Alice <-- Frontend: show updated Expense list
+Alice -> Frontend: upload Receipt
+Frontend -> ExpenseEndpoint: PUT /expenses/expense/pay
+note right
+    multipart/form-data: {
+        data: ExpenseEntityDto {
+            ...
+            expenseState: Paid
+            document: receipt
+            paymentActualDate
+            paymentType
+        },
+        document: receiptFile
+    }
+end note
+Frontend <-- ExpenseEndpoint: 200 OK
+Frontend -> AccountEndpoint: GET /accounts//account/details/{accountNo}
+Frontend <-- AccountEndpoint: 200 OK AccountDto
+note left
+AccountDto {
+    ...AccountMetaDto
+    expenses: [ ExpenseEntityDto {
+        ...
+        expenseState: Paid
+        paymentActualDate
+        paymentType
+    }]
+}
+end note
+
+Alice <-- Frontend: show updated Expense List
+@enduml

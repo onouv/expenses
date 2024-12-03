@@ -11,8 +11,8 @@ const url = config.BACKEND_SERVICE_BASE_URL + config.EXPENSE_ASSIGN_PARTIAL_URL;
 
 export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
   const [apiState, setApiState] = useState<ApiStateT<PlannedExpenseT>>({
-    response: null,
     isLoading: false,
+    isSuccessful: false,
     error: null,
   });
 
@@ -24,7 +24,7 @@ export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
         const axiosResponse = await axios
           .post<PlannedExpenseT>(url, data)
           .then((resp) => resp.data);
-        setApiState({ ...apiState, isLoading: false, response: axiosResponse });
+        setApiState({ ...apiState, isLoading: false, isSuccessful: true });
       } catch (err: any) {
         const errorMsg =
           err.response.data.errorMessages.length > 0
@@ -43,7 +43,7 @@ export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
 
   return {
     requestCall: postRequest,
-    response: apiState.response,
+    isSuccessful: apiState.isSuccessful,
     isLoading: apiState.isLoading,
     error: apiState.error,
   };

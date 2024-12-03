@@ -8,6 +8,7 @@ import onosoft.domain.exception.ExpensePreexistingException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Builder
@@ -24,6 +25,16 @@ public class Account {
 
     @Builder.Default
     private List<Expense> expenses = new ArrayList<>();
+
+    public Optional<Expense> getExpense(long expenseId) {
+        for (Expense expense : expenses) {
+            if (expense.getExpenseId() == expenseId) {
+                return Optional.of(expense);
+            }
+        }
+
+        return Optional.empty();
+    }
 
     public void addExpense(Expense expense) throws ExpensePreexistingException {
         if (this.expenses.contains(expense)) {

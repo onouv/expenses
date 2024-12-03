@@ -3,23 +3,21 @@ package onosoft.application.expense;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
-import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
-import onosoft.application.account.AccountDataMapper;
+import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
+import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.commons.money.AmountExceedsRangeException;
+import onosoft.domain.exception.ExpensePreexistingException;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driven.expense.ExpenseApiPort;
 import onosoft.ports.driven.expense.NoSuchExpenseException;
-import onosoft.ports.driving.account.AccountData;
 import onosoft.ports.driving.account.AccountRepoPort;
-import onosoft.ports.driving.expense.ExpenseData;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
 import org.jboss.logging.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 public class ExpenseAppService implements ExpenseApiPort {
@@ -33,55 +31,54 @@ public class ExpenseAppService implements ExpenseApiPort {
     ExpenseRepoPort expenseRepo;
 
     @Inject
-    AccountDataMapper accountDataMapper;
-
-    @Inject
     ExpenseApiMapper expenseApiMapper;
 
     @Inject
     ExpenseDataMapper expenseDataMapper;
 
     @Transactional
-    public PlannedExpenseResponseDto assignExpenseToAccount(PlannedExpenseDto dto)
-            throws NoSuchAccountException, AmountExceedsRangeException {
+    public void assignExpenseToAccount(AssignExpenseRequestDto dto)
+            throws NoSuchAccountException, AmountExceedsRangeException, ExpensePreexistingException {
 
-        // TODO : work the domain entity rather than directly with the data entity
-        // but that creates a Hibernate exception, because the data entity (DO) generated after
-        // manipulating the domain entity is a different instance from the one read
-        AccountData accountData = accountRepo.findDOByAccountNo(dto.getAccountNo());
-        Account account = accountDataMapper.dataToDomain(accountData);
-        Expense expense = expenseApiMapper.fromPlannedExpenseDto(dto, account);
-        ExpenseData expenseData = expenseDataMapper.domainToData(expense, accountData);
-        List<ExpenseData> expenses = accountData.getExpenses();
+        if (! accountRepo.accountExists(dto.getAccountNo())) {
+            throw new NoSuchAccountException(dto.getAccountNo());
+        }
 
-        // business logic in here
-        expenses.add(expenseData);
+        Account account = accountRepo.loadAccount(dto.getAccountNo());
+        Expense expense = expenseApiMapper.assignmentDtoToDomain(dto, account);
+        account.addExpense(expense);
 
-        accountRepo.persist(accountData);
+        accountRepo.updateAccount(account);
 
         log.infof("Assigned expense of %s to account %s", expense.getAmount(),  dto.getAccountNo());
 
-        return expenseApiMapper.toPlannedResponseDto(expense);
     }
 
     @Override
-    public List<Expense> getExpenses(String accountNo) {
-        return new ArrayList<Expense>();
-    }
+    public void updateExpenseEntity(ExpenseEntityDto dto)
+            throws NoSuchAccountException, NoSuchExpenseException, AmountExceedsRangeException {
 
+        Account account = accountRepo.loadAccount(dto.getAccountNo());
+        Optional<Expense> opt = account.getExpense(dto.getExpenseId());
+
+        if(opt.isEmpty()) {
+            throw new NoSuchExpenseException(dto.getExpenseId());
+        }
+
+        Expense expense = opt.get();
+        Expense update = expenseApiMapper.entityDtoToDomain(dto, account);
+        expense.updateWith(update);
+
+        accountRepo.updateAccount(account);
+
+    }
 
     @Override
     @Transactional
     public void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException {
-        expenseIds.forEach(expenseId -> {
-            if (this.expenseRepo.count("id", expenseId) == 0) {
-                throw new NoSuchExpenseException(expenseId);
-            }
-        });
-
-        expenseIds.forEach(expenseId -> {
-            this.expenseRepo.deleteById(expenseId);
-            log.infof("Deleted expense with id %s", expenseId);
-        });
+        for (Long expenseId : expenseIds) {
+            this.expenseRepo.deleteExpense(expenseId);
+            log.infof("Deleted expense %s", expenseId);
+        }
     }
 }

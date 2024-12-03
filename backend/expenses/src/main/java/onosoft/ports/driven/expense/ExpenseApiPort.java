@@ -1,19 +1,20 @@
 package onosoft.ports.driven.expense;
 
-import onosoft.adapters.driven.expense.dto.PlannedExpenseDto;
-import onosoft.adapters.driven.expense.dto.PlannedExpenseResponseDto;
+import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
+import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.commons.money.AmountExceedsRangeException;
-import onosoft.domain.model.Expense;
+import onosoft.domain.exception.ExpensePreexistingException;
 import onosoft.ports.driven.account.NoSuchAccountException;
 
 import java.util.List;
 
 public interface ExpenseApiPort {
 
-    PlannedExpenseResponseDto assignExpenseToAccount(PlannedExpenseDto expense)
-            throws NoSuchAccountException, AmountExceedsRangeException;
+    void assignExpenseToAccount(AssignExpenseRequestDto expense)
+            throws NoSuchAccountException, AmountExceedsRangeException, ExpensePreexistingException;
 
-    List<Expense> getExpenses(String accountNo);
+    void updateExpenseEntity(ExpenseEntityDto expense)
+            throws NoSuchAccountException, NoSuchExpenseException, AmountExceedsRangeException;
 
     void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException;
 }

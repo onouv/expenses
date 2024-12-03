@@ -2,7 +2,7 @@ package onosoft.ports.driving.account;
 
 import jakarta.persistence.*;
 import lombok.*;
-import onosoft.ports.driving.expense.ExpenseData;
+import onosoft.ports.driving.expense.ExpenseJpaData;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "accounts")
-public class AccountData {
+public class AccountJpaData {
 
     @Id
     @Column(name = "account_no", length = 16)
@@ -24,6 +24,11 @@ public class AccountData {
     @Column(name = "account_description")
     private String accountDescription;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ExpenseData> expenses;
+    @OneToMany(
+        mappedBy = "account",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.LAZY
+    )
+    private List<ExpenseJpaData> expenses;
 }

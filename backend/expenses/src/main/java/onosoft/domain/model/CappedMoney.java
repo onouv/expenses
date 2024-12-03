@@ -1,18 +1,13 @@
 package onosoft.domain.model;
 
 
-import jakarta.inject.Inject;
 import jakarta.validation.constraints.Positive;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import onosoft.application.commons.money.AmountExceedsRangeException;
-import onosoft.domain.services.MoneyConfigService;
 
 @NoArgsConstructor(force = true)
 public class CappedMoney extends Money {
-
-    @Inject
-    protected MoneyConfigService moneyConfig;
 
     protected final long uUnitsLimit;
 

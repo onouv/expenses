@@ -6,7 +6,9 @@ start
 if () then (Not Invoiced)
 else (Invoice Expected)
     fork
-        : May Update Expense Data;
+        repeat
+            : May Update Expense Data;
+        repeat while
     fork again
         : Enter { invoiceID };
         : Upload Invoice Copy;

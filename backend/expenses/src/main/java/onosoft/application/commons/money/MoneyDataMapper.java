@@ -5,9 +5,12 @@ import onosoft.domain.model.CappedMoney;
 import onosoft.domain.model.Money;
 import onosoft.ports.driving.commons.money.MoneyData;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.jboss.logging.Logger;
 
 @ApplicationScoped
 public class MoneyDataMapper {
+
+    static final Logger log = Logger.getLogger(MoneyDataMapper.class);
 
     // as a business policy, we refuse to handle amounts larger than
     // this constant, for any currency.
@@ -24,8 +27,7 @@ public class MoneyDataMapper {
     public MoneyData domainToData(Money domain) {
         return new MoneyData(
                 domain.getMicroUnits(),
-                domain.getCurrency()
-        );
+                domain.getCurrency());
     }
 
 }

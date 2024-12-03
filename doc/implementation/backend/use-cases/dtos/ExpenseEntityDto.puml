@@ -1,0 +1,15 @@
+@startjson
+{
+    "accountNo": "string",
+    "expenseId": "number",
+    "expenseState": ["Planned", "Invoiced", "Due", "PastDue", "Paid"],
+    "recipient": "String",
+    "purpose": "String",
+    "amount": "MoneyString",
+    "accruedDate": "DateString",
+    "isInvoiced": "boolean",
+    "paymentTargetDate": "DateString | null",
+    "paymentActualDate": "DateString | null",
+    "paymentType": ["Unknown", "Cash", "CreditCard", "ECCard", "BankTransfer"]
+}
+@endjson
