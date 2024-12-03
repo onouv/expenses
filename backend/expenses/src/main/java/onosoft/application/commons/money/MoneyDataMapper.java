@@ -17,24 +17,17 @@ public class MoneyDataMapper {
     @ConfigProperty(name = "domain.money.max-value")
     protected long unitsLimit;
 
-    public CappedMoney dataToDomain(MoneyData data)  {
-        final CappedMoney cappedMoney;
-        try{
-            // We must not deal with invalid data coming up from our own database
-            cappedMoney = new CappedMoney(
+    public CappedMoney dataToDomain(MoneyData data) throws AmountExceedsRangeException {
+        return new CappedMoney(
                 data.getMicroUnits(),
                 data.getCurrency(),
                 unitsLimit);
-        } catch (MoneyException e) {
-            log.error("Masking error of invalid money amount coming up from database: %s", e);
-        }
     }
 
     public MoneyData domainToData(Money domain) {
         return new MoneyData(
                 domain.getMicroUnits(),
-                domain.getCurrency()
-        );
+                domain.getCurrency());
     }
 
 }

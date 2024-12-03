@@ -8,7 +8,10 @@ import onosoft.adapters.driven.expense.dto.DeleteExpenseListRequestDto;
 import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
 import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.commons.money.AmountExceedsRangeException;
+import onosoft.domain.exception.ExpensePreexistingException;
+import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driven.expense.ExpenseApiPort;
+import onosoft.ports.driven.expense.NoSuchExpenseException;
 import org.jboss.logging.Logger;
 
 @Path("/expenses")
@@ -24,7 +27,7 @@ public class ExpenseEndpoint {
     @POST
     @Path("/expense/assign")
     public Response assignExpenseToAccount(AssignExpenseRequestDto request)
-            throws AmountExceedsRangeException {
+            throws NoSuchAccountException, AmountExceedsRangeException, ExpensePreexistingException {
 
         log.infof("Request to assign expense to account: %s", request);
 
@@ -36,10 +39,12 @@ public class ExpenseEndpoint {
     @PATCH
     @Path("/expense/{expenseId}")
     public Response updateExpense(ExpenseEntityDto dto, @PathParam("expenseId") long expenseId)
-        throws AmountExceedsRangeException {
+        throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
         log.infof("Request to update expense: %s", dto);
 
         expenseService.updateExpenseEntity(dto);
+
+        return Response.status(Response.Status.OK).build();
     }
 
     @POST
@@ -52,7 +57,7 @@ public class ExpenseEndpoint {
 
     @DELETE
     @Path("/delete")
-    public Response deleteExpenseList(DeleteExpenseListRequestDto dto) {
+    public Response deleteExpenseList(DeleteExpenseListRequestDto dto) throws NoSuchExpenseException {
         log.infof("Request to delete %d expenses", dto.expenseIds().size());
         this.expenseService.deleteExpenseList(dto.expenseIds());
         return Response.ok().build();

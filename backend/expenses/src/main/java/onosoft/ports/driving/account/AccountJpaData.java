@@ -26,7 +26,7 @@ public class AccountJpaData {
 
     @OneToMany(
         mappedBy = "account",
-        cascade = CascadeType.PERSIST,
+        cascade = CascadeType.ALL,
         orphanRemoval = true,
         fetch = FetchType.LAZY
     )

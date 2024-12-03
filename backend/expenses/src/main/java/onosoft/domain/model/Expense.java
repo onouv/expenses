@@ -7,14 +7,12 @@ import lombok.ToString;
 
 import java.sql.Date;
 
-
 @Data
 @ToString
 @Builder
 public class Expense {
-    @NonNull private Account account;
-    @NonNull private Date date;
     private long expenseId;
+    @NonNull private Account account;
     @NonNull private String recipient;
     @NonNull private String purpose;
     @NonNull private CappedMoney amount;
@@ -23,7 +21,7 @@ public class Expense {
     private Date paymentActualDate;
     private boolean isInvoiced;
     private PaymentType paymentType;
-    @NonNull private ExpenseStatus paymentStatus;
+    @NonNull private ExpenseStatus expenseStatus;
 
     //private Receipt receipt;
 
@@ -33,15 +31,14 @@ public class Expense {
         }
 
         this.account = expense.getAccount();
-        this.date = expense.getDate();
         this.recipient = expense.getRecipient();
         this.purpose = expense.getPurpose();
         this.amount = expense.getAmount();
         this.accruedDate = expense.getAccruedDate();
         this.paymentTargetDate = expense.getPaymentTargetDate();
         this.paymentActualDate = expense.getPaymentActualDate();
-        this.isInvoiced = expense.isInvoiced();
         this.paymentType = expense.getPaymentType();
-        this.paymentStatus = expense.getPaymentStatus();
+        this.isInvoiced = expense.isInvoiced();
+        this.expenseStatus = expense.getExpenseStatus();
     }
 }

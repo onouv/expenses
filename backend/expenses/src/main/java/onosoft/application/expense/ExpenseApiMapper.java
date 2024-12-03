@@ -36,9 +36,10 @@ public class ExpenseApiMapper {
                 .purpose(dto.getPurpose())
                 .amount(moneyApiMapper.dtoToDomain(dto.getAmount()))
                 .accruedDate(dto.getAccruedDate())
-                .isInvoiced(dto.isInvoiced())
+                .paymentTargetDate(dto.getPaymentTargetDate())
                 .paymentType(dto.getPaymentType())
-                .paymentStatus(ExpenseStatus.Planned)
+                .isInvoiced(dto.isInvoiced())
+                .expenseStatus(ExpenseStatus.Planned)
                 .build();
     }
 
@@ -49,21 +50,28 @@ public class ExpenseApiMapper {
                 .purpose(dto.getPurpose())
                 .amount(moneyApiMapper.dtoToDomain(dto.getAmount()))
                 .accruedDate(dto.getAccruedDate())
-                .isInvoiced(dto.isInvoiced())
+                .paymentTargetDate(dto.getPaymentTargetDate())
+                .paymentActualDate(dto.getPaymentActualDate())
                 .paymentType(dto.getPaymentType())
-                .paymentStatus(ExpenseStatus.Planned)
+                .isInvoiced(dto.isInvoiced())
+                .expenseStatus(ExpenseStatus.Planned)
                 .build();
     }
 
     public ExpenseEntityDto domainToDto(Expense domain) {
         return ExpenseEntityDto.builder()
                 .expenseId(domain.getExpenseId())
+                .accountNo(domain.getAccount().getAccountNo())
                 .paymentType(domain.getPaymentType())
-                .isInvoiced(domain.isInvoiced())
                 .recipient(domain.getRecipient())
                 .purpose(domain.getPurpose())
                 .amount(moneyApiMapper.domainToDto(domain.getAmount()))
                 .accruedDate(domain.getAccruedDate())
+                .paymentTargetDate(domain.getPaymentTargetDate())
+                .paymentActualDate(domain.getPaymentActualDate())
+                .paymentType(domain.getPaymentType())
+                .isInvoiced(domain.isInvoiced())
+                .expenseStatus(domain.getExpenseStatus())
                 .build();
     }
     public ExpenseEntityDto toExpenseInfoDto(Expense domain) {
@@ -98,7 +106,7 @@ public class ExpenseApiMapper {
                 .amount(moneyApiMapper
                         .domainToDto(moneyDataMapper.dataToDomain(data.getAmount())))
                 .accruedDate(data.getAccruedDate())
-                .expenseStatus(data.getPaymentStatus())
+                .expenseStatus(data.getExpenseStatus())
                 .build();
     }
 

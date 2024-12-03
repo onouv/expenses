@@ -1,4 +1,4 @@
-CREATE TYPE payment_status_enum AS ENUM ('Unknown', 'Planned', 'Invoiced', 'Due');
+CREATE TYPE expense_status_enum AS ENUM ('Planned', 'Invoiced', 'Due', 'PastDue', 'Paid');
 
 CREATE TYPE payment_type_enum AS ENUM ('Unknown', 'Cash', 'CreditCard', 'ECCard', 'BankTransfer');
 
@@ -23,6 +23,6 @@ CREATE TABLE expenses
     payment_target_date DATE,
     payment_actual_date DATE,
     payment_type        VARCHAR(32),
-    payment_status      VARCHAR(32),
+    expense_status      VARCHAR(32),
     is_invoiced         BOOLEAN
 );

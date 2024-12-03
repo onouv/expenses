@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
 import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.commons.money.AmountExceedsRangeException;
+import onosoft.domain.exception.ExpensePreexistingException;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
 import onosoft.ports.driven.account.NoSuchAccountException;
@@ -15,7 +16,6 @@ import onosoft.ports.driving.account.AccountRepoPort;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
 import org.jboss.logging.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +38,7 @@ public class ExpenseAppService implements ExpenseApiPort {
 
     @Transactional
     public void assignExpenseToAccount(AssignExpenseRequestDto dto)
-            throws NoSuchAccountException, AmountExceedsRangeException {
+            throws NoSuchAccountException, AmountExceedsRangeException, ExpensePreexistingException {
 
         if (! accountRepo.accountExists(dto.getAccountNo())) {
             throw new NoSuchAccountException(dto.getAccountNo());
@@ -48,7 +48,7 @@ public class ExpenseAppService implements ExpenseApiPort {
         Expense expense = expenseApiMapper.assignmentDtoToDomain(dto, account);
         account.addExpense(expense);
 
-        accountRepo.saveAccount(account);
+        accountRepo.updateAccount(account);
 
         log.infof("Assigned expense of %s to account %s", expense.getAmount(),  dto.getAccountNo());
 
@@ -56,7 +56,7 @@ public class ExpenseAppService implements ExpenseApiPort {
 
     @Override
     public void updateExpenseEntity(ExpenseEntityDto dto)
-            throws NoSuchExpenseException, AmountExceedsRangeException {
+            throws NoSuchAccountException, NoSuchExpenseException, AmountExceedsRangeException {
 
         Account account = accountRepo.loadAccount(dto.getAccountNo());
         Optional<Expense> opt = account.getExpense(dto.getExpenseId());
@@ -74,20 +74,15 @@ public class ExpenseAppService implements ExpenseApiPort {
     }
 
     @Override
-    public List<Expense> getExpenses(String accountNo) {
-        return new ArrayList<Expense>();
-    }
-
-    @Override
     @Transactional
     public void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException {
-        expenseIds.forEach(expenseId -> {
-            if (! this.expenseRepo.expenseExists(expenseId)) {
+        for (Long expenseId : expenseIds) {
+            if (!this.expenseRepo.expenseExists(expenseId)) {
                 throw new NoSuchExpenseException(expenseId);
             }
 
-            this.expenseRepo.deleteExpense(expenseId);
-            log.infof("Deleted expense with id %s", expenseId);
-        });
+            expenseRepo.deleteExpense(expenseId);
+        }
+
     }
 }

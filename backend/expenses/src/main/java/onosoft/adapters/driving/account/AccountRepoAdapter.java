@@ -1,15 +1,19 @@
 package onosoft.adapters.driving.account;
 
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
 import onosoft.application.account.AccountDataMapper;
+import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.application.expense.ExpenseDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.account.AccountRepoPort;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +31,7 @@ public class AccountRepoAdapter implements AccountRepoPort {
 
     @Override
     public Account loadAccount(String accountNo)
-            throws NoSuchAccountException {
+            throws NoSuchAccountException, AmountExceedsRangeException {
         Optional<AccountJpaData> opt = this.accountRepo
                 .find("accountNo", accountNo)
                 .stream()
@@ -41,10 +45,15 @@ public class AccountRepoAdapter implements AccountRepoPort {
     }
 
     @Override
-    public List<Account> loadAllAccounts() {
-        return this.accountRepo.listAll().stream().map((data) -> {
-            return accountDataMapper.dataToDomain(data);
-        }).toList();
+    public List<Account> loadAllAccounts() throws AmountExceedsRangeException {
+        final List<AccountJpaData> accounts = this.accountRepo.listAll();
+        final List<Account> result = new ArrayList<>();
+
+        for (AccountJpaData account : accounts) {
+            result.add(this.accountDataMapper.dataToDomain(account));
+        }
+
+        return result;
     }
 
     public void saveAccount(Account account) {
@@ -54,7 +63,8 @@ public class AccountRepoAdapter implements AccountRepoPort {
 
     @Override
     public boolean accountExists(String accountNo) {
-        return false;
+        PanacheQuery<AccountJpaData> query = this.accountRepo.find("accountNo", accountNo);
+        return query.count() > 0;
     }
 
     @Override
@@ -62,6 +72,10 @@ public class AccountRepoAdapter implements AccountRepoPort {
         AccountJpaData dto = this.accountDataMapper.domainToData(account);
 
         EntityManager em = this.accountRepo.getEntityManager();
-        em.merge(dto);
+        try {
+            em.merge(dto);
+        } catch (PersistenceException e) {
+
+        }
     }
 }

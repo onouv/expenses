@@ -34,9 +34,8 @@ public class ExpenseDto {
     @Builder.Default
     protected final PaymentType paymentType = PaymentType.Unknown;
 
-    protected boolean isInvoiced;
-
-
     @JsonFormat(pattern="yyyy-MM-dd")
     protected Date paymentTargetDate;
+
+    protected boolean isInvoiced;
 }

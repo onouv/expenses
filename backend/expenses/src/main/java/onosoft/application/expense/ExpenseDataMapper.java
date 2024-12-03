@@ -16,7 +16,7 @@ public class    ExpenseDataMapper {
     protected MoneyDataMapper moneyDataMapper;
 
 
-    public Expense dataToDomain(ExpenseJpaData data, Account account) {
+    public Expense dataToDomain(ExpenseJpaData data, Account account) throws AmountExceedsRangeException {
         return Expense.builder()
                 .account(account)
                 .expenseId(data.getId())
@@ -28,7 +28,7 @@ public class    ExpenseDataMapper {
                 .paymentActualDate(data.getPaymentActualDate())
                 .isInvoiced(data.isInvoiced())
                 .paymentType(data.getPaymentType())
-                .paymentStatus(data.getPaymentStatus())
+                .expenseStatus(data.getExpenseStatus())
                 .build();
     }
 
@@ -51,7 +51,7 @@ public class    ExpenseDataMapper {
                 .paymentTargetDate(domain.getPaymentTargetDate())
                 .isInvoiced(domain.isInvoiced())
                 .paymentType(domain.getPaymentType())
-                .paymentStatus(domain.getPaymentStatus())
+                .expenseStatus(domain.getExpenseStatus())
                 .build();
     }
 }

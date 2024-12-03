@@ -3,7 +3,7 @@ package onosoft.ports.driven.expense;
 import lombok.Getter;
 
 @Getter
-public abstract class ExpenseException extends RuntimeException {
+public abstract class ExpenseException extends Exception {
 
     private final long expenseId;
 

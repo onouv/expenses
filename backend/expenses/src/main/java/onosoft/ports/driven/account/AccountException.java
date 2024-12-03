@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public abstract class AccountException extends RuntimeException {
+public abstract class AccountException extends Exception {
     private String accountNo;
 
     protected AccountException(String accountNo, String message) {

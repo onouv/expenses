@@ -1,7 +1,6 @@
 package onosoft.ports.driving.expense;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import onosoft.domain.model.ExpenseStatus;
 import onosoft.domain.model.PaymentType;
@@ -9,7 +8,6 @@ import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.commons.money.MoneyData;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
-
 
 import java.sql.Date;
 
@@ -58,9 +56,9 @@ public class ExpenseJpaData {
     @JdbcType(PostgreSQLEnumJdbcType.class)
     private PaymentType paymentType;
 
-    @NotNull
-    @Column(name="payment_status", length = LONG32)
+    @Column(name="expense_status", length = LONG32)
     @Enumerated(EnumType.STRING)
-    private ExpenseStatus paymentStatus;
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    private ExpenseStatus expenseStatus;
 
 }

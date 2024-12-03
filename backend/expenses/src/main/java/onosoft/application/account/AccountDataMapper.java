@@ -20,7 +20,7 @@ public class AccountDataMapper {
     @Inject
     protected ExpenseDataMapper expenseDataMapper;
 
-    public Account dataToDomain(AccountJpaData data) {
+    public Account dataToDomain(AccountJpaData data) throws AmountExceedsRangeException {
         final Account account = Account.builder()
                 .accountNo(data.getAccountNo())
                 .accountName(data.getAccountName())

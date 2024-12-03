@@ -14,7 +14,7 @@ public class DefaultHandler implements ExceptionMapper<Exception> {
     public Response toResponse(Exception exception) {
         log.error(exception.getMessage());
 
-        ErrorDto dto = new ErrorDto("Unknown internal error of expenses service.");
+        ErrorDto dto = new ErrorDto("Unknown internal service error.");
 
         return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                 .entity(dto)
