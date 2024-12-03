@@ -34,14 +34,14 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
     resolver: yupResolver(PlannedExpenseTSchema),
   });
 
-  const { requestCall, isLoading, response, error } = useAssignExpenseApi();
+  const { requestCall, isLoading, isSuccessful, error } = useAssignExpenseApi();
   const router = useRouter();
 
   useEffect(() => {
-    if (response) {
+    if (isSuccessful) {
       router.push(detailsUrlPartial(account.accountNo));
     }
-  }, [response, router, account.accountNo]);
+  }, [isSuccessful, router, account.accountNo]);
 
   const onSubmit = async (expense: PlannedExpenseT) => {
     await requestCall(expense);
