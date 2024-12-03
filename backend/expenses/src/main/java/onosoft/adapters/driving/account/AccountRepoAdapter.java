@@ -5,6 +5,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
+import onosoft.adapters.driving.PersistencyAdapterException;
 import onosoft.application.account.AccountDataMapper;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.application.expense.ExpenseDataMapper;
@@ -74,8 +75,8 @@ public class AccountRepoAdapter implements AccountRepoPort {
         EntityManager em = this.accountRepo.getEntityManager();
         try {
             em.merge(dto);
-        } catch (PersistenceException e) {
-
+        } catch (PersistenceException | IllegalArgumentException e) {
+            throw new PersistencyAdapterException(e.getMessage());
         }
     }
 }

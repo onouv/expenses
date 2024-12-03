@@ -77,12 +77,8 @@ public class ExpenseAppService implements ExpenseApiPort {
     @Transactional
     public void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException {
         for (Long expenseId : expenseIds) {
-            if (!this.expenseRepo.expenseExists(expenseId)) {
-                throw new NoSuchExpenseException(expenseId);
-            }
-
-            expenseRepo.deleteExpense(expenseId);
+            this.expenseRepo.deleteExpense(expenseId);
+            log.infof("Deleted expense %s", expenseId);
         }
-
     }
 }
