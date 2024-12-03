@@ -9,7 +9,7 @@ import onosoft.application.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
 import onosoft.domain.model.ExpenseStatus;
-import onosoft.ports.driving.expense.ExpenseJpaData;
+import onosoft.adapters.driving.expense.ExpenseJpaData;
 
 import java.util.ArrayList;
 import java.util.Iterator;

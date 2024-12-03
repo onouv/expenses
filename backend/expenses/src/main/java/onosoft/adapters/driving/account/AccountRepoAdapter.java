@@ -5,13 +5,11 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
-import onosoft.adapters.driving.PersistencyAdapterException;
-import onosoft.application.account.AccountDataMapper;
+import onosoft.adapters.driving.commons.PersistencyAdapterException;
 import onosoft.application.commons.money.AmountExceedsRangeException;
-import onosoft.application.expense.ExpenseDataMapper;
+import onosoft.adapters.driving.expense.ExpenseDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.ports.driven.account.NoSuchAccountException;
-import onosoft.ports.driving.account.AccountJpaData;
 import onosoft.ports.driving.account.AccountRepoPort;
 
 import java.util.ArrayList;

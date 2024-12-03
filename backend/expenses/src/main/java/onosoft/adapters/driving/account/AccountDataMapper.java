@@ -1,13 +1,12 @@
-package onosoft.application.account;
+package onosoft.adapters.driving.account;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import onosoft.application.commons.money.AmountExceedsRangeException;
-import onosoft.application.expense.ExpenseDataMapper;
+import onosoft.adapters.driving.expense.ExpenseDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
-import onosoft.ports.driving.account.AccountJpaData;
-import onosoft.ports.driving.expense.ExpenseJpaData;
+import onosoft.adapters.driving.expense.ExpenseJpaData;
 
 import java.util.ArrayList;
 import java.util.Iterator;

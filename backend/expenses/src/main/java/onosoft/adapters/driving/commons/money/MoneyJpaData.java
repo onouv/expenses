@@ -1,4 +1,4 @@
-package onosoft.ports.driving.commons.money;
+package onosoft.adapters.driving.commons.money;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,7 +11,7 @@ import org.hibernate.validator.constraints.Length;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class MoneyData {
+public class MoneyJpaData {
 
     @NotEmpty
     @Column(name="money_micro_units")

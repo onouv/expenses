@@ -1,11 +1,11 @@
-package onosoft.ports.driving.expense;
+package onosoft.adapters.driving.expense;
 
 import jakarta.persistence.*;
 import lombok.*;
 import onosoft.domain.model.ExpenseStatus;
 import onosoft.domain.model.PaymentType;
-import onosoft.ports.driving.account.AccountJpaData;
-import onosoft.ports.driving.commons.money.MoneyData;
+import onosoft.adapters.driving.account.AccountJpaData;
+import onosoft.adapters.driving.commons.money.MoneyJpaData;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
@@ -37,7 +37,7 @@ public class ExpenseJpaData {
     private String purpose;
 
     @Embedded
-    private MoneyData amount;
+    private MoneyJpaData amount;
 
     @Column(name="accrued_date")
     private Date accruedDate;

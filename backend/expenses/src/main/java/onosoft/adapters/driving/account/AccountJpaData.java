@@ -1,8 +1,8 @@
-package onosoft.ports.driving.account;
+package onosoft.adapters.driving.account;
 
 import jakarta.persistence.*;
 import lombok.*;
-import onosoft.ports.driving.expense.ExpenseJpaData;
+import onosoft.adapters.driving.expense.ExpenseJpaData;
 
 import java.util.List;
 

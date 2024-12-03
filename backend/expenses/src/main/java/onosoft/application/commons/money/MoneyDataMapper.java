@@ -3,7 +3,7 @@ package onosoft.application.commons.money;
 import jakarta.enterprise.context.ApplicationScoped;
 import onosoft.domain.model.CappedMoney;
 import onosoft.domain.model.Money;
-import onosoft.ports.driving.commons.money.MoneyData;
+import onosoft.adapters.driving.commons.money.MoneyJpaData;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 
@@ -17,15 +17,15 @@ public class MoneyDataMapper {
     @ConfigProperty(name = "domain.money.max-value")
     protected long unitsLimit;
 
-    public CappedMoney dataToDomain(MoneyData data) throws AmountExceedsRangeException {
+    public CappedMoney dataToDomain(MoneyJpaData data) throws AmountExceedsRangeException {
         return new CappedMoney(
                 data.getMicroUnits(),
                 data.getCurrency(),
                 unitsLimit);
     }
 
-    public MoneyData domainToData(Money domain) {
-        return new MoneyData(
+    public MoneyJpaData domainToData(Money domain) {
+        return new MoneyJpaData(
                 domain.getMicroUnits(),
                 domain.getCurrency());
     }

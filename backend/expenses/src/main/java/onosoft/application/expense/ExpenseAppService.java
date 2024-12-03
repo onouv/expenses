@@ -33,9 +33,6 @@ public class ExpenseAppService implements ExpenseApiPort {
     @Inject
     ExpenseApiMapper expenseApiMapper;
 
-    @Inject
-    ExpenseDataMapper expenseDataMapper;
-
     @Transactional
     public void assignExpenseToAccount(AssignExpenseRequestDto dto)
             throws NoSuchAccountException, AmountExceedsRangeException, ExpensePreexistingException {

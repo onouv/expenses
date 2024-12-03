@@ -1,4 +1,4 @@
-package onosoft.application.expense;
+package onosoft.adapters.driving.expense;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -6,8 +6,7 @@ import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.application.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
-import onosoft.ports.driving.account.AccountJpaData;
-import onosoft.ports.driving.expense.ExpenseJpaData;
+import onosoft.adapters.driving.account.AccountJpaData;
 
 @ApplicationScoped
 public class    ExpenseDataMapper {
