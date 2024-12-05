@@ -10,11 +10,11 @@ import AccountT, {
 import config from "@/app-config.json";
 import { Box, Button, Stack } from "@mui/material";
 import useCreateAccountApi from "@/features/accounts/api/useCreateAccountApi";
-import ErrorPage from "@/components/ErrorPage";
-import WaitingPrompt from "@/components/WaitingPrompt";
+import ErrorPage from "@/common/components/ErrorPage";
+import WaitingPrompt from "@/common/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Grid";
-import TextFormInput from "@/components/form/TextFormInput";
+import TextFormInput from "@/common/components/form/TextFormInput";
 
 const CreateAccountForm: React.FC = (): ReactElement => {
   const { postRequest, isLoading, error } = useCreateAccountApi();
