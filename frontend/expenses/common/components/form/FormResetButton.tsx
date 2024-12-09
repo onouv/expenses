@@ -7,7 +7,7 @@ const FormResetButton = (): ReactElement => {
   const { isDirty } = useFormState();
 
   if (isDirty) {
-    return <Button onClick={() => reset()}>Reset</Button>;
+    return <Button onClick={() => reset()}>RESET</Button>;
   }
 
   return <Button disabled>Reset</Button>;

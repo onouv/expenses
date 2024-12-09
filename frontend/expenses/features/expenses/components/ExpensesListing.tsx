@@ -35,12 +35,11 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
 
   useEffect(() => {
     if (isSuccessful) {
-      //router.push(detailsUrl(account));
-      //router.refresh();
+      // notice: router.push or refresh don't work in this case, therefore complete reload
       // @ts-ignore
       window.location = detailsUrlPartial(account);
     }
-  }, [isSuccessful, router, account]);
+  }, [isSuccessful, account, router]);
 
   if (error) {
     return (

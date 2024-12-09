@@ -2,35 +2,58 @@
 
 import AccountT from "@/features/accounts/types/AccountT";
 import { useCallback, useState } from "react";
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 import config from "@/app-config.json";
-import PostResponseT from "@/common/api/PostResponseT";
+import RequestApiT from "@/common/api/RequestApiT";
+import ApiStateT from "@/common/api/ApiStateT";
 
 const url = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_CREATE_PARTIAL_URL;
 
-export default function useCreateAccountApi(): PostResponseT<AccountT> {
-  const [response, setResponse] = useState<AccountT>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<Error | undefined>(undefined);
+export default function useCreateAccountApi(): RequestApiT<AccountT> {
+  const [apiState, setApiState] = useState<ApiStateT<AccountT>>({
+    isLoading: false,
+    isSuccessful: false,
+    error: null,
+  });
 
   const postRequest = useCallback(async (data: AccountT) => {
-    setError(undefined);
-    setIsLoading(true);
+    setApiState({ ...apiState, isLoading: true, error: null });
     try {
-      const resp = await axios
-        .post<AccountT>(url, data)
-        .then((res) => res.data);
-      setResponse(resp);
+      const resp = await axios.post<AccountT>(url, data).finally();
+      if (
+        resp.status == HttpStatusCode.Created ||
+        resp.status == HttpStatusCode.Ok
+      ) {
+        setApiState({ ...apiState, isSuccessful: true, isLoading: false });
+      } else {
+        setApiState({
+          ...apiState,
+          isSuccessful: false,
+          isLoading: false,
+          error: new Error(
+            `Server could not create account (status code ${resp.status})`,
+          ),
+        });
+      }
     } catch (err: any) {
-      setError(err);
+      const errorMsg =
+        err.response?.data?.errorMessages.length > 0
+          ? err.response?.data?.errorMessages[0]
+          : "Unknown Application Error";
+
+      setApiState({
+        ...apiState,
+        isLoading: false,
+        isSuccessful: false,
+        error: new Error(errorMsg),
+      });
     }
-    setIsLoading(false);
   }, []);
 
   return {
-    postRequest,
-    data: response,
-    isLoading,
-    error,
+    requestCall: postRequest,
+    isLoading: apiState.isLoading,
+    isSuccessful: apiState.isSuccessful,
+    error: apiState.error,
   };
 }
