@@ -169,15 +169,14 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
       <Grid item xs={1}>
         <Button
           onClick={() => {
-            console.log("Canceled.");
             router.push(detailsUrlPartial(account.accountNo));
           }}
         >
-          Cancel
+          CANCEL
         </Button>
       </Grid>
       <Grid item xs={1}>
-        <Button onClick={formMethods.handleSubmit(onSubmit)}>Save</Button>
+        <Button onClick={formMethods.handleSubmit(onSubmit)}>SAVE</Button>
       </Grid>
     </Grid>
   );

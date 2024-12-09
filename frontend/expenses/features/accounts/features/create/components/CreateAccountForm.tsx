@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import AccountT, {
@@ -15,18 +15,25 @@ import WaitingPrompt from "@/common/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Grid";
 import TextFormInput from "@/common/components/form/TextFormInput";
+import FormSaveButton from "@/components/form/FormSaveButton";
+import FormResetButton from "@/components/form/FormResetButton";
 
 const CreateAccountForm: React.FC = (): ReactElement => {
-  const { postRequest, isLoading, error } = useCreateAccountApi();
+  const { requestCall, isLoading, isSuccessful, error } = useCreateAccountApi();
   const router = useRouter();
   const formMethods = useForm<AccountT>({
     defaultValues: defaultAccount,
     resolver: yupResolver(AccountSchema),
   });
 
+  useEffect(() => {
+    if (isSuccessful) {
+      router.push(config.ACCOUNTS_PARTIAL_URL);
+    }
+  }, [isSuccessful, router]);
+
   const onSubmit = async (data: AccountT) => {
-    await postRequest(data);
-    router.push(config.ACCOUNTS_PARTIAL_URL);
+    await requestCall(data);
   };
 
   if (error) {
@@ -53,10 +60,12 @@ const CreateAccountForm: React.FC = (): ReactElement => {
             container
             direction="row"
             sx={{ justifyContent: "flex-end" }}
-            padding={2}
-            spacing={2}
+            columnSpacing={2}
           >
-            <Grid item>
+            <Grid item xs={1}>
+              <FormResetButton />
+            </Grid>
+            <Grid item xs={1}>
               <Button
                 onClick={() => {
                   router.push(config.ACCOUNTS_PARTIAL_URL);
@@ -65,8 +74,8 @@ const CreateAccountForm: React.FC = (): ReactElement => {
                 CANCEL
               </Button>
             </Grid>
-            <Grid item>
-              <Button onClick={formMethods.handleSubmit(onSubmit)}>SAVE</Button>
+            <Grid item xs={1}>
+              <FormSaveButton onClick={formMethods.handleSubmit(onSubmit)} />
             </Grid>
           </Grid>
         </Stack>
