@@ -1,23 +1,12 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import theme from "./theme.ts";
+import theme from "./theme";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  IconButton,
-  Paper,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { AppBar, IconButton, Stack, Toolbar, Typography } from "@mui/material";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import LogoutIcon from "@mui/icons-material/Logout";
