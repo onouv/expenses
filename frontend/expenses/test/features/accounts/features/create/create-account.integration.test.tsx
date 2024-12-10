@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
-import CreateAccountForm from "../../../../../features/accounts/features/create/components/CreateAccountForm";
+import CreateAccountForm from "@/features/accounts/features/create/components/CreateAccountForm";
 import user from "@testing-library/user-event";
 import config from "@/app-config.json";
 import { act } from "react";
 import {
   AppRouterContextProviderMock,
   mockRouter,
-} from "../../../../mocks/msw/AppRouterContextProviderMock";
-import mockServer from "../../../../mocks/msw/node";
+} from "@/test/mocks/msw/AppRouterContextProviderMock";
+import mockServer from "@/test/mocks/msw/node";
 import { http, HttpResponse } from "msw";
 import { HttpStatusCode } from "axios";
 import AccountT from "@/features/accounts/types/AccountT";
