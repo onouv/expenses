@@ -1,9 +1,8 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import CreateAccountForm from "@/features/accounts/features/create/components/CreateAccountForm";
-import user from "@testing-library/user-event";
+import user, { userEvent } from "@testing-library/user-event";
 import config from "@/app-config.json";
-import { act } from "react";
 import {
   AppRouterContextProviderMock,
   mockRouter,
@@ -13,17 +12,17 @@ import { http, HttpResponse } from "msw";
 import { HttpStatusCode } from "axios";
 import AccountT from "@/features/accounts/types/AccountT";
 
-const enterAccountData = async (account: AccountT) =>
-  act(async () => {
-    const accountNoInput = await screen.findByLabelText("Account No");
-    await user.type(accountNoInput, account.accountNo);
+const enterAccountData = async (account: AccountT) => {
+  const accountNoInput = await screen.findByLabelText("Account No");
 
-    const nameInput = await screen.findByLabelText("Account Name");
-    await user.type(nameInput, account.accountName);
+  await user.type(accountNoInput, account.accountNo);
 
-    const descriptionInput = await screen.findByLabelText("Description");
-    await user.type(descriptionInput, account.accountDescription);
-  });
+  const nameInput = await screen.findByLabelText("Account Name");
+  await user.type(nameInput, account.accountName);
+
+  const descriptionInput = await screen.findByLabelText("Description");
+  await user.type(descriptionInput, account.accountDescription);
+};
 
 describe("Create Account - happy cases", () => {
   describe("Given valid account data", () => {
@@ -94,10 +93,11 @@ describe("Create Account - happy cases", () => {
 
           beforeEach(async () => {
             const saveButton = await screen.findByText(/save/i);
-            await act(() => fireEvent.click(saveButton));
+            await userEvent.click(saveButton);
+            //fireEvent.click(saveButton);
           });
 
-          it("Then it should route to details page for created account", () => {
+          it("Then it should route to account overview page", () => {
             expect(mockRouter.push).toHaveBeenCalledWith(url);
           });
         });
@@ -143,7 +143,7 @@ describe("Create Account - failures", () => {
         );
 
         const saveButton = await screen.findByText(/save/i);
-        await act(() => fireEvent.click(saveButton));
+        await userEvent.click(saveButton);
       });
 
       describe("When Server returns error", () => {
@@ -160,7 +160,8 @@ describe("Create Account - failures", () => {
         describe("When user clicks OK", async () => {
           beforeEach(async () => {
             const okButton = await screen.findByRole("button");
-            await act(() => fireEvent.click(okButton));
+            await userEvent.click(okButton);
+            //fireEvent.click(okButton);
           });
           //
 
