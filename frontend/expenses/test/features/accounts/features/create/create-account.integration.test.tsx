@@ -11,6 +11,10 @@ import mockServer from "@/test/mocks/msw/node";
 import { http, HttpResponse } from "msw";
 import { HttpStatusCode } from "axios";
 import AccountT from "@/features/accounts/types/AccountT";
+import {
+  testStandardFormButtonsDirty,
+  testStandardFormButtonsPristine,
+} from "@/test/features/expenses/form-test-utils";
 
 const enterAccountData = async (account: AccountT) => {
   const accountNoInput = await screen.findByLabelText("Account No");
@@ -41,23 +45,7 @@ describe("Create Account - happy cases", () => {
         );
       });
 
-      it("Then it should have disabled reset button", () => {
-        const button = screen.getByText(/reset/i);
-        expect(button).toBeInTheDocument();
-        expect(button).toBeDisabled();
-      });
-
-      it("Then it should have disabled save button", () => {
-        const button = screen.getByText(/save/i);
-        expect(button).toBeInTheDocument();
-        expect(button).toBeDisabled();
-      });
-
-      it("Then it should have an enabled cancel button", async () => {
-        const button = await screen.findByText(/cancel/i);
-        expect(button).toBeInTheDocument();
-        expect(button).toBeEnabled();
-      });
+      testStandardFormButtonsPristine();
 
       describe("When entering valid account data", () => {
         beforeEach(async () => {
@@ -76,17 +64,7 @@ describe("Create Account - happy cases", () => {
           expect(descriptionInput).toHaveValue(account.accountDescription);
         });
 
-        it("Then it should have enabled save button", () => {
-          const button = screen.getByText(/save/i);
-          expect(button).toBeInTheDocument();
-          expect(button).toBeEnabled();
-        });
-
-        it("Then it should have enabled reset button", () => {
-          const button = screen.getByText(/reset/i);
-          expect(button).toBeInTheDocument();
-          expect(button).toBeEnabled();
-        });
+        testStandardFormButtonsDirty();
 
         describe("When user saves the data", () => {
           const url = config.ACCOUNTS_PARTIAL_URL;
