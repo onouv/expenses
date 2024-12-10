@@ -6,7 +6,7 @@ import AccountDetailsT from "@/features/accounts/features/details/types/AccountD
 import {
   testAccountHeader,
   testStandardFormButtonsPristine,
-} from "@/test/features/expenses/form-test-utils";
+} from "@/test/form-test-utils";
 import PaymentTypeE from "@/common/types/PaymentTypeE";
 
 //beforeEach(async () => {});

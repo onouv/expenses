@@ -14,7 +14,7 @@ import AccountT from "@/features/accounts/types/AccountT";
 import {
   testStandardFormButtonsDirty,
   testStandardFormButtonsPristine,
-} from "@/test/features/expenses/form-test-utils";
+} from "@/test/form-test-utils";
 
 const enterAccountData = async (account: AccountT) => {
   const accountNoInput = await screen.findByLabelText("Account No");
