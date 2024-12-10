@@ -37,6 +37,9 @@
       ],
       "@/components/*": [
         "./common/components/*"
+      ],
+      "@/test/*": [
+        "./test/*"
       ]
     },
     "target": "ES2017"

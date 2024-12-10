@@ -21,6 +21,7 @@ import ErrorPage from "@/components/ErrorPage";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
 import ExpenseT from "@/features/accounts/types/ExpenseT";
+import FormSaveButton from "@/components/form/FormSaveButton";
 
 type Props = {
   account: AccountDetailsT;
@@ -176,7 +177,7 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
         </Button>
       </Grid>
       <Grid item xs={1}>
-        <Button onClick={formMethods.handleSubmit(onSubmit)}>SAVE</Button>
+        <FormSaveButton onClick={formMethods.handleSubmit(onSubmit)} />
       </Grid>
     </Grid>
   );
