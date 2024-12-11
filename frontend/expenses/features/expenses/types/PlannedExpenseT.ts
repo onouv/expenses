@@ -50,4 +50,17 @@ export const defaultPlannedExpense: PlannedExpenseT = {
 };
 Object.freeze(defaultPlannedExpense);
 
+export function equals(left: PlannedExpenseT, right: PlannedExpenseT): boolean {
+  return (
+    left.accountNo == right.accountNo &&
+    left.recipient == right.recipient &&
+    left.purpose == right.purpose &&
+    left.amount.value == right.amount.value &&
+    left.amount.currency == right.amount.currency &&
+    left.accruedDate == right.accruedDate &&
+    left.paymentDate == right.paymentDate &&
+    left.paymentType == right.paymentType
+  );
+}
+
 export default PlannedExpenseT;

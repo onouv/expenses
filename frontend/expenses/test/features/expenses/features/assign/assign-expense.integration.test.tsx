@@ -1,6 +1,9 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { AppRouterContextProviderMock } from "@/test/mocks/msw/AppRouterContextProviderMock";
+import {
+  AppRouterContextProviderMock,
+  mockRouter,
+} from "@/test/mocks/msw/AppRouterContextProviderMock";
 import AssignExpenseForm from "@/features/expenses/features/assign/components/AssignExpenseForm";
 import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
 import {
@@ -10,15 +13,22 @@ import {
 } from "@/test/form-test-utils";
 import PaymentTypeE from "@/common/types/PaymentTypeE";
 import CurrencyE from "@/common/types/CurrencyE";
-import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
+import PlannedExpenseT, {
+  equals,
+} from "@/features/expenses/types/PlannedExpenseT";
 import {
   enterExpenseData,
   ExpenseDataControls,
   findFormDataControls,
 } from "@/test/features/expenses/expense-test-utils";
 import config from "@/app-config.json";
+import user, { userEvent } from "@testing-library/user-event";
+import { setupServer } from "msw/node";
+import { http, HttpResponse } from "msw";
+import { mockAssignExpenseApi } from "@/test/mocks/msw/api-handlers/expense-handlers";
+import mockServer from "@/test/mocks/msw/node";
 
-describe("Assign Expense - happy cases", () => {
+describe("Feature Assign Expense", () => {
   describe("Given an account without expenses", () => {
     const account: AccountDetailsT = {
       accountNo: "1234",
@@ -60,7 +70,6 @@ describe("Assign Expense - happy cases", () => {
 
       it("Then it should show amount as 0.00 EUR", async () => {
         const amount = await screen.findByLabelText(/amount/i);
-        //const currency = await screen.findByTestId("currency-select-testid");
         const currency = await screen.findByText(CurrencyE.EUR);
         expect(amount).toHaveValue("0.00");
         expect(currency).toBeInTheDocument();
@@ -127,8 +136,56 @@ describe("Assign Expense - happy cases", () => {
             expect(controls.purpose).toHaveValue(expenseData.purpose);
           });
 
-          describe.todo("And when saving the data", () => {
-            const url = config.backend.expenses.assign;
+          describe("And when saving the data", () => {
+            describe("And when server returns OK", () => {
+              beforeEach(async () => {
+                mockAssignExpenseApi(account.accountNo, expenseData);
+                const saveButton = await screen.findByText(/save/i);
+                await user.click(saveButton);
+              });
+
+              it("Then it should route back to the account details page", () => {
+                const frontendRoute = `${config.frontend.accounts.details}?accountno=${account.accountNo}`;
+
+                // Since the mock server checks the DTO content, this is expected to fail
+                // if the form has delivered deviating data.
+                expect(mockRouter.push).toHaveBeenCalledWith(frontendRoute);
+              });
+            });
+
+            describe("And when server returns an error", () => {
+              beforeEach(async () => {
+                expenseData.accountNo = account.accountNo + `1`; // this will cause mocked server to reject with 500
+                mockServer.use(
+                  mockAssignExpenseApi(expenseData, "mocked error"),
+                );
+
+                const saveButton = await screen.findByText(/save/i);
+                await user.click(saveButton);
+              });
+
+              it("Then it should display an error message", async () => {
+                const errorText = await screen.findByText(/error/i);
+                expect(errorText).toBeInTheDocument();
+              });
+
+              it("Then it should show an enabled OK button", async () => {
+                const okButton = await screen.findByRole("button");
+                expect(okButton).toBeEnabled();
+              });
+
+              describe("When user clicks OK", async () => {
+                beforeEach(async () => {
+                  const okButton = await screen.findByRole("button");
+                  await user.click(okButton);
+                });
+
+                it("Then it should route to account details page", () => {
+                  const route = config.frontend.accounts.details;
+                  expect(mockRouter.push).toHaveBeenCalledWith(route);
+                });
+              });
+            });
           });
         });
       });

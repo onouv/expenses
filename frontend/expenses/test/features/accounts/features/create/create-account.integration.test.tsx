@@ -67,16 +67,15 @@ describe("Create Account - happy cases", () => {
         testStandardFormButtonsDirty();
 
         describe("When user saves the data", () => {
-          const url = config.frontend.accounts.default;
+          const frontendRoute = config.frontend.accounts.default;
 
           beforeEach(async () => {
             const saveButton = await screen.findByText(/save/i);
             await userEvent.click(saveButton);
-            //fireEvent.click(saveButton);
           });
 
           it("Then it should route to account overview page", () => {
-            expect(mockRouter.push).toHaveBeenCalledWith(url);
+            expect(mockRouter.push).toHaveBeenCalledWith(frontendRoute);
           });
         });
       });
@@ -120,7 +119,7 @@ describe("Create Account - failures", () => {
         );
 
         const saveButton = await screen.findByText(/save/i);
-        await userEvent.click(saveButton);
+        await user.click(saveButton);
       });
 
       describe("When Server returns error", () => {

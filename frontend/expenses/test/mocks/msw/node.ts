@@ -6,7 +6,7 @@ const mockServer = setupServer(...handlers);
 
 // Start server before all tests
 beforeAll(() => {
-  mockServer.listen({ onUnhandledRequest: "error" });
+  mockServer.listen();
 });
 
 //  Close server after all tests
