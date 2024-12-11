@@ -67,7 +67,7 @@ describe("Create Account - happy cases", () => {
         testStandardFormButtonsDirty();
 
         describe("When user saves the data", () => {
-          const url = config.ACCOUNTS_PARTIAL_URL;
+          const url = config.frontend.accounts.default;
 
           beforeEach(async () => {
             const saveButton = await screen.findByText(/save/i);
@@ -102,8 +102,7 @@ describe("Create Account - failures", () => {
 
         await enterAccountData(account);
 
-        const postUrl =
-          config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_CREATE_PARTIAL_URL;
+        const postUrl = config.backend.accounts.create;
         mockServer.use(
           http.post(postUrl, async ({ request }) => {
             const dto = await request.json();
@@ -144,7 +143,7 @@ describe("Create Account - failures", () => {
           //
 
           it("Then it should route to account overview page", () => {
-            const route = config.ACCOUNTS_PARTIAL_URL;
+            const route = config.frontend.accounts.default;
             expect(mockRouter.push).toHaveBeenCalledWith(route);
           });
         });

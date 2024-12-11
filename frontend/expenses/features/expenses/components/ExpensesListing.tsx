@@ -88,7 +88,7 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
           <Grid item>
             <Link
               href={{
-                pathname: config.EXPENSE_ASSIGN_PARTIAL_URL,
+                pathname: config.frontend.expenses.assign,
                 query: { accountno: account },
               }}
             >

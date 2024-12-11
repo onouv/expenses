@@ -1,7 +1,7 @@
 import { http, HttpHandler, HttpResponse } from "msw";
 import config from "@/app-config.json";
 
-const url = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_CREATE_PARTIAL_URL;
+const url = config.backend.accounts.create;
 
 const handlers: HttpHandler[] = [
   http.post(url, async ({ request }) => {

@@ -7,7 +7,7 @@ import axios from "axios";
 import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 import ApiStateT from "@/common/api/ApiStateT";
 
-const url = config.BACKEND_SERVICE_BASE_URL + config.EXPENSE_ASSIGN_PARTIAL_URL;
+const url = config.backend.expenses.assign;
 
 export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
   const [apiState, setApiState] = useState<ApiStateT<PlannedExpenseT>>({

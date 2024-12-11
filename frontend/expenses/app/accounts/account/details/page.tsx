@@ -22,7 +22,7 @@ const AccountDetailsPage = () => {
     return (
       <ErrorPage
         prompt="Cannot load account data."
-        nextRoute={config.ACCOUNTS_PARTIAL_URL}
+        nextRoute={config.frontend.accounts.default}
       />
     );
   }
@@ -32,7 +32,10 @@ const AccountDetailsPage = () => {
   }
 
   return (
-    <FeaturePage title="Account Details" backUrl={config.ACCOUNTS_PARTIAL_URL}>
+    <FeaturePage
+      title="Account Details"
+      backUrl={config.frontend.accounts.default}
+    >
       <AccountDetails account={data} />
     </FeaturePage>
   );

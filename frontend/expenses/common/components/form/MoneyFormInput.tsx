@@ -34,7 +34,7 @@ export const MoneyFormInput = ({
             control={control}
             render={({ field: { value, onChange } }) => (
               <FormControl size="medium" fullWidth>
-                <Select value={value} onChange={onChange}>
+                <Select value={value} onChange={onChange} variant="outlined">
                   {CURRENCIES.map((currency) => (
                     <MenuItem key={currency.key} value={currency.key}>
                       <Grid

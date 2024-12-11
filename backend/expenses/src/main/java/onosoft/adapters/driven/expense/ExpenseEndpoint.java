@@ -56,7 +56,7 @@ public class ExpenseEndpoint {
     }
 
     @DELETE
-    @Path("/delete")
+    @Path("/expense/delete")
     public Response deleteExpenseList(DeleteExpenseListRequestDto dto) throws NoSuchExpenseException {
         log.infof("Request to delete %d expenses", dto.expenseIds().size());
         this.expenseService.deleteExpenseList(dto.expenseIds());
