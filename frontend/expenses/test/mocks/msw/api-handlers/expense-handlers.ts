@@ -10,9 +10,9 @@ export const mockAssignExpenseApi = (
   errorMessage: string,
 ): HttpHandler =>
   http.post(backendUrl, async ({ request }) => {
-    const data: PlannedExpenseT | undefined =
+    const requestData: PlannedExpenseT | undefined =
       (await request.json()) as PlannedExpenseT;
-    if (data && equals(data, expectedExpense)) {
+    if (requestData && equals(requestData, expectedExpense)) {
       return new HttpResponse(null, { status: 200 });
     }
 
