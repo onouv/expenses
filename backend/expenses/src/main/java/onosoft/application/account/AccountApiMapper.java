@@ -22,7 +22,7 @@ public class AccountApiMapper {
         final List<ExpenseEntityDto> dtos = new ArrayList<ExpenseEntityDto>();
 
         expenses.forEach(expense -> {
-            dtos.add(this.expenseApiMapper.domainToDto(expense));
+            dtos.add(this.expenseApiMapper.domainToEntityDto(expense));
         });
 
         return AccountDto

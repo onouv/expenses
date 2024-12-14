@@ -22,6 +22,7 @@ import WaitingPrompt from "@/components/WaitingPrompt";
 import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
 import ExpenseT from "@/features/accounts/types/ExpenseT";
 import FormSaveButton from "@/components/form/FormSaveButton";
+import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDtoT";
 
 type Props = {
   account: AccountDetailsT;
@@ -40,12 +41,14 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
 
   useEffect(() => {
     if (isSuccessful) {
-      router.push(detailsUrlPartial(account.accountNo));
+      const route = detailsUrlPartial(account.accountNo);
+      router.push(route);
     }
   }, [isSuccessful, router, account.accountNo]);
 
   const onSubmit = async (expense: PlannedExpenseT) => {
-    await requestCall(expense);
+    const payload: PlannedExpenseDto.Type = PlannedExpenseDto.of(expense);
+    await requestCall(payload);
   };
 
   if (error) {
@@ -137,7 +140,7 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <DateFormInput
-              fieldName={plannedExpenseFieldNames.paymentDate}
+              fieldName={plannedExpenseFieldNames.paymentTargetDate}
               label="Payment Date"
             />
           </Grid>

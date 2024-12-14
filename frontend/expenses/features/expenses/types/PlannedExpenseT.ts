@@ -8,7 +8,7 @@ export const PlannedExpenseTSchema = AccountNumSchema.shape({
   purpose: string().required().max(120),
   amount: MoneyTSchema,
   accruedDate: date().required(),
-  paymentDate: date().required(),
+  paymentTargetDate: date().required(),
   paymentType: PaymentTypeESchema,
   isInvoiced: boolean().required(),
 });
@@ -22,7 +22,7 @@ type PlannedExpenseFieldNamesT = {
   purpose: keyof Pick<PlannedExpenseT, "purpose">;
   amount: keyof Pick<PlannedExpenseT, "amount">;
   accruedDate: keyof Pick<PlannedExpenseT, "accruedDate">;
-  paymentDate: keyof Pick<PlannedExpenseT, "paymentDate">;
+  paymentTargetDate: keyof Pick<PlannedExpenseT, "paymentDate">;
   paymentType: keyof Pick<PlannedExpenseT, "paymentType">;
   isInvoiced: keyof Pick<PlannedExpenseT, "isInvoiced">;
 };
@@ -33,7 +33,7 @@ export const plannedExpenseFieldNames: PlannedExpenseFieldNamesT = {
   purpose: "purpose",
   amount: "amount",
   accruedDate: "accruedDate",
-  paymentDate: "paymentDate",
+  paymentTargetDate: "paymentTargetDate",
   paymentType: "paymentType",
   isInvoiced: "isInvoiced",
 } as const;
@@ -44,23 +44,10 @@ export const defaultPlannedExpense: PlannedExpenseT = {
   purpose: "",
   amount: defaultMoney,
   accruedDate: new Date(),
-  paymentDate: new Date(),
+  paymentTargetDate: new Date(),
   paymentType: PaymentTypeE.Unknown,
   isInvoiced: false,
 };
 Object.freeze(defaultPlannedExpense);
-
-export function equals(left: PlannedExpenseT, right: PlannedExpenseT): boolean {
-  return (
-    left.accountNo == right.accountNo &&
-    left.recipient == right.recipient &&
-    left.purpose == right.purpose &&
-    left.amount.value == right.amount.value &&
-    left.amount.currency == right.amount.currency &&
-    left.accruedDate == right.accruedDate &&
-    left.paymentDate == right.paymentDate &&
-    left.paymentType == right.paymentType
-  );
-}
 
 export default PlannedExpenseT;

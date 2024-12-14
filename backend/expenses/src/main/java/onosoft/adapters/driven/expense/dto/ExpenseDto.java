@@ -7,16 +7,12 @@ import lombok.experimental.SuperBuilder;
 import onosoft.adapters.driven.commons.money.MoneyDto;
 import onosoft.domain.model.PaymentType;
 
-import java.sql.Date;
-
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
 @ToString
 @SuperBuilder
 public class ExpenseDto {
-
-
     @NonNull
     @Size(max = 120)
     protected String recipient;
@@ -29,13 +25,14 @@ public class ExpenseDto {
     protected MoneyDto amount;
 
     @NonNull
-    protected Date accruedDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    protected String accruedDate;
 
     @Builder.Default
     protected final PaymentType paymentType = PaymentType.Unknown;
 
     @JsonFormat(pattern="yyyy-MM-dd")
-    protected Date paymentTargetDate;
+    protected String paymentTargetDate;
 
     protected boolean isInvoiced;
 }

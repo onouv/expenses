@@ -8,8 +8,6 @@ import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
 import onosoft.domain.model.ExpenseStatus;
 
-import java.sql.Date;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuperBuilder
@@ -25,5 +23,5 @@ public class ExpenseEntityDto extends ExpenseDto {
     protected ExpenseStatus expenseStatus;
 
     @JsonFormat(pattern="yyyy-MM-dd")
-    protected Date paymentActualDate;
+    protected String paymentActualDate;
 }
