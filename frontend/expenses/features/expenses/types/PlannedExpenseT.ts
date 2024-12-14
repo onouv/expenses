@@ -22,7 +22,7 @@ type PlannedExpenseFieldNamesT = {
   purpose: keyof Pick<PlannedExpenseT, "purpose">;
   amount: keyof Pick<PlannedExpenseT, "amount">;
   accruedDate: keyof Pick<PlannedExpenseT, "accruedDate">;
-  paymentTargetDate: keyof Pick<PlannedExpenseT, "paymentDate">;
+  paymentTargetDate: keyof Pick<PlannedExpenseT, "paymentTargetDate">;
   paymentType: keyof Pick<PlannedExpenseT, "paymentType">;
   isInvoiced: keyof Pick<PlannedExpenseT, "isInvoiced">;
 };

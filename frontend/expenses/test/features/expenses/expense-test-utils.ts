@@ -2,6 +2,7 @@ import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 import user, { userEvent } from "@testing-library/user-event";
 import { screen } from "@testing-library/react";
 import PaymentTypeE from "@/common/types/PaymentTypeE";
+import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDtoT";
 
 export type ExpenseDataControls = {
   recipient: HTMLElement | undefined;
@@ -47,7 +48,7 @@ async function enterAmount(input: HTMLElement, amount: string) {
 }
 
 export const enterExpenseData = async (
-  expense: PlannedExpenseT,
+  expense: PlannedExpenseDto.Type,
   controls: ExpenseDataControls,
 ) => {
   if (controls.recipient)
@@ -60,9 +61,9 @@ export const enterExpenseData = async (
   }
    */
   if (controls.dateAccrued)
-    await user.type(controls.dateAccrued, expense.accruedDate.toString());
+    await user.type(controls.dateAccrued, expense.accruedDate);
   if (controls.withInvoice && expense.isInvoiced)
     await user.click(controls.withInvoice);
   if (controls.paymentDate)
-    await user.type(controls.paymentDate, expense.paymentDate.toString());
+    await user.type(controls.paymentDate, expense.paymentTargetDate);
 };

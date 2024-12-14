@@ -13,7 +13,6 @@ import {
 } from "@/test/form-test-utils";
 import PaymentTypeE from "@/common/types/PaymentTypeE";
 import CurrencyE from "@/common/types/CurrencyE";
-import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 import {
   enterExpenseData,
   ExpenseDataControls,
@@ -23,6 +22,7 @@ import config from "@/app-config.json";
 import user from "@testing-library/user-event";
 import { mockAssignExpenseApi } from "@/test/mocks/msw/api-handlers/expense-handlers";
 import mockServer from "@/test/mocks/msw/node";
+import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDtoT";
 
 describe("Feature Assign Expense", () => {
   describe("Given an account without expenses", () => {
@@ -96,7 +96,7 @@ describe("Feature Assign Expense", () => {
     });
 
     describe("And given expense data", () => {
-      const expenseData: PlannedExpenseT = {
+      const expenseData: PlannedExpenseDto.Type = {
         accountNo: account.accountNo,
         recipient: "Mobsters Inc.",
         purpose: "Protection services rendered",
@@ -104,10 +104,10 @@ describe("Feature Assign Expense", () => {
           value: "0.00",
           currency: CurrencyE.EUR,
         },
-        accruedDate: new Date(),
+        accruedDate: "12/14/2024",
         isInvoiced: true,
-        paymentDate: new Date(),
-        paymentType: PaymentTypeE.Cash,
+        paymentTargetDate: "01/14/2025",
+        paymentType: PaymentTypeE.BankTransfer,
       };
       describe("When opening the assign expense form", () => {
         beforeEach(async () => {
