@@ -3,7 +3,7 @@ import config from "@/app-config.json";
 import fetcher from "@/common/api/fetcher";
 import useSWR, { SWRResponse } from "swr";
 
-const url = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNTS_PARTIAL_URL;
+const url = config.backend.accounts.default;
 
 export default function useGetAccountsApi(): SWRResponse<AccountT[]> {
   return useSWR<AccountT[]>(url, fetcher);

@@ -4,8 +4,7 @@ import { useCallback, useState } from "react";
 import ApiStateT from "@/common/api/ApiStateT";
 import axios from "axios";
 
-const url =
-  config.BACKEND_SERVICE_BASE_URL + config.EXPENSES_DELETE_PARTIAL_URL;
+const url = config.backend.expenses.delete;
 
 export default function useDeleteExpensesApi(): RequestApiT<number[]> {
   const [apiState, setApiState] = useState<ApiStateT<number[]>>({

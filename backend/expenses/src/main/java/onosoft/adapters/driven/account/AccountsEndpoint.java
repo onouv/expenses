@@ -50,7 +50,7 @@ public class AccountsEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public RestResponse<List<AccountMetaDto>> getAccounts() throws AmountExceedsRangeException {
-        log.info("request to get accounts");
+        log.info("request to get all accounts");
         List<Account> data = this.repo.loadAllAccounts();
         List<AccountMetaDto> payload = new ArrayList<>();
         data.forEach(account -> {

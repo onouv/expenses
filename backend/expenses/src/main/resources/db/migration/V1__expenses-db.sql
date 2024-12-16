@@ -19,9 +19,9 @@ CREATE TABLE expenses
     purpose             VARCHAR(120),
     money_micro_units   BIGINT,
     money_currency      NCHAR(3),
-    accrued_date        DATE,
-    payment_target_date DATE,
-    payment_actual_date DATE,
+    accrued_date        VARCHAR(10),
+    payment_target_date VARCHAR(10),
+    payment_actual_date VARCHAR(10),
     payment_type        VARCHAR(32),
     expense_status      VARCHAR(32),
     is_invoiced         BOOLEAN

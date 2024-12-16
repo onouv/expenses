@@ -2,11 +2,12 @@ package onosoft.adapters.driving.expense;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import onosoft.adapters.driven.commons.FormattedDate;
+import onosoft.adapters.driving.account.AccountJpaData;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.application.commons.money.MoneyDataMapper;
 import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
-import onosoft.adapters.driving.account.AccountJpaData;
 
 @ApplicationScoped
 public class    ExpenseDataMapper {
@@ -16,15 +17,19 @@ public class    ExpenseDataMapper {
 
 
     public Expense dataToDomain(ExpenseJpaData data, Account account) throws AmountExceedsRangeException {
+
+        final String paymentTargetDate = data.getPaymentTargetDate();
+        final String paymentActualDate = data.getPaymentActualDate();
+
         return Expense.builder()
                 .account(account)
                 .expenseId(data.getId())
                 .recipient(data.getRecipient())
                 .purpose(data.getPurpose())
                 .amount(moneyDataMapper.dataToDomain(data.getAmount()))
-                .accruedDate(data.getAccruedDate())
-                .paymentTargetDate(data.getPaymentTargetDate())
-                .paymentActualDate(data.getPaymentActualDate())
+                .accruedDate(new FormattedDate(data.getAccruedDate()))
+                .paymentTargetDate(paymentTargetDate != null ? new FormattedDate(paymentTargetDate): null)
+                .paymentActualDate(paymentActualDate != null ? new FormattedDate(paymentActualDate): null)
                 .isInvoiced(data.isInvoiced())
                 .paymentType(data.getPaymentType())
                 .expenseStatus(data.getExpenseStatus())
@@ -40,14 +45,18 @@ public class    ExpenseDataMapper {
      */
     public ExpenseJpaData domainToData(Expense domain, AccountJpaData account) {
 
+        final FormattedDate paymentTargetDate = domain.getPaymentTargetDate();
+        final FormattedDate paymentActualDate = domain.getPaymentActualDate();
+
         return ExpenseJpaData.builder()
                 .id(domain.getExpenseId())
                 .account(account)
                 .recipient(domain.getRecipient())
                 .purpose(domain.getPurpose())
                 .amount(moneyDataMapper.domainToData(domain.getAmount()))
-                .accruedDate(domain.getAccruedDate())
-                .paymentTargetDate(domain.getPaymentTargetDate())
+                .accruedDate(domain.getAccruedDate().toString())
+                .paymentTargetDate(paymentTargetDate != null ? paymentTargetDate.toString(): null)
+                .paymentActualDate(paymentActualDate != null ? paymentActualDate.toString(): null)
                 .isInvoiced(domain.isInvoiced())
                 .paymentType(domain.getPaymentType())
                 .expenseStatus(domain.getExpenseStatus())

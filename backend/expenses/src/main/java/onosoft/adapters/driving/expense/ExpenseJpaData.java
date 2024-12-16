@@ -1,15 +1,14 @@
 package onosoft.adapters.driving.expense;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-import onosoft.domain.model.ExpenseStatus;
-import onosoft.domain.model.PaymentType;
 import onosoft.adapters.driving.account.AccountJpaData;
 import onosoft.adapters.driving.commons.money.MoneyJpaData;
+import onosoft.domain.model.ExpenseStatus;
+import onosoft.domain.model.PaymentType;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.dialect.PostgreSQLEnumJdbcType;
-
-import java.sql.Date;
 
 import static org.hibernate.Length.LONG32;
 
@@ -31,22 +30,27 @@ public class ExpenseJpaData {
     private AccountJpaData account;
 
     @Column(name = "recipient", length = 120)
+    @Size(max = 120)
     private String recipient;
 
     @Column(name="purpose", length = 120)
+    @Size(max = 120)
     private String purpose;
 
     @Embedded
     private MoneyJpaData amount;
 
-    @Column(name="accrued_date")
-    private Date accruedDate;
+    @Column(name="accrued_date", length = 10)
+    @Size(max = 10)
+    private String accruedDate;
 
-    @Column(name="payment_target_date")
-    private Date paymentTargetDate;
+    @Column(name="payment_target_date", length = 10)
+    @Size(max = 10)
+    private String paymentTargetDate;
 
-    @Column(name="payment_actual_date")
-    private Date paymentActualDate;
+    @Column(name="payment_actual_date", length = 10)
+    @Size(max = 10)
+    private String paymentActualDate;
 
     @Column(name="is_invoiced")
     private boolean isInvoiced;

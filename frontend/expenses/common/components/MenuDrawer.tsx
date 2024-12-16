@@ -29,17 +29,17 @@ const MenuDrawer: React.FC = ({ isOpen, toggleOpen }: Props) => (
           <Divider />
         </ListItem>
         <ListItem>
-          <Link href={config.ACCOUNTS_PARTIAL_URL}>
+          <Link href={config.frontend.accounts.default}>
             <Typography>Accounts</Typography>
           </Link>
         </ListItem>
         <ListItem>
-          <Link href={config.EXPENSES_PARTIAL_URL}>
+          <Link href={config.frontend.expenses.default}>
             <Typography>Expenses</Typography>
           </Link>
         </ListItem>
         <ListItem>
-          <Link href={config.REPORT_PARTIAL_URL}>
+          <Link href={config.frontend.report.default}>
             <Typography>Reporting</Typography>
           </Link>
         </ListItem>

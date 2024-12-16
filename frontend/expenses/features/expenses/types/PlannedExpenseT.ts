@@ -8,7 +8,7 @@ export const PlannedExpenseTSchema = AccountNumSchema.shape({
   purpose: string().required().max(120),
   amount: MoneyTSchema,
   accruedDate: date().required(),
-  paymentDate: date().required(),
+  paymentTargetDate: date().required(),
   paymentType: PaymentTypeESchema,
   isInvoiced: boolean().required(),
 });
@@ -22,7 +22,7 @@ type PlannedExpenseFieldNamesT = {
   purpose: keyof Pick<PlannedExpenseT, "purpose">;
   amount: keyof Pick<PlannedExpenseT, "amount">;
   accruedDate: keyof Pick<PlannedExpenseT, "accruedDate">;
-  paymentDate: keyof Pick<PlannedExpenseT, "paymentDate">;
+  paymentTargetDate: keyof Pick<PlannedExpenseT, "paymentTargetDate">;
   paymentType: keyof Pick<PlannedExpenseT, "paymentType">;
   isInvoiced: keyof Pick<PlannedExpenseT, "isInvoiced">;
 };
@@ -33,7 +33,7 @@ export const plannedExpenseFieldNames: PlannedExpenseFieldNamesT = {
   purpose: "purpose",
   amount: "amount",
   accruedDate: "accruedDate",
-  paymentDate: "paymentDate",
+  paymentTargetDate: "paymentTargetDate",
   paymentType: "paymentType",
   isInvoiced: "isInvoiced",
 } as const;
@@ -44,7 +44,7 @@ export const defaultPlannedExpense: PlannedExpenseT = {
   purpose: "",
   amount: defaultMoney,
   accruedDate: new Date(),
-  paymentDate: new Date(),
+  paymentTargetDate: new Date(),
   paymentType: PaymentTypeE.Unknown,
   isInvoiced: false,
 };

@@ -11,6 +11,10 @@ import mockServer from "@/test/mocks/msw/node";
 import { http, HttpResponse } from "msw";
 import { HttpStatusCode } from "axios";
 import AccountT from "@/features/accounts/types/AccountT";
+import {
+  testStandardFormButtonsDirty,
+  testStandardFormButtonsPristine,
+} from "@/test/form-test-utils";
 
 const enterAccountData = async (account: AccountT) => {
   const accountNoInput = await screen.findByLabelText("Account No");
@@ -41,23 +45,7 @@ describe("Create Account - happy cases", () => {
         );
       });
 
-      it("Then it should have disabled reset button", () => {
-        const button = screen.getByText(/reset/i);
-        expect(button).toBeInTheDocument();
-        expect(button).toBeDisabled();
-      });
-
-      it("Then it should have disabled save button", () => {
-        const button = screen.getByText(/save/i);
-        expect(button).toBeInTheDocument();
-        expect(button).toBeDisabled();
-      });
-
-      it("Then it should have an enabled cancel button", async () => {
-        const button = await screen.findByText(/cancel/i);
-        expect(button).toBeInTheDocument();
-        expect(button).toBeEnabled();
-      });
+      testStandardFormButtonsPristine();
 
       describe("When entering valid account data", () => {
         beforeEach(async () => {
@@ -76,29 +64,18 @@ describe("Create Account - happy cases", () => {
           expect(descriptionInput).toHaveValue(account.accountDescription);
         });
 
-        it("Then it should have enabled save button", () => {
-          const button = screen.getByText(/save/i);
-          expect(button).toBeInTheDocument();
-          expect(button).toBeEnabled();
-        });
-
-        it("Then it should have enabled reset button", () => {
-          const button = screen.getByText(/reset/i);
-          expect(button).toBeInTheDocument();
-          expect(button).toBeEnabled();
-        });
+        testStandardFormButtonsDirty();
 
         describe("When user saves the data", () => {
-          const url = config.ACCOUNTS_PARTIAL_URL;
+          const frontendRoute = config.frontend.accounts.default;
 
           beforeEach(async () => {
             const saveButton = await screen.findByText(/save/i);
             await userEvent.click(saveButton);
-            //fireEvent.click(saveButton);
           });
 
           it("Then it should route to account overview page", () => {
-            expect(mockRouter.push).toHaveBeenCalledWith(url);
+            expect(mockRouter.push).toHaveBeenCalledWith(frontendRoute);
           });
         });
       });
@@ -124,8 +101,7 @@ describe("Create Account - failures", () => {
 
         await enterAccountData(account);
 
-        const postUrl =
-          config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_CREATE_PARTIAL_URL;
+        const postUrl = config.backend.accounts.create;
         mockServer.use(
           http.post(postUrl, async ({ request }) => {
             const dto = await request.json();
@@ -143,7 +119,7 @@ describe("Create Account - failures", () => {
         );
 
         const saveButton = await screen.findByText(/save/i);
-        await userEvent.click(saveButton);
+        await user.click(saveButton);
       });
 
       describe("When Server returns error", () => {
@@ -166,7 +142,7 @@ describe("Create Account - failures", () => {
           //
 
           it("Then it should route to account overview page", () => {
-            const route = config.ACCOUNTS_PARTIAL_URL;
+            const route = config.frontend.accounts.default;
             expect(mockRouter.push).toHaveBeenCalledWith(route);
           });
         });

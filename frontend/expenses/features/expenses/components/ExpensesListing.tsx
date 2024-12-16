@@ -9,7 +9,7 @@ import Link from "next/link";
 import config from "@/app-config.json";
 import useDeleteExpensesApi from "@/features/expenses/features/assign/api/useDeleteExpensesApi";
 import ErrorPage from "@/components/ErrorPage";
-import { detailsUrlPartial } from "@/features/accounts/features/details/utils/route";
+import { accountDetailsUrl } from "@/features/accounts/features/details/utils/route";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
 
@@ -37,7 +37,7 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
     if (isSuccessful) {
       // notice: router.push or refresh don't work in this case, therefore complete reload
       // @ts-ignore
-      window.location = detailsUrlPartial(account);
+      window.location = accountDetailsUrl(account);
     }
   }, [isSuccessful, account, router]);
 
@@ -45,7 +45,7 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
     return (
       <ErrorPage
         prompt={error.message}
-        nextRoute={detailsUrlPartial(account)}
+        nextRoute={accountDetailsUrl(account)}
       />
     );
   }
@@ -88,7 +88,7 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
           <Grid item>
             <Link
               href={{
-                pathname: config.EXPENSE_ASSIGN_PARTIAL_URL,
+                pathname: config.frontend.expenses.assign,
                 query: { accountno: account },
               }}
             >

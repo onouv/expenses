@@ -8,9 +8,6 @@ import ErrorPage from "@/components/ErrorPage";
 import config from "@/app-config.json";
 import FeaturePage from "@/components/FeaturePage";
 import AssignExpenseForm from "@/features/expenses/features/assign/components/AssignExpenseForm";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import DummyForm from "@/features/expenses/features/assign/components/DummyForm";
 
 const ExpenseAssignPage = (): ReactElement => {
   const params = useSearchParams();
@@ -26,7 +23,7 @@ const ExpenseAssignPage = (): ReactElement => {
     return (
       <ErrorPage
         prompt="Error while loading data from server."
-        nextRoute={config.ACCOUNTS_PARTIAL_URL}
+        nextRoute={config.frontend.accounts.default}
       />
     );
   }
@@ -38,7 +35,7 @@ const ExpenseAssignPage = (): ReactElement => {
   return (
     <FeaturePage
       title="Assign Expense to Account"
-      backUrl={`${config.ACCOUNT_DETAILS_PARTIAL_URL}?accountno=${data.accountNo}`}
+      backUrl={`${config.frontend.accounts.details}?accountno=${data.accountNo}`}
     >
       <AssignExpenseForm account={data} />
     </FeaturePage>

@@ -28,7 +28,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
 
   useEffect(() => {
     if (isSuccessful) {
-      router.push(config.ACCOUNTS_PARTIAL_URL);
+      router.push(config.frontend.accounts.default);
     }
   }, [isSuccessful, router]);
 
@@ -40,7 +40,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
     return (
       <ErrorPage
         prompt="Error while saving account to server."
-        nextRoute={config.ACCOUNT_CREATE_PARTIAL_URL}
+        nextRoute={config.frontend.accounts.create}
       />
     );
   }
@@ -68,7 +68,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
             <Grid item xs={1}>
               <Button
                 onClick={() => {
-                  router.push(config.ACCOUNTS_PARTIAL_URL);
+                  router.push(config.frontend.accounts.default);
                 }}
               >
                 CANCEL

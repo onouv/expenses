@@ -13,7 +13,7 @@ import config from "@/app-config.json";
 import { Button, Stack } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { detailsUrlPartial } from "@/features/accounts/features/details/utils/route";
+import { accountDetailsUrl } from "@/features/accounts/features/details/utils/route";
 
 type Props = {
   accounts: AccountT[] | undefined;
@@ -39,7 +39,7 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
               <TableRow
                 hover
                 onClick={() => {
-                  router.push(detailsUrlPartial(account.accountNo));
+                  router.push(accountDetailsUrl(account.accountNo));
                 }}
                 key={account.accountNo}
               >
@@ -59,7 +59,7 @@ const AccountsListing = ({ accounts }: Props): ReactElement => {
       </TableContainer>
       <Grid container padding={3} justifyContent="left" alignItems="center">
         <Grid item>
-          <Link href={config.ACCOUNT_CREATE_PARTIAL_URL}>
+          <Link href={config.frontend.accounts.create}>
             <Button>New Account</Button>
           </Link>
         </Grid>

@@ -29,6 +29,7 @@ const MoneyValueFormInput = ({
             onChange={onChange}
             value={value}
             customInput={TextField}
+            inputProps={{ "data-testid": "money-value-input" }}
             {...muiProps}
           />
         );

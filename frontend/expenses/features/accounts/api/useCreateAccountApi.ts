@@ -7,7 +7,7 @@ import config from "@/app-config.json";
 import RequestApiT from "@/common/api/RequestApiT";
 import ApiStateT from "@/common/api/ApiStateT";
 
-const url = config.BACKEND_SERVICE_BASE_URL + config.ACCOUNT_CREATE_PARTIAL_URL;
+const url = config.backend.accounts.create;
 
 export default function useCreateAccountApi(): RequestApiT<AccountT> {
   const [apiState, setApiState] = useState<ApiStateT<AccountT>>({

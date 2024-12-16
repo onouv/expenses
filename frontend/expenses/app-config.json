@@ -1,12 +1,35 @@
 {
-  "BACKEND_SERVICE_BASE_URL": "http://localhost:5001",
-  "ACCOUNTS_PARTIAL_URL": "/accounts",
-  "ACCOUNT_CREATE_PARTIAL_URL": "/accounts/account/create",
-  "ACCOUNT_DETAILS_PARTIAL_URL": "/accounts/account/details",
-  "EXPENSES_PARTIAL_URL": "/expenses",
-  "EXPENSE_ASSIGN_PARTIAL_URL": "/expenses/expense/assign",
-  "EXPENSE_INVOICE_PARTIAL_URL": "/expenses/expense/invoice",
-  "EXPENSE_PAID_PARTIAL_URL": "/expenses/expense/paid",
-  "EXPENSES_DELETE_PARTIAL_URL": "/expenses/delete",
-  "REPORT_PARTIAL_URL": "/report"
+  "frontend": {
+    "default": "/",
+    "accounts": {
+      "default": "/accounts",
+      "create": "/accounts/account/create",
+      "details": "/accounts/account/details"
+    },
+    "expenses": {
+      "default": "/expenses",
+      "assign": "/expenses/expense/assign",
+      "delete": "/expenses/expense/delete",
+      "invoice": "/expenses/expense/invoice",
+      "paid": "/expenses/expense/paid"
+    },
+    "report": {
+      "default": "/report"
+    }
+  },
+  "backend": {
+    "default": "http://localhost:5001",
+    "accounts": {
+      "default": "http://localhost:5001/accounts",
+      "create": "http://localhost:5001/accounts/account/create",
+      "details": "http://localhost:5001/accounts/account/details"
+    },
+    "expenses": {
+      "default": "http://localhost:5001/expenses",
+      "assign": "http://localhost:5001/expenses/expense/assign",
+      "delete": "http://localhost:5001/expenses/expense/delete",
+      "invoice": "http://localhost:5001/expenses/expense/invoice",
+      "paid": "http://localhost:5001/expenses/expense/paid"
+    }
+  }
 }
