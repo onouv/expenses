@@ -6,7 +6,7 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDtoT";
+import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
 
 const url = config.backend.expenses.assign;
 

@@ -28,6 +28,7 @@ const PaymentTypeInput = ({
             variant="outlined"
             value={value}
             onChange={onChange}
+            data-testid="payment-type-select"
           >
             {paymentTypes.map((pT) => (
               <MenuItem key={pT} value={pT}>

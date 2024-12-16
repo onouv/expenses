@@ -1,8 +1,15 @@
 import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 import user, { userEvent } from "@testing-library/user-event";
-import { screen } from "@testing-library/react";
+import {
+  act,
+  getByRole,
+  getByText,
+  screen,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import PaymentTypeE from "@/common/types/PaymentTypeE";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDtoT";
+import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
 
 export type ExpenseDataControls = {
   recipient: HTMLElement | undefined;
@@ -13,7 +20,7 @@ export type ExpenseDataControls = {
   //currency: HTMLElement | undefined;
   withInvoice: HTMLElement | undefined;
   uploadInvoice: HTMLElement | undefined;
-  paymentDate: HTMLElement | undefined;
+  paymentTargetDate: HTMLElement | undefined;
   paymentType: HTMLElement | undefined;
   uploadReceipt: HTMLElement | undefined;
 };
@@ -29,8 +36,8 @@ export const findFormDataControls = async (): Promise<ExpenseDataControls> => ({
   uploadInvoice: await screen.findByRole("button", {
     name: /invoice/i,
   }),
-  paymentDate: await screen.findByLabelText(/payment date/i),
-  paymentType: await screen.findByText(PaymentTypeE.Unknown),
+  paymentTargetDate: await screen.findByLabelText(/payment date/i),
+  paymentType: await screen.findByTestId("payment-type-select"),
   uploadReceipt: await screen.findByRole("button", {
     name: /receipt/i,
   }),
@@ -64,6 +71,15 @@ export const enterExpenseData = async (
     await user.type(controls.dateAccrued, expense.accruedDate);
   if (controls.withInvoice && expense.isInvoiced)
     await user.click(controls.withInvoice);
-  if (controls.paymentDate)
-    await user.type(controls.paymentDate, expense.paymentTargetDate);
+  if (controls.paymentTargetDate)
+    await user.type(controls.paymentTargetDate, expense.paymentTargetDate);
+
+  // TODO : select any valid value in the paymentType <Select> control. This does NOT work:
+  /*
+  if (controls.paymentType && expense.paymentType) {
+    await userEvent.click(controls.paymentType);
+    const paymentType = await screen.findByText(expense.paymentType);
+    await userEvent.click(paymentType);
+  }
+   */
 };

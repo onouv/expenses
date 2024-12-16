@@ -22,7 +22,7 @@ import config from "@/app-config.json";
 import user from "@testing-library/user-event";
 import { mockAssignExpenseApi } from "@/test/mocks/msw/api-handlers/expense-handlers";
 import mockServer from "@/test/mocks/msw/node";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDtoT";
+import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
 
 describe("Feature Assign Expense", () => {
   describe("Given an account without expenses", () => {
@@ -96,7 +96,7 @@ describe("Feature Assign Expense", () => {
     });
 
     describe("And given expense data", () => {
-      const expenseData: PlannedExpenseDto.Type = {
+      const expenseData = {
         accountNo: account.accountNo,
         recipient: "Mobsters Inc.",
         purpose: "Protection services rendered",
@@ -106,8 +106,8 @@ describe("Feature Assign Expense", () => {
         },
         accruedDate: "12/14/2024",
         isInvoiced: true,
-        paymentTargetDate: "01/14/2025",
-        paymentType: PaymentTypeE.BankTransfer,
+        paymentTargetDate: "12/14/2024",
+        paymentType: PaymentTypeE.Unknown,
       };
       describe("When opening the assign expense form", () => {
         beforeEach(async () => {
@@ -127,10 +127,16 @@ describe("Feature Assign Expense", () => {
 
           testStandardFormButtonsDirty();
 
-          it("Then it should show the correct expense data", () => {
+          it("Then it should show the correct expense data", async () => {
             expect(controls.recipient).toHaveValue(expenseData.recipient);
             expect(controls.purpose).toHaveValue(expenseData.purpose);
-            // TODO: check other controls
+            const paymentType = await screen.findByText(
+              expenseData.paymentType,
+            );
+            expect(paymentType).toBeInTheDocument();
+
+            // TODO: test accruedDate, paymentDate, amount, currency, isInvoiced
+
             // TODO: figure out how to enter a value for amount
             //expect(controls.amount).toHaveValue("0.00");
           });
@@ -179,8 +185,8 @@ describe("Feature Assign Expense", () => {
                 });
 
                 it("Then it should route to account details page", () => {
-                  const route = config.frontend.accounts.details;
-                  expect(mockRouter.push).toHaveBeenCalledWith(route);
+                  const frontendRoute = `${config.frontend.accounts.details}?accountno=${account.accountNo}`;
+                  expect(mockRouter.push).toHaveBeenCalledWith(frontendRoute);
                 });
               });
             });

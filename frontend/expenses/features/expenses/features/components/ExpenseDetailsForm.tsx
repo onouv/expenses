@@ -14,7 +14,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PaymentTypeInput from "@/features/expenses/components/PaymentTypeInput";
 import FormResetButton from "@/components/form/FormResetButton";
-import { detailsUrlPartial } from "@/features/accounts/features/details/utils/route";
+import { accountDetailsUrl } from "@/features/accounts/features/details/utils/route";
 import useAssignExpenseApi from "@/features/expenses/features/assign/api/useAssignExpenseApi";
 import { useRouter } from "next/navigation";
 import ErrorPage from "@/components/ErrorPage";
@@ -22,7 +22,7 @@ import WaitingPrompt from "@/components/WaitingPrompt";
 import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
 import ExpenseT from "@/features/accounts/types/ExpenseT";
 import FormSaveButton from "@/components/form/FormSaveButton";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDtoT";
+import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
 
 type Props = {
   account: AccountDetailsT;
@@ -41,7 +41,7 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
 
   useEffect(() => {
     if (isSuccessful) {
-      const route = detailsUrlPartial(account.accountNo);
+      const route = accountDetailsUrl(account.accountNo);
       router.push(route);
     }
   }, [isSuccessful, router, account.accountNo]);
@@ -55,7 +55,7 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
     return (
       <ErrorPage
         prompt={error.message}
-        nextRoute={detailsUrlPartial(account.accountNo)}
+        nextRoute={accountDetailsUrl(account.accountNo)}
       />
     );
   }
@@ -173,7 +173,7 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
       <Grid item xs={1}>
         <Button
           onClick={() => {
-            router.push(detailsUrlPartial(account.accountNo));
+            router.push(accountDetailsUrl(account.accountNo));
           }}
         >
           CANCEL
