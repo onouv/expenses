@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactElement, useEffect, useState } from "react";
-import ExpenseT from "@/features/accounts/types/ExpenseT";
+import ExpenseT from "@/common/types/ExpenseT";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";

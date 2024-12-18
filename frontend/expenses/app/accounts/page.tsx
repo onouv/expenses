@@ -4,7 +4,7 @@ import React from "react";
 import AccountsListing from "@/features/accounts/components/AccountsListing";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
-import useGetAccountsApi from "@/features/accounts/api/useGetAccountsApi";
+import useGetAccountsApi from "@/common/api/useGetAccountsApi";
 import FeaturePage from "@/components/FeaturePage";
 
 const AccountsPage = () => {

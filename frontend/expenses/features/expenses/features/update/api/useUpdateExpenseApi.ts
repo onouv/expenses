@@ -6,34 +6,34 @@ import { useCallback, useState } from "react";
 import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
-import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
+import { ExpenseEntityDto } from "@/features/expenses/features/update/api/ExpenseEntityDto";
+import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
 
-const url = config.backend.expenses.assign;
+const url = config.backend.expenses.update;
 
-export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
-  const [apiState, setApiState] = useState<ApiStateT<PlannedExpenseT>>({
+export default function useUpdateExpenseApi(): RequestApiT<ExpenseEntityT> {
+  const [apiState, setApiState] = useState<ApiStateT<ExpenseEntityDto.Type>>({
     isLoading: false,
     isSuccessful: false,
     error: null,
   });
 
-  const postRequest = useCallback(
-    async (expense: PlannedExpenseT) => {
+  const patchRequest = useCallback(
+    async (expense: ExpenseEntityT) => {
       setApiState({ ...apiState, isLoading: true, error: null });
 
-      const payload: PlannedExpenseDto.Type = PlannedExpenseDto.of(expense);
+      const payload = ExpenseEntityDto.of(expense);
 
       try {
         const axiosResponse = await axios
-          .post<PlannedExpenseDto.Type>(url, payload)
+          .patch<ExpenseEntityDto.Type>(url, payload)
           .finally();
         setApiState({ ...apiState, isLoading: false, isSuccessful: true });
       } catch (err: any) {
         const errorMsg =
           err.response.data.errorMessages.length > 0
             ? err.response.data.errorMessages[0]
-            : "Unknown Application Error at assign expense API";
+            : "Unknown Application Error at update expense API";
 
         setApiState({
           ...apiState,
@@ -46,7 +46,7 @@ export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
   );
 
   return {
-    requestCall: postRequest,
+    requestCall: patchRequest,
     isSuccessful: apiState.isSuccessful,
     isLoading: apiState.isLoading,
     error: apiState.error,

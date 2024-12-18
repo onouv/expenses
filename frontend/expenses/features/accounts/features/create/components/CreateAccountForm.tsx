@@ -9,7 +9,7 @@ import AccountT, {
 } from "@/features/accounts/types/AccountT";
 import config from "@/app-config.json";
 import { Box, Button, Stack } from "@mui/material";
-import useCreateAccountApi from "@/features/accounts/api/useCreateAccountApi";
+import useCreateAccountApi from "@/features/accounts/features/create/api/useCreateAccountApi";
 import ErrorPage from "@/common/components/ErrorPage";
 import WaitingPrompt from "@/common/components/WaitingPrompt";
 import { useRouter } from "next/navigation";

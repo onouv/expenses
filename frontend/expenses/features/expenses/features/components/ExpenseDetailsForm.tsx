@@ -15,28 +15,33 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import PaymentTypeInput from "@/features/expenses/components/PaymentTypeInput";
 import FormResetButton from "@/components/form/FormResetButton";
 import { accountDetailsUrl } from "@/features/accounts/features/details/utils/route";
-import useAssignExpenseApi from "@/features/expenses/features/assign/api/useAssignExpenseApi";
 import { useRouter } from "next/navigation";
 import ErrorPage from "@/components/ErrorPage";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
-import ExpenseT from "@/features/accounts/types/ExpenseT";
+import ExpenseT from "@/common/types/ExpenseT";
 import FormSaveButton from "@/components/form/FormSaveButton";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
+import RequestApiT from "@/common/api/RequestApiT";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 
-type Props = {
+type Props<T extends PlannedExpenseT> = {
   account: AccountDetailsT;
   expense?: ExpenseT;
+  api: RequestApiT<T>;
 };
-const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
+const ExpenseDetailsForm = <RequestType extends PlannedExpenseT>({
+  account,
+  expense,
+  api,
+}: Props<RequestType>): ReactElement => {
   const formMethods = useForm<PlannedExpenseT>({
     defaultValues: expense
       ? { ...expense, accountNo: account.accountNo }
       : { ...defaultPlannedExpense, accountNo: account.accountNo },
     resolver: yupResolver(PlannedExpenseTSchema),
   });
-
-  const { requestCall, isLoading, isSuccessful, error } = useAssignExpenseApi();
+  const { requestCall, isLoading, isSuccessful, error } = api;
   const router = useRouter();
 
   useEffect(() => {
@@ -47,8 +52,7 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
   }, [isSuccessful, router, account.accountNo]);
 
   const onSubmit = async (expense: PlannedExpenseT) => {
-    const payload: PlannedExpenseDto.Type = PlannedExpenseDto.of(expense);
-    await requestCall(payload);
+    await requestCall(expense as RequestType);
   };
 
   if (error) {
@@ -186,23 +190,25 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
   );
 
   return (
-    <FormProvider {...formMethods}>
-      <Paper elevation={3}>
-        <Stack spacing={2} padding={2}>
-          <Typography variant="subtitle2">Expense</Typography>
-          <Paper elevation={3}>
-            <Box padding={2}>
-              <Stack spacing={2}>
-                {CoreDataSegment}
-                {InvoicingSegment}
-                {PaymentSegment}
-                {FormButtonSegment}
-              </Stack>
-            </Box>
-          </Paper>
-        </Stack>
-      </Paper>
-    </FormProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <FormProvider {...formMethods}>
+        <Paper elevation={3}>
+          <Stack spacing={2} padding={2}>
+            <Typography variant="subtitle2">Expense</Typography>
+            <Paper elevation={3}>
+              <Box padding={2}>
+                <Stack spacing={2}>
+                  {CoreDataSegment}
+                  {InvoicingSegment}
+                  {PaymentSegment}
+                  {FormButtonSegment}
+                </Stack>
+              </Box>
+            </Paper>
+          </Stack>
+        </Paper>
+      </FormProvider>
+    </LocalizationProvider>
   );
 };
 

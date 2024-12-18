@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactElement, useEffect, useState } from "react";
-import ExpenseT from "@/features/accounts/types/ExpenseT";
+import ExpenseT from "@/common/types/ExpenseT";
 import { Button, Paper, Stack, Typography } from "@mui/material";
 import ExpensesTable from "@/features/expenses/components/ExpensesTable";
 import Grid from "@mui/material/Grid";

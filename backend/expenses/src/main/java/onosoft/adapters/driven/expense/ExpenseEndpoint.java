@@ -37,8 +37,8 @@ public class ExpenseEndpoint {
     }
 
     @PATCH
-    @Path("/expense/{expenseId}")
-    public Response updateExpense(ExpenseEntityDto dto, @PathParam("expenseId") long expenseId)
+    @Path("/expense/update")
+    public Response updateExpense(ExpenseEntityDto dto)
         throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
         log.infof("Request to update expense: %s", dto);
 
