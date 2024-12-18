@@ -6,11 +6,10 @@ import useGetAccountDetails from "@/common/api/useGetAccountDetails";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
 import config from "@/app-config.json";
-import FeaturePage from "@/components/FeaturePage";
-import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
+import AccountT from "@/features/accounts/types/AccountT";
 
 type Props = {
-  form: (account: AccountDetailsT) => ReactElement;
+  form: (account: AccountT) => ReactElement;
 };
 const ExpensePage = ({ form }: Props): ReactElement => {
   const params = useSearchParams();
@@ -35,14 +34,7 @@ const ExpensePage = ({ form }: Props): ReactElement => {
     return <></>;
   }
 
-  return (
-    <FeaturePage
-      title="Assign Expense To Account"
-      backUrl={`${config.frontend.accounts.details}?accountno=${data.accountNo}`}
-    >
-      {form(data)}
-    </FeaturePage>
-  );
+  return form(data);
 };
 
 export default ExpensePage;

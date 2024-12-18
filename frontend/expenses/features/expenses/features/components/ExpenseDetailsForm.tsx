@@ -14,21 +14,22 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PaymentTypeInput from "@/features/expenses/components/PaymentTypeInput";
 import FormResetButton from "@/components/form/FormResetButton";
-import { accountDetailsUrl } from "@/features/accounts/features/details/utils/route";
+import { accountDetailsUrl } from "@/common/utils/account-routes";
 import { useRouter } from "next/navigation";
 import ErrorPage from "@/components/ErrorPage";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
 import ExpenseT from "@/common/types/ExpenseT";
 import FormSaveButton from "@/components/form/FormSaveButton";
-import RequestApiT from "@/common/api/RequestApiT";
+import WriteApiT from "@/common/api/WriteRequestApiT";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
+import AccountT from "@/features/accounts/types/AccountT";
 
 type Props<T extends PlannedExpenseT> = {
-  account: AccountDetailsT;
+  account: AccountT;
   expense?: ExpenseT;
-  api: RequestApiT<T>;
+  api: WriteApiT<T>;
 };
 const ExpenseDetailsForm = <RequestType extends PlannedExpenseT>({
   account,

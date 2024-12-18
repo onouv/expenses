@@ -4,12 +4,12 @@ import AccountT from "@/features/accounts/types/AccountT";
 import { useCallback, useState } from "react";
 import axios, { HttpStatusCode } from "axios";
 import config from "@/app-config.json";
-import RequestApiT from "@/common/api/RequestApiT";
+import WriteApiT from "@/common/api/WriteRequestApiT";
 import ApiStateT from "@/common/api/ApiStateT";
 
 const url = config.backend.accounts.create;
 
-export default function useCreateAccountApi(): RequestApiT<AccountT> {
+export default function useCreateAccountApi(): WriteApiT<AccountT> {
   const [apiState, setApiState] = useState<ApiStateT<AccountT>>({
     isLoading: false,
     isSuccessful: false,

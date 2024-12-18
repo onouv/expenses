@@ -1,7 +1,7 @@
 "use client";
 
 import config from "@/app-config.json";
-import RequestApiT from "@/common/api/RequestApiT";
+import WriteApiT from "@/common/api/WriteRequestApiT";
 import { useCallback, useState } from "react";
 import axios from "axios";
 
@@ -11,7 +11,7 @@ import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 
 const url = config.backend.expenses.assign;
 
-export default function useAssignExpenseApi(): RequestApiT<PlannedExpenseT> {
+export default function useAssignExpenseApi(): WriteApiT<PlannedExpenseT> {
   const [apiState, setApiState] = useState<ApiStateT<PlannedExpenseT>>({
     isLoading: false,
     isSuccessful: false,

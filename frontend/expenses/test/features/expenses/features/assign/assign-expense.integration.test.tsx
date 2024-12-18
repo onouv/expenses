@@ -196,5 +196,3 @@ describe("Feature Assign Expense", () => {
     });
   });
 });
-
-describe.todo("Assign Expense - error cases", () => {});

@@ -1,4 +1,4 @@
-import RequestApiT from "@/common/api/RequestApiT";
+import WriteApiT from "@/common/api/WriteRequestApiT";
 import config from "@/app-config.json";
 import { useCallback, useState } from "react";
 import ApiStateT from "@/common/api/ApiStateT";
@@ -6,7 +6,7 @@ import axios from "axios";
 
 const url = config.backend.expenses.delete;
 
-export default function useDeleteExpensesApi(): RequestApiT<number[]> {
+export default function useDeleteExpensesApi(): WriteApiT<number[]> {
   const [apiState, setApiState] = useState<ApiStateT<number[]>>({
     isLoading: false,
     isSuccessful: false,

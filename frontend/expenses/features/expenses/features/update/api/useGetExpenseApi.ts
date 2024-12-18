@@ -1,33 +1,35 @@
 "use client";
 
 import config from "@/app-config.json";
-import WriteApiT from "@/common/api/WriteRequestApiT";
 import { useCallback, useState } from "react";
 import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
 import { ExpenseEntityDto } from "@/features/expenses/features/update/api/ExpenseEntityDto";
 import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
+import {ReadApiT} from "@/common/api/read-api";
 
-const url = config.backend.expenses.update;
+const url = config.backend.expenses.details;
 
-export default function useUpdateExpenseApi(): WriteApiT<ExpenseEntityT> {
+export default function useGetExpenseApi(): ReadApiT<ExpenseEntityT> {
   const [apiState, setApiState] = useState<ApiStateT<ExpenseEntityT>>({
     isLoading: false,
     isSuccessful: false,
     error: null,
   });
 
-  const patchRequest = useCallback(
-    async (expense: ExpenseEntityT) => {
+  const getRequest = useCallback(
+    async () => {
       setApiState({ ...apiState, isLoading: true, error: null });
-
-      const payload = ExpenseEntityDto.of(expense);
 
       try {
         const axiosResponse = await axios
-          .patch<ExpenseEntityDto.Type>(url, payload)
-          .finally();
+          .get<ExpenseEntityDto.Type>(url)
+          .then((resp) => {
+            const expense: ExpenseEntityT = {
+              ...resp.data,
+            }
+          });
         setApiState({ ...apiState, isLoading: false, isSuccessful: true });
       } catch (err: any) {
         const errorMsg =
@@ -46,7 +48,7 @@ export default function useUpdateExpenseApi(): WriteApiT<ExpenseEntityT> {
   );
 
   return {
-    requestCall: patchRequest,
+    requestCall: getRequest,
     isSuccessful: apiState.isSuccessful,
     isLoading: apiState.isLoading,
     error: apiState.error,

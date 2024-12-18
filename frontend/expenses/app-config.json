@@ -8,6 +8,7 @@
     },
     "expenses": {
       "default": "/expenses",
+      "update": "/expenses/expense/update",
       "assign": "/expenses/expense/assign",
       "delete": "/expenses/expense/delete",
       "invoice": "/expenses/expense/invoice",
@@ -26,6 +27,7 @@
     },
     "expenses": {
       "default": "http://localhost:5001/expenses",
+      "details": "http://localhost:5001/expenses/expense/details",
       "assign": "http://localhost:5001/expenses/expense/assign",
       "update": "http://localhost:5001/expenses/expense/update",
       "delete": "http://localhost:5001/expenses/expense/delete",

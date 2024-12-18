@@ -13,7 +13,7 @@ import config from "@/app-config.json";
 import { Button, Stack } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { accountDetailsUrl } from "@/features/accounts/features/details/utils/route";
+import { accountDetailsUrl } from "@/common/utils/account-routes";
 
 type Props = {
   accounts: AccountT[] | undefined;

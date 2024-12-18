@@ -17,4 +17,16 @@ export namespace ExpenseEntityDto {
       paymentTargetDate: domain.paymentTargetDate.toLocaleDateString("sv"),
     };
   };
+
+  export const to = (dto: Type): ExpenseEntityT => {
+    return {
+      ...dto,
+      amount: {
+        ...dto.amount
+      },
+      accruedDate: new Date(dto.accruedDate),
+      paymentTargetDate: new Date(dto.paymentTargetDate),
+      paymentActualDate: new Date()
+    }
+  }
 }
