@@ -22,6 +22,12 @@ type Props = {
 const ExpensesTable = (props: Props): ReactElement => {
   const router = useRouter();
 
+  const routeToExpenseDetails = (expense: ExpenseSummaryT) => () => {
+    router.push(
+      `${config.frontend.expenses.update}?expenseid=${expense.expenseId}`,
+    );
+  };
+
   return (
     <Box padding={3}>
       <TableContainer>
@@ -29,6 +35,7 @@ const ExpensesTable = (props: Props): ReactElement => {
           <TableHead>
             <TableRow>
               <TableCell sx={{ borderBottom: "none" }}></TableCell>
+
               <TableCell sx={{ borderBottom: "none" }}>ID</TableCell>
               <TableCell sx={{ borderBottom: "none" }}>Amount</TableCell>
               <TableCell sx={{ borderBottom: "none" }}>Recipient</TableCell>
@@ -43,15 +50,7 @@ const ExpensesTable = (props: Props): ReactElement => {
             {props.expenses.map((expense: ExpenseSummaryT) => {
               const checked = props.selections.includes(expense.expenseId);
               return (
-                <TableRow
-                  hover
-                  key={expense.expenseId}
-                  onClick={() => {
-                    router.push(
-                      `${config.frontend.expenses.update}?expenseid=${expense.expenseId}`,
-                    );
-                  }}
-                >
+                <TableRow hover key={expense.expenseId}>
                   <TableCell sx={{ borderBottom: "none" }}>
                     <Checkbox
                       checked={checked}
@@ -66,22 +65,40 @@ const ExpensesTable = (props: Props): ReactElement => {
                       }}
                     />
                   </TableCell>
-                  <TableCell sx={{ borderBottom: "none" }}>
+                  <TableCell
+                    sx={{ borderBottom: "none" }}
+                    onClick={routeToExpenseDetails(expense)}
+                  >
                     <Typography>{expense.expenseId}</Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: "none" }}>
+                  <TableCell
+                    sx={{ borderBottom: "none" }}
+                    onClick={routeToExpenseDetails(expense)}
+                  >
                     <Typography>{`${expense.amount.value} ${expense.amount.currency}`}</Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: "none" }}>
+                  <TableCell
+                    sx={{ borderBottom: "none" }}
+                    onClick={routeToExpenseDetails(expense)}
+                  >
                     <Typography>{expense.recipient}</Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: "none" }}>
+                  <TableCell
+                    sx={{ borderBottom: "none" }}
+                    onClick={routeToExpenseDetails(expense)}
+                  >
                     <Typography>{expense.accruedDate.toString()}</Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: "none" }}>
+                  <TableCell
+                    sx={{ borderBottom: "none" }}
+                    onClick={routeToExpenseDetails(expense)}
+                  >
                     <Typography>{expense.purpose}</Typography>
                   </TableCell>
-                  <TableCell sx={{ borderBottom: "none" }}>
+                  <TableCell
+                    sx={{ borderBottom: "none" }}
+                    onClick={routeToExpenseDetails(expense)}
+                  >
                     <Typography>{expense.paymentStatus}</Typography>
                   </TableCell>
                 </TableRow>

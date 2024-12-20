@@ -12,12 +12,13 @@ import onosoft.adapters.driven.commons.FormattedDate;
 @ToString
 @Builder
 public class Expense {
-    private long expenseId;
-    @NonNull private Account account;
+    long expenseId;
+
+    @NonNull String accountNo;
 
     @NonNull
     @Size(max = 120)
-    String recipient;
+    private String recipient;
 
     @NonNull
     @Size(max = 120)
@@ -39,20 +40,21 @@ public class Expense {
 
     //private Receipt receipt;
 
-    public void updateWith(Expense expense) {
-        if (expense.getExpenseId() != this.expenseId) {
+    public void updateWith(Expense update) {
+        if (update.getExpenseId() != this.expenseId) {
             throw new IllegalArgumentException("Expense id mismatch while while updating");
         }
 
-        this.account = expense.getAccount();
-        this.recipient = expense.getRecipient();
-        this.purpose = expense.getPurpose();
-        this.amount = expense.getAmount();
-        this.accruedDate = expense.getAccruedDate();
-        this.paymentTargetDate = expense.getPaymentTargetDate();
-        this.paymentActualDate = expense.getPaymentActualDate();
-        this.paymentType = expense.getPaymentType();
-        this.isInvoiced = expense.isInvoiced();
-        this.expenseStatus = expense.getExpenseStatus();
+        //TODO 1
+        // this.account = update.getAccount();
+        this.recipient = update.getRecipient();
+        this.purpose = update.getPurpose();
+        this.amount = update.getAmount();
+        this.accruedDate = update.getAccruedDate();
+        this.paymentTargetDate = update.getPaymentTargetDate();
+        this.paymentActualDate = update.getPaymentActualDate();
+        this.paymentType = update.getPaymentType();
+        this.isInvoiced = update.isInvoiced();
+        this.expenseStatus = update.getExpenseStatus();
     }
 }

@@ -3,7 +3,6 @@ package onosoft.adapters.driving.expense;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import onosoft.adapters.driving.account.AccountJpaData;
 import onosoft.adapters.driving.commons.money.MoneyJpaData;
 import onosoft.domain.model.ExpenseStatus;
 import onosoft.domain.model.PaymentType;
@@ -25,9 +24,13 @@ public class ExpenseJpaData {
     @Column(name="expense_id")
     private long id;
 
+    @Column(name = "account_no")
+    private String accountNo;
+    /*
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_no")
     private AccountJpaData account;
+     */
 
     @Column(name = "recipient", length = 120)
     @Size(max = 120)

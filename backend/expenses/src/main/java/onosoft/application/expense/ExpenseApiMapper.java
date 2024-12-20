@@ -8,11 +8,8 @@ import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.application.commons.money.MoneyApiMapper;
 import onosoft.application.commons.money.MoneyDataMapper;
-import onosoft.domain.model.Account;
 import onosoft.domain.model.Expense;
 import onosoft.domain.model.ExpenseStatus;
-
-import java.util.Objects;
 
 @ApplicationScoped
 public class ExpenseApiMapper {
@@ -23,16 +20,13 @@ public class ExpenseApiMapper {
     @Inject
     MoneyDataMapper moneyDataMapper;
 
-    public Expense assignmentDtoToDomain(AssignExpenseRequestDto dto, Account account)
+    public Expense assignmentDtoToDomain(AssignExpenseRequestDto dto)
             throws AmountExceedsRangeException {
-        if (!Objects.equals(account.getAccountNo(), dto.getAccountNo())) {
-            throw new IllegalArgumentException("Account and assigned Expense have different account numbers.");
-        }
 
         final String paymentTargetDate = dto.getPaymentTargetDate();
 
         return Expense.builder()
-                .account(account)
+                .accountNo(dto.getAccountNo())
                 .recipient(dto.getRecipient())
                 .purpose(dto.getPurpose())
                 .amount(moneyApiMapper.dtoToDomain(dto.getAmount()))
@@ -44,12 +38,12 @@ public class ExpenseApiMapper {
                 .build();
     }
 
-    public Expense entityDtoToDomain(ExpenseEntityDto dto, Account account) throws AmountExceedsRangeException {
+    public Expense entityDtoToDomain(ExpenseEntityDto dto) throws AmountExceedsRangeException {
         final String paymentTargetDate = dto.getPaymentTargetDate();
         final String paymentActualDate = dto.getPaymentActualDate();
 
         return Expense.builder()
-                .account(account)
+                .accountNo(dto.getAccountNo())
                 .recipient(dto.getRecipient())
                 .purpose(dto.getPurpose())
                 .amount(moneyApiMapper.dtoToDomain(dto.getAmount()))
@@ -69,7 +63,7 @@ public class ExpenseApiMapper {
 
         return ExpenseEntityDto.builder()
                 .expenseId(domain.getExpenseId())
-                .accountNo(domain.getAccount().getAccountNo())
+                .accountNo(domain.getAccountNo())
                 .paymentType(domain.getPaymentType())
                 .recipient(domain.getRecipient())
                 .purpose(domain.getPurpose())

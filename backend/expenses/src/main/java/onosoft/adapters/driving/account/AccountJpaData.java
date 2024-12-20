@@ -25,10 +25,10 @@ public class AccountJpaData {
     private String accountDescription;
 
     @OneToMany(
-        mappedBy = "account",
         cascade = CascadeType.ALL,
         orphanRemoval = true,
         fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "account_no")
     private List<ExpenseJpaData> expenses;
 }

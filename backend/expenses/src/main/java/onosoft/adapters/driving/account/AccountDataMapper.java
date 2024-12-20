@@ -29,7 +29,7 @@ public class AccountDataMapper {
         final List<Expense> expenses = new ArrayList<>();
         Iterator<ExpenseJpaData> iter = data.getExpenses().iterator();
         while (iter.hasNext()) {
-            expenses.add(expenseDataMapper.dataToDomain(iter.next(), account));
+            expenses.add(expenseDataMapper.dataToDomain(iter.next()));
         }
         account.setExpenses(expenses);
 
@@ -45,7 +45,7 @@ public class AccountDataMapper {
 
         final List<ExpenseJpaData> expenses = domain.getExpenses()
                 .stream()
-                .map(expense -> expenseDataMapper.domainToData(expense, data))
+                .map(expense -> expenseDataMapper.domainToData(expense))
                 .toList();
         data.setExpenses(expenses);
 
