@@ -35,7 +35,11 @@ const UpdateExpenseForm = ({ expense }: Props): ReactElement => {
   return (
     <Stack spacing={2} padding={2}>
       <AccountHeader account={data} />
-      <ExpenseDetailsForm account={data} expense={expense} api={api} />
+      <ExpenseDetailsForm<ExpenseEntityT>
+        account={data}
+        defaultValues={expense}
+        api={api}
+      />
     </Stack>
   );
 };

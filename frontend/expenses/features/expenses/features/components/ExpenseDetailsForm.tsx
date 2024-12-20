@@ -5,7 +5,6 @@ import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextFormInput from "@/components/form/TextFormInput";
 import PlannedExpenseT, {
-  defaultPlannedExpense,
   plannedExpenseFieldNames,
   PlannedExpenseTSchema,
 } from "@/features/expenses/types/PlannedExpenseT";
@@ -25,22 +24,19 @@ import { WriteApiT } from "@/common/api/write-api";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import AccountT from "@/features/accounts/types/AccountT";
-import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
 
 type Props<T extends PlannedExpenseT> = {
   account: AccountT;
-  expense?: ExpenseEntityT;
+  defaultValues: T;
   api: WriteApiT<T>;
 };
-const ExpenseDetailsForm = <RequestType extends PlannedExpenseT>({
+const ExpenseDetailsForm = <T extends PlannedExpenseT>({
   account,
-  expense,
+  defaultValues,
   api,
-}: Props<RequestType>): ReactElement => {
+}: Props<T>): ReactElement => {
   const formMethods = useForm<PlannedExpenseT>({
-    defaultValues: expense
-      ? { ...expense, accountNo: account.accountNo }
-      : { ...defaultPlannedExpense, accountNo: account.accountNo },
+    defaultValues,
     resolver: yupResolver(PlannedExpenseTSchema),
   });
   const { requestCall, isLoading, isSuccessful, error } = api;
@@ -54,7 +50,7 @@ const ExpenseDetailsForm = <RequestType extends PlannedExpenseT>({
   }, [isSuccessful, router, account.accountNo]);
 
   const onSubmit = async (expense: PlannedExpenseT) => {
-    await requestCall(expense as RequestType);
+    await requestCall(expense as T);
   };
 
   if (error) {
@@ -78,12 +74,14 @@ const ExpenseDetailsForm = <RequestType extends PlannedExpenseT>({
             <TextFormInput
               fieldName={plannedExpenseFieldNames.recipient}
               label="Recipient"
+              key="plannedExpenseFieldNames.recipient"
             />
           </Grid>
           <Grid item xs={8}>
             <TextFormInput
               fieldName={plannedExpenseFieldNames.purpose}
               label="Purpose"
+              key="plannedExpenseFieldNames.purpose"
             />
           </Grid>
         </Grid>
@@ -92,10 +90,14 @@ const ExpenseDetailsForm = <RequestType extends PlannedExpenseT>({
             <DateFormInput
               fieldName={plannedExpenseFieldNames.accruedDate}
               label="Date Accrued"
+              key="plannedExpenseFieldNames.accruedDate"
             />
           </Grid>
           <Grid item xs={8}>
-            <MoneyFormInput fieldName={plannedExpenseFieldNames.amount} />
+            <MoneyFormInput
+              fieldName={plannedExpenseFieldNames.amount}
+              key="plannedExpenseFieldNames.amount"
+            />
           </Grid>
         </Grid>
       </Stack>
