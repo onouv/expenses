@@ -56,10 +56,11 @@ public class ExpenseAppService implements ExpenseApiPort {
 
 
     @Transactional
-    public Expense getExpense(Long expenseId) throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
+    public ExpenseEntityDto getExpense(Long expenseId) throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
         ExpenseJpaData data = this.expenseRepo.loadExpense(expenseId);
 
-        return expenseDataMapper.dataToDomain(data);
+        Expense domain = expenseDataMapper.dataToDomain(data);
+        return expenseApiMapper.domainToEntityDto(domain);
     }
 
     @Override

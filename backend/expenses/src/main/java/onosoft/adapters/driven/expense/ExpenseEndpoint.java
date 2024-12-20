@@ -9,7 +9,6 @@ import onosoft.adapters.driven.expense.dto.DeleteExpenseListRequestDto;
 import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.exception.ExpensePreexistingException;
-import onosoft.domain.model.Expense;
 import onosoft.ports.driven.account.NoSuchAccountException;
 import onosoft.ports.driven.expense.ExpenseApiPort;
 import onosoft.ports.driven.expense.NoSuchExpenseException;
@@ -54,7 +53,7 @@ public class ExpenseEndpoint {
     public Response getExpenseDetails(Long expenseId) throws
             NoSuchAccountException, AmountExceedsRangeException, NoSuchExpenseException {
         log.infof("Request to get expense details for: %s", expenseId);
-        final Expense expense = expenseService.getExpense(expenseId);
+        final ExpenseEntityDto expense = expenseService.getExpense(expenseId);
 
         return Response.ok(expense).build();
     }
