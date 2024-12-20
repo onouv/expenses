@@ -1,7 +1,7 @@
 import PaymentStatusE from "@/common/types/PaymentStatusE";
 import MoneyT from "@/common/types/MoneyT";
 
-type ExpenseT = {
+type ExpenseSummaryT = {
   expenseId: number;
   paymentStatus: PaymentStatusE;
   recipient: string;
@@ -10,4 +10,4 @@ type ExpenseT = {
   accruedDate: Date;
 };
 
-export default ExpenseT;
+export default ExpenseSummaryT;

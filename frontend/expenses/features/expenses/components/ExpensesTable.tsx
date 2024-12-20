@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactElement, useEffect, useState } from "react";
-import ExpenseT from "@/common/types/ExpenseT";
+import ExpenseSummaryT from "@/common/types/ExpenseSummaryT";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import config from "@/app-config.json";
 
 type Props = {
-  expenses: ExpenseT[];
+  expenses: ExpenseSummaryT[];
   selections: number[];
   select: (idx: number) => void;
   unSelect: (idx: number) => void;
@@ -40,7 +40,7 @@ const ExpensesTable = (props: Props): ReactElement => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.expenses.map((expense: ExpenseT) => {
+            {props.expenses.map((expense: ExpenseSummaryT) => {
               const checked = props.selections.includes(expense.expenseId);
               return (
                 <TableRow

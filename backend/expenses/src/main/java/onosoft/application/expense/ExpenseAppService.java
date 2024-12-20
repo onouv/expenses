@@ -5,6 +5,8 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
 import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
+import onosoft.adapters.driving.expense.ExpenseDataMapper;
+import onosoft.adapters.driving.expense.ExpenseJpaData;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.exception.ExpensePreexistingException;
 import onosoft.domain.model.Account;
@@ -15,7 +17,6 @@ import onosoft.ports.driven.expense.NoSuchExpenseException;
 import onosoft.ports.driving.account.AccountRepoPort;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
 import org.jboss.logging.Logger;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,8 @@ public class ExpenseAppService implements ExpenseApiPort {
 
     @Inject
     ExpenseApiMapper expenseApiMapper;
+    @Inject
+    ExpenseDataMapper expenseDataMapper;
 
     @Transactional
     public void assignExpenseToAccount(AssignExpenseRequestDto dto)
@@ -49,6 +52,15 @@ public class ExpenseAppService implements ExpenseApiPort {
 
         log.infof("Assigned expense of %s to account %s", expense.getAmount(),  dto.getAccountNo());
 
+    }
+
+
+    @Transactional
+    public Expense getExpense(Long expenseId) throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
+        ExpenseJpaData data = this.expenseRepo.loadExpense(expenseId);
+        Account account = this.accountRepo.loadAccount(data.getAccount().getAccountNo());
+
+        return expenseDataMapper.dataToDomain(data, account);
     }
 
     @Override

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ReactElement, useEffect } from "react";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -18,17 +20,16 @@ import { accountDetailsUrl } from "@/common/utils/account-routes";
 import { useRouter } from "next/navigation";
 import ErrorPage from "@/components/ErrorPage";
 import WaitingPrompt from "@/components/WaitingPrompt";
-import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
-import ExpenseT from "@/common/types/ExpenseT";
 import FormSaveButton from "@/components/form/FormSaveButton";
-import WriteApiT from "@/common/api/WriteRequestApiT";
+import { WriteApiT } from "@/common/api/write-api";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import AccountT from "@/features/accounts/types/AccountT";
+import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
 
 type Props<T extends PlannedExpenseT> = {
   account: AccountT;
-  expense?: ExpenseT;
+  expense?: ExpenseEntityT;
   api: WriteApiT<T>;
 };
 const ExpenseDetailsForm = <RequestType extends PlannedExpenseT>({

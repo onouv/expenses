@@ -1,7 +1,7 @@
 "use client";
 
 import config from "@/app-config.json";
-import WriteApiT from "@/common/api/WriteRequestApiT";
+import { WriteApiT } from "@/common/api/write-api";
 import { useCallback, useState } from "react";
 import axios from "axios";
 

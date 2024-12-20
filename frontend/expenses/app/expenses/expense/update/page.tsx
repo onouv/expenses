@@ -1,24 +1,42 @@
-"use client"
+"use client";
 
-
-import ExpensePage from "@/features/expenses/components/ExpensePage";
 import FeaturePage from "@/components/FeaturePage";
-import {accountDetailsUrl} from "@/common/utils/account-routes";
-import {useSearchParams} from "next/navigation";
+import { accountDetailsUrl } from "@/common/utils/account-routes";
+import { useSearchParams } from "next/navigation";
 import UpdateExpenseForm from "@/features/expenses/features/update/components/UpdateExpenseForm";
+import useGetExpenseApi from "@/features/expenses/features/update/api/useGetExpenseApi";
+import WaitingPrompt from "@/components/WaitingPrompt";
+import ErrorPage from "@/components/ErrorPage";
+import React from "react";
+import config from "@/app-config.json";
 
 const UpdateExpensePage = () => {
-    const params = useSearchParams();
-    const expenseId = params.get("expenseid") as string;
+  const params = useSearchParams();
+  const expenseId = params.get("expenseid") as string;
 
+  const { data, isLoading, error } = useGetExpenseApi(parseInt(expenseId));
+
+  if (isLoading) {
+    return <WaitingPrompt prompt="Loading expense from server..." />;
+  }
+
+  if (error || data == undefined) {
     return (
-      <ExpensePage form={(account) => (
-          <FeaturePage
-              title="Update Expense"
-              backUrl={accountDetailsUrl(account.accountNo)}
-          >
-            <UpdateExpenseForm account={account}
-          </FeaturePage>
-      )}
+      <ErrorPage
+        prompt="Error while loading expense from server."
+        nextRoute={config.frontend.accounts.default}
+      />
     );
-}
+  }
+
+  return (
+    <FeaturePage
+      title="Update Expense"
+      backUrl={accountDetailsUrl(data.accountNo)}
+    >
+      <UpdateExpenseForm expense={data} />
+    </FeaturePage>
+  );
+};
+
+export default UpdateExpensePage;

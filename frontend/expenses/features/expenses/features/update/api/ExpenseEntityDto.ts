@@ -1,13 +1,13 @@
 import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
-import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 
 export namespace ExpenseEntityDto {
   export type Type = Omit<
     ExpenseEntityT,
-    "accruedDate" | "paymentTargetDate"
+    "accruedDate" | "paymentTargetDate" | "paymentActualDate"
   > & {
     accruedDate: string;
     paymentTargetDate: string;
+    paymentActualDate: string;
   };
   export const of = (domain: ExpenseEntityT): Type => {
     return {
@@ -15,6 +15,7 @@ export namespace ExpenseEntityDto {
       amount: { ...domain.amount },
       accruedDate: domain.accruedDate.toLocaleDateString("sv"),
       paymentTargetDate: domain.paymentTargetDate.toLocaleDateString("sv"),
+      paymentActualDate: domain.paymentActualDate.toLocaleDateString("sv"),
     };
   };
 
@@ -22,11 +23,11 @@ export namespace ExpenseEntityDto {
     return {
       ...dto,
       amount: {
-        ...dto.amount
+        ...dto.amount,
       },
       accruedDate: new Date(dto.accruedDate),
       paymentTargetDate: new Date(dto.paymentTargetDate),
-      paymentActualDate: new Date()
-    }
-  }
+      paymentActualDate: new Date(dto.paymentActualDate),
+    };
+  };
 }

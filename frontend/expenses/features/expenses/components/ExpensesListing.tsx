@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactElement, useEffect, useState } from "react";
-import ExpenseT from "@/common/types/ExpenseT";
+import ExpenseSummaryT from "@/common/types/ExpenseSummaryT";
 import { Button, Paper, Stack, Typography } from "@mui/material";
 import ExpensesTable from "@/features/expenses/components/ExpensesTable";
 import Grid from "@mui/material/Grid";
@@ -25,7 +25,7 @@ const clone = (arr: number[]): number[] => {
 type Selections = number[];
 type Props = {
   account: string;
-  expenses: ExpenseT[];
+  expenses: ExpenseSummaryT[];
 };
 const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
   const [selections, setSelections] = useState<Selections>([]);

@@ -1,5 +1,5 @@
 type ApiStateT<T> = {
-  response?: T | null;
+  data?: T | null;
   isLoading: boolean;
   isSuccessful?: boolean;
   error: Error | null;

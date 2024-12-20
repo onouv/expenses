@@ -1,56 +1,57 @@
 "use client";
 
 import config from "@/app-config.json";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
 import { ExpenseEntityDto } from "@/features/expenses/features/update/api/ExpenseEntityDto";
 import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
-import {ReadApiT} from "@/common/api/read-api";
 
-const url = config.backend.expenses.details;
+const url = (expenseId: number) =>
+  `${config.backend.expenses.details}/${expenseId}`;
 
-export default function useGetExpenseApi(): ReadApiT<ExpenseEntityT> {
+export default function useGetExpenseApi(
+  expenseId: number,
+): ApiStateT<ExpenseEntityT> {
   const [apiState, setApiState] = useState<ApiStateT<ExpenseEntityT>>({
     isLoading: false,
     isSuccessful: false,
     error: null,
+    data: null,
   });
 
-  const getRequest = useCallback(
-    async () => {
-      setApiState({ ...apiState, isLoading: true, error: null });
-
+  useEffect(() => {
+    (async () => {
       try {
-        const axiosResponse = await axios
-          .get<ExpenseEntityDto.Type>(url)
-          .then((resp) => {
-            const expense: ExpenseEntityT = {
-              ...resp.data,
-            }
-          });
-        setApiState({ ...apiState, isLoading: false, isSuccessful: true });
-      } catch (err: any) {
+        setApiState((a) => ({ ...apiState, isLoading: true, error: null }));
+        const resp = await axios.get<ExpenseEntityDto.Type>(url(expenseId));
+        const response = ExpenseEntityDto.to(resp.data);
+        setApiState((a) => ({
+          ...apiState,
+          isLoading: false,
+          isSuccessful: true,
+          data: response,
+        }));
+      } catch (error: any) {
         const errorMsg =
-          err.response.data.errorMessages.length > 0
-            ? err.response.data.errorMessages[0]
+          error.response.data.errorMessages.length > 0
+            ? error.response.data.errorMessages[0]
             : "Unknown Application Error at update expense API";
 
-        setApiState({
+        setApiState((a) => ({
           ...apiState,
           isLoading: false,
           error: new Error(errorMsg),
-        });
+        }));
       }
-    },
-    [apiState],
-  );
+    })();
+  }, [expenseId]);
 
   return {
-    requestCall: getRequest,
     isSuccessful: apiState.isSuccessful,
     isLoading: apiState.isLoading,
+    data: apiState.data,
     error: apiState.error,
   };
 }

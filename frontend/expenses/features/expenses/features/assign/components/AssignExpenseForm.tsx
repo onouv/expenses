@@ -3,7 +3,7 @@
 import AccountHeader from "@/features/accounts/components/AccountHeader";
 import { Stack } from "@mui/material";
 import React, { ReactElement } from "react";
-import WriteApiT from "@/common/api/WriteRequestApiT";
+import { WriteApiT } from "@/common/api/write-api";
 import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
 import useAssignExpenseApi from "@/features/expenses/features/assign/api/useAssignExpenseApi";
 import ExpenseDetailsForm from "@/features/expenses/features/components/ExpenseDetailsForm";
