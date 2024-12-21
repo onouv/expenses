@@ -1,15 +1,16 @@
-import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
+import { Expense } from "@/features/expenses/types/Expense";
 
-export namespace ExpenseEntityDto {
+export namespace ExpenseDto {
   export type Type = Omit<
-    ExpenseEntityT,
+    Expense.Type,
     "accruedDate" | "paymentTargetDate" | "paymentActualDate"
   > & {
     accruedDate: string;
     paymentTargetDate: string;
     paymentActualDate: string;
   };
-  export const of = (domain: ExpenseEntityT): Type => {
+
+  export function of(domain: Expense.Type): Type {
     return {
       ...domain,
       amount: { ...domain.amount },
@@ -19,17 +20,5 @@ export namespace ExpenseEntityDto {
         ? domain.paymentActualDate.toLocaleDateString("sv")
         : "",
     };
-  };
-
-  export const to = (dto: Type): ExpenseEntityT => {
-    return {
-      ...dto,
-      amount: {
-        ...dto.amount,
-      },
-      accruedDate: new Date(dto.accruedDate),
-      paymentTargetDate: new Date(dto.paymentTargetDate),
-      paymentActualDate: new Date(dto.paymentActualDate),
-    };
-  };
+  }
 }

@@ -1,11 +1,11 @@
 import config from "@/app-config.json";
 import { http, HttpHandler, HttpResponse } from "msw";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
+import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
 const backendUrl = config.backend.expenses.assign;
 import _ from "lodash";
 
 export const mockAssignExpenseApi = (
-  expectedExpense: PlannedExpenseDto.Type,
+  expectedExpense: ExpenseDto.Type,
   errorMessage: string,
 ): HttpHandler =>
   http.post(backendUrl, async ({ request }) => {
@@ -14,7 +14,7 @@ export const mockAssignExpenseApi = (
       await request.json();
 
     if (requestData) {
-      const requestedExpense: PlannedExpenseDto.Type = {
+      const requestedExpense: ExpenseDto.Type = {
         // @ts-ignore
         ...requestData,
       };

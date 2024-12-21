@@ -1,32 +1,33 @@
 "use client";
 
 import config from "@/app-config.json";
-import WriteApiT from "@/common/api/WriteRequestApiT";
 import { useCallback, useState } from "react";
 import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
-import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
+import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
+import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
+import {Expense} from "@/features/expenses/types/Expense";
+import {WriteApiT} from "@/common/api/write-api";
 
 const url = config.backend.expenses.assign;
 
-export default function useAssignExpenseApi(): WriteApiT<PlannedExpenseT> {
-  const [apiState, setApiState] = useState<ApiStateT<PlannedExpenseT>>({
+export default function useAssignExpenseApi(): WriteApiT<Expense.Type> {
+  const [apiState, setApiState] = useState<ApiStateT<ExpenseFormDataT>>({
     isLoading: false,
     isSuccessful: false,
     error: null,
   });
 
   const postRequest = useCallback(
-    async (expense: PlannedExpenseT) => {
+    async (expense: Expense.Type) => {
       setApiState({ ...apiState, isLoading: true, error: null });
 
-      const payload: PlannedExpenseDto.Type = PlannedExpenseDto.of(expense);
+      const payload: ExpenseDto.Type = ExpenseDto.of(expense);
 
       try {
         const axiosResponse = await axios
-          .post<PlannedExpenseDto.Type>(url, payload)
+          .post<ExpenseDto.Type>(url, payload)
           .finally();
         setApiState({ ...apiState, isLoading: false, isSuccessful: true });
       } catch (err: any) {

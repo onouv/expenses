@@ -22,7 +22,7 @@ import config from "@/app-config.json";
 import user from "@testing-library/user-event";
 import { mockAssignExpenseApi } from "@/test/mocks/msw/api-handlers/expense-handlers";
 import mockServer from "@/test/mocks/msw/node";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
+import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
 
 describe("Feature Assign Expense", () => {
   describe("Given an account without expenses", () => {

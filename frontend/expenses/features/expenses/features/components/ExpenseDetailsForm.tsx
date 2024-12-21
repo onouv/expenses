@@ -1,13 +1,13 @@
 "use client";
 
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextFormInput from "@/components/form/TextFormInput";
-import PlannedExpenseT, {
-  plannedExpenseFieldNames,
-  PlannedExpenseTSchema,
-} from "@/features/expenses/types/PlannedExpenseT";
+import ExpenseFormDataT, {
+  expenseFieldNames,
+  ExpenseFormDataTSchema,
+} from "@/features/expenses/types/ExpenseFormDataT";
 import DateFormInput from "@/components/form/DateFormInput";
 import MoneyFormInput from "@/components/form/MoneyFormInput";
 import CheckboxFormInput from "@/components/form/CheckboxFormInput";
@@ -17,54 +17,27 @@ import PaymentTypeInput from "@/features/expenses/components/PaymentTypeInput";
 import FormResetButton from "@/components/form/FormResetButton";
 import { accountDetailsUrl } from "@/common/utils/account-routes";
 import { useRouter } from "next/navigation";
-import ErrorPage from "@/components/ErrorPage";
-import WaitingPrompt from "@/components/WaitingPrompt";
 import FormSaveButton from "@/components/form/FormSaveButton";
-import { WriteApiT } from "@/common/api/write-api";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import AccountT from "@/features/accounts/types/AccountT";
 
-type Props<T extends PlannedExpenseT> = {
+type Props = {
   account: AccountT;
-  defaultValues: T;
-  api: WriteApiT<T>;
+  initialValues: ExpenseFormDataT;
+  onSubmit: (formData: ExpenseFormDataT) => Promise<void>;
 };
-const ExpenseDetailsForm = <T extends PlannedExpenseT>({
+const ExpenseDetailsForm = ({
   account,
-  defaultValues,
-  api,
-}: Props<T>): ReactElement => {
-  const formMethods = useForm<PlannedExpenseT>({
-    defaultValues,
-    resolver: yupResolver(PlannedExpenseTSchema),
+  initialValues,
+  onSubmit,
+}: Props): ReactElement => {
+  const formMethods = useForm<ExpenseFormDataT>({
+    defaultValues: initialValues,
+    resolver: yupResolver(ExpenseFormDataTSchema),
   });
-  const { requestCall, isLoading, isSuccessful, error } = api;
+
   const router = useRouter();
-
-  useEffect(() => {
-    if (isSuccessful) {
-      const route = accountDetailsUrl(account.accountNo);
-      router.push(route);
-    }
-  }, [isSuccessful, router, account.accountNo]);
-
-  const onSubmit = async (expense: PlannedExpenseT) => {
-    await requestCall(expense as T);
-  };
-
-  if (error) {
-    return (
-      <ErrorPage
-        prompt={error.message}
-        nextRoute={accountDetailsUrl(account.accountNo)}
-      />
-    );
-  }
-
-  if (isLoading) {
-    return <WaitingPrompt prompt="Saving data to server..." />;
-  }
 
   const CoreDataSegment = (
     <Paper elevation={3}>
@@ -72,14 +45,14 @@ const ExpenseDetailsForm = <T extends PlannedExpenseT>({
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <TextFormInput
-              fieldName={plannedExpenseFieldNames.recipient}
+              fieldName={expenseFieldNames.recipient}
               label="Recipient"
               key="plannedExpenseFieldNames.recipient"
             />
           </Grid>
           <Grid item xs={8}>
             <TextFormInput
-              fieldName={plannedExpenseFieldNames.purpose}
+              fieldName={expenseFieldNames.purpose}
               label="Purpose"
               key="plannedExpenseFieldNames.purpose"
             />
@@ -88,14 +61,14 @@ const ExpenseDetailsForm = <T extends PlannedExpenseT>({
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <DateFormInput
-              fieldName={plannedExpenseFieldNames.accruedDate}
+              fieldName={expenseFieldNames.accruedDate}
               label="Date Accrued"
               key="plannedExpenseFieldNames.accruedDate"
             />
           </Grid>
           <Grid item xs={8}>
             <MoneyFormInput
-              fieldName={plannedExpenseFieldNames.amount}
+              fieldName={expenseFieldNames.amount}
               key="plannedExpenseFieldNames.amount"
             />
           </Grid>
@@ -120,7 +93,7 @@ const ExpenseDetailsForm = <T extends PlannedExpenseT>({
     return <Button disabled>{label}</Button>;
   };
 
-  const isInvoiced = formMethods.watch(plannedExpenseFieldNames.isInvoiced);
+  const isInvoiced = formMethods.watch(expenseFieldNames.isInvoiced);
   const InvoicingSegment = (
     <Paper elevation={3}>
       <Box padding={2}>
@@ -128,7 +101,7 @@ const ExpenseDetailsForm = <T extends PlannedExpenseT>({
           <Grid item xs={4}>
             <Box marginLeft={1}>
               <CheckboxFormInput
-                fieldName={plannedExpenseFieldNames.isInvoiced}
+                fieldName={expenseFieldNames.isInvoiced}
                 label="With Invoice"
               />
             </Box>
@@ -148,13 +121,13 @@ const ExpenseDetailsForm = <T extends PlannedExpenseT>({
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <DateFormInput
-              fieldName={plannedExpenseFieldNames.paymentTargetDate}
+              fieldName={expenseFieldNames.paymentTargetDate}
               label="Payment Date"
             />
           </Grid>
           <Grid item xs={4}>
             <PaymentTypeInput
-              fieldName={plannedExpenseFieldNames.paymentType}
+              fieldName={expenseFieldNames.paymentType}
               label="Payment Type"
             />
           </Grid>

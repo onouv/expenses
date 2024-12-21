@@ -1,4 +1,4 @@
-import PlannedExpenseT from "@/features/expenses/types/PlannedExpenseT";
+import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
 import user, { userEvent } from "@testing-library/user-event";
 import {
   act,
@@ -9,7 +9,7 @@ import {
   within,
 } from "@testing-library/react";
 import PaymentTypeE from "@/common/types/PaymentTypeE";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
+import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
 
 export type ExpenseDataControls = {
   recipient: HTMLElement | undefined;
@@ -55,7 +55,7 @@ async function enterAmount(input: HTMLElement, amount: string) {
 }
 
 export const enterExpenseData = async (
-  expense: PlannedExpenseDto.Type,
+  expense: ExpenseDto.Type,
   controls: ExpenseDataControls,
 ) => {
   if (controls.recipient)
