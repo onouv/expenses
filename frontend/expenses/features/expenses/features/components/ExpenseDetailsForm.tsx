@@ -34,6 +34,7 @@ const ExpenseDetailsForm = ({
 }: Props): ReactElement => {
   const formMethods = useForm<ExpenseFormDataT>({
     defaultValues: initialValues,
+    mode: "onChange",
     resolver: yupResolver(ExpenseFormDataTSchema),
   });
 

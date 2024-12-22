@@ -8,8 +8,16 @@ type Props = {
 const FormSaveButton = ({ onClick }: Props) => {
   const { isDirty, isValid } = useFormState();
 
-  if (isDirty) {
-    return <Button onClick={onClick}>SAVE</Button>;
+  if (isDirty && isValid) {
+    return (
+      <Button
+        onClick={(event) => {
+          onClick(event);
+        }}
+      >
+        SAVE
+      </Button>
+    );
   }
 
   return <Button disabled>SAVE</Button>;

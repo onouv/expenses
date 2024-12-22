@@ -1,10 +1,24 @@
 import { Expense } from "@/features/expenses/types/Expense";
+import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
 
-type ExpenseEntityT = Expense.Type & {
-  expenseId: number;
-};
+export namespace ExpenseEntity {
+  export type Type = Expense.Type & {
+    expenseId: number;
+  };
 
-export default ExpenseEntityT;
+  export const of = (
+    formData: ExpenseFormDataT,
+    expense: ExpenseEntity.Type,
+  ): Type => {
+    return {
+      ...formData,
+      expenseId: expense.expenseId,
+      accountNo: expense.accountNo,
+      paymentStatus: expense.paymentStatus,
+      paymentActualDate: expense.paymentActualDate,
+    };
+  };
+}
 
 /*
  a) Assign Expense

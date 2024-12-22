@@ -1,15 +1,15 @@
-import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
+import { ExpenseEntity } from "@/features/expenses/types/ExpenseEntity";
 
 export namespace ExpenseEntityDto {
   export type Type = Omit<
-    ExpenseEntityT,
+    ExpenseEntity.Type,
     "accruedDate" | "paymentTargetDate" | "paymentActualDate"
   > & {
     accruedDate: string;
     paymentTargetDate: string;
     paymentActualDate: string;
   };
-  export const of = (domain: ExpenseEntityT): Type => {
+  export const of = (domain: ExpenseEntity.Type): Type => {
     return {
       ...domain,
       amount: { ...domain.amount },
@@ -21,7 +21,7 @@ export namespace ExpenseEntityDto {
     };
   };
 
-  export const to = (dto: Type): ExpenseEntityT => {
+  export const to = (dto: Type): ExpenseEntity.Type => {
     return {
       ...dto,
       amount: {

@@ -6,16 +6,16 @@ import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
 import { ExpenseEntityDto } from "@/features/expenses/features/update/api/ExpenseEntityDto";
-import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
+import { ExpenseEntity } from "@/features/expenses/types/ExpenseEntity";
 
 const url = (expenseId: number) =>
   `${config.backend.expenses.details}/${expenseId}`;
 
 export default function useGetExpenseApi(
   expenseId: number,
-): ApiStateT<ExpenseEntityT> {
-  const [apiState, setApiState] = useState<ApiStateT<ExpenseEntityT>>({
-    isLoading: false,
+): ApiStateT<ExpenseEntity.Type> {
+  const [apiState, setApiState] = useState<ApiStateT<ExpenseEntity.Type>>({
+    isSaving: false,
     isSuccessful: false,
     error: null,
     data: null,
@@ -24,12 +24,12 @@ export default function useGetExpenseApi(
   useEffect(() => {
     (async () => {
       try {
-        setApiState((a) => ({ ...apiState, isLoading: true, error: null }));
+        setApiState((a) => ({ ...apiState, isSaving: true, error: null }));
         const resp = await axios.get<ExpenseEntityDto.Type>(url(expenseId));
         const response = ExpenseEntityDto.to(resp.data);
         setApiState((a) => ({
           ...apiState,
-          isLoading: false,
+          isSaving: false,
           isSuccessful: true,
           data: response,
         }));
@@ -41,7 +41,7 @@ export default function useGetExpenseApi(
 
         setApiState((a) => ({
           ...apiState,
-          isLoading: false,
+          isSaving: false,
           error: new Error(errorMsg),
         }));
       }
@@ -50,7 +50,7 @@ export default function useGetExpenseApi(
 
   return {
     isSuccessful: apiState.isSuccessful,
-    isLoading: apiState.isLoading,
+    isSaving: apiState.isSaving,
     data: apiState.data,
     error: apiState.error,
   };

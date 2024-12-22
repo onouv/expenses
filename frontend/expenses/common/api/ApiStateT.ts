@@ -1,6 +1,6 @@
 type ApiStateT<T> = {
   data?: T | null;
-  isLoading: boolean;
+  isSaving: boolean;
   isSuccessful?: boolean;
   error: Error | null;
 };

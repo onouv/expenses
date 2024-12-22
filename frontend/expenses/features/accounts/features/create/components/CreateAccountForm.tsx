@@ -19,7 +19,7 @@ import FormSaveButton from "@/components/form/FormSaveButton";
 import FormResetButton from "@/components/form/FormResetButton";
 
 const CreateAccountForm: React.FC = (): ReactElement => {
-  const { requestCall, isLoading, isSuccessful, error } = useCreateAccountApi();
+  const { requestCall, isSaving, isSuccessful, error } = useCreateAccountApi();
   const router = useRouter();
   const formMethods = useForm<AccountT>({
     defaultValues: defaultAccount,
@@ -45,7 +45,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
     );
   }
 
-  if (isLoading) {
+  if (isSaving) {
     return <WaitingPrompt prompt="Saving data to server..." />;
   }
 

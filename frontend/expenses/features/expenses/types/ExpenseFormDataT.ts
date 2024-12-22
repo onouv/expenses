@@ -1,6 +1,6 @@
 import PaymentTypeE, { PaymentTypeESchema } from "@/common/types/PaymentTypeE";
 import { boolean, date, InferType, object, string } from "yup";
-import MoneyT, { defaultMoney, MoneyTSchema } from "@/common/types/MoneyT";
+import { defaultMoney, MoneyTSchema } from "@/common/types/MoneyT";
 
 export const ExpenseFormDataTSchema = object({
   recipient: string().required().max(120),

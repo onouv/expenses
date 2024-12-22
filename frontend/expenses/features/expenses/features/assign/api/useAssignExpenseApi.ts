@@ -7,21 +7,21 @@ import axios from "axios";
 import ApiStateT from "@/common/api/ApiStateT";
 import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
 import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
-import {Expense} from "@/features/expenses/types/Expense";
-import {WriteApiT} from "@/common/api/write-api";
+import { Expense } from "@/features/expenses/types/Expense";
+import { WriteApiT } from "@/common/api/write-api";
 
 const url = config.backend.expenses.assign;
 
 export default function useAssignExpenseApi(): WriteApiT<Expense.Type> {
   const [apiState, setApiState] = useState<ApiStateT<ExpenseFormDataT>>({
-    isLoading: false,
+    isSaving: false,
     isSuccessful: false,
     error: null,
   });
 
   const postRequest = useCallback(
     async (expense: Expense.Type) => {
-      setApiState({ ...apiState, isLoading: true, error: null });
+      setApiState({ ...apiState, isSaving: true, error: null });
 
       const payload: ExpenseDto.Type = ExpenseDto.of(expense);
 
@@ -29,7 +29,7 @@ export default function useAssignExpenseApi(): WriteApiT<Expense.Type> {
         const axiosResponse = await axios
           .post<ExpenseDto.Type>(url, payload)
           .finally();
-        setApiState({ ...apiState, isLoading: false, isSuccessful: true });
+        setApiState({ ...apiState, isSaving: false, isSuccessful: true });
       } catch (err: any) {
         const errorMsg =
           err.response.data.errorMessages.length > 0
@@ -38,7 +38,7 @@ export default function useAssignExpenseApi(): WriteApiT<Expense.Type> {
 
         setApiState({
           ...apiState,
-          isLoading: false,
+          isSaving: false,
           error: new Error(errorMsg),
         });
       }
@@ -49,7 +49,7 @@ export default function useAssignExpenseApi(): WriteApiT<Expense.Type> {
   return {
     requestCall: postRequest,
     isSuccessful: apiState.isSuccessful,
-    isLoading: apiState.isLoading,
+    isSaving: apiState.isSaving,
     error: apiState.error,
   };
 }
