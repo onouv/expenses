@@ -4,11 +4,11 @@ import MoneyT, { defaultMoney, MoneyTSchema } from "@/common/types/MoneyT";
 
 export const ExpenseFormDataTSchema = object({
   recipient: string().required().max(120),
-  purpose: string().max(120),
+  purpose: string().required().max(120),
   amount: MoneyTSchema,
   accruedDate: date().required(),
   paymentTargetDate: date().required(),
-  paymentType: PaymentTypeESchema,
+  paymentType: PaymentTypeESchema.required(),
   isInvoiced: boolean().required(),
 });
 Object.freeze(ExpenseFormDataTSchema);

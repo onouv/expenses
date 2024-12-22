@@ -23,6 +23,7 @@ import user from "@testing-library/user-event";
 import { mockAssignExpenseApi } from "@/test/mocks/msw/api-handlers/expense-handlers";
 import mockServer from "@/test/mocks/msw/node";
 import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
+import PaymentStatusE from "@/common/types/PaymentStatusE";
 
 describe("Feature Assign Expense", () => {
   describe("Given an account without expenses", () => {
@@ -107,7 +108,9 @@ describe("Feature Assign Expense", () => {
         accruedDate: "12/14/2024",
         isInvoiced: true,
         paymentTargetDate: "12/14/2024",
+        paymentActualDate: "",
         paymentType: PaymentTypeE.Unknown,
+        paymentStatus: PaymentStatusE.PLANNED,
       };
       describe("When opening the assign expense form", () => {
         beforeEach(async () => {

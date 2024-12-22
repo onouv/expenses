@@ -1,6 +1,6 @@
-import ExpenseT from "@/features/expenses/types/ExpenseT";
+import { Expense } from "@/features/expenses/types/Expense";
 
-type ExpenseEntityT = ExpenseT & {
+type ExpenseEntityT = Expense.Type & {
   expenseId: number;
 };
 

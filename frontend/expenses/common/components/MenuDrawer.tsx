@@ -18,7 +18,7 @@ type Props = {
   isOpen: boolean;
   toggleOpen: () => void;
 };
-const MenuDrawer: React.FC = ({ isOpen, toggleOpen }: Props) => (
+const MenuDrawer = ({ isOpen, toggleOpen }: Props) => (
   <Drawer variant="temporary" open={isOpen} onClose={toggleOpen}>
     <Box onClick={toggleOpen} sx={{ textAlign: "center" }}>
       <List>
