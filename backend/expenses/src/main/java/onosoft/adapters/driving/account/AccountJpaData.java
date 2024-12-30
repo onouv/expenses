@@ -18,7 +18,7 @@ public class AccountJpaData {
     @Column(name = "account_no", length = 16)
     private String accountNo;
 
-    @Column(name = "account_name")
+    @Column(name = "account_name", length = 30)
     private String accountName;
 
     @Column(name = "account_description")

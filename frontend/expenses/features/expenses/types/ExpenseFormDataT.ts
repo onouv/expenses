@@ -3,13 +3,13 @@ import { boolean, date, InferType, object, string } from "yup";
 import { defaultMoney, MoneyTSchema } from "@/common/types/MoneyT";
 
 export const ExpenseFormDataTSchema = object({
-  recipient: string().required().max(120),
-  purpose: string().required().max(120),
+  recipient: string().required("Must enter a recipient").max(30),
+  purpose: string().required("Must enter a purpose").max(30),
   amount: MoneyTSchema,
   accruedDate: date().required(),
   paymentTargetDate: date().required(),
   paymentType: PaymentTypeESchema.required(),
-  isInvoiced: boolean().required(),
+  isInvoiced: boolean(),
 });
 Object.freeze(ExpenseFormDataTSchema);
 

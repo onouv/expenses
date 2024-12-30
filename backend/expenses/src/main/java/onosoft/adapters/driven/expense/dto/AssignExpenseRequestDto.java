@@ -13,7 +13,4 @@ public class AssignExpenseRequestDto extends ExpenseDto {
         @Size(max = 16)
         @NonNull
         protected String accountNo;
-
-
-
 }

@@ -17,11 +17,11 @@ public class Expense {
     @NonNull String accountNo;
 
     @NonNull
-    @Size(max = 120)
+    @Size(max = 30)
     private String recipient;
 
     @NonNull
-    @Size(max = 120)
+    @Size(max = 30)
     private String purpose;
 
     @NonNull

@@ -64,6 +64,7 @@ public class ExpenseAppService implements ExpenseApiPort {
     }
 
     @Override
+    @Transactional
     public void updateExpenseEntity(ExpenseEntityDto dto)
             throws NoSuchAccountException, NoSuchExpenseException, AmountExceedsRangeException {
 

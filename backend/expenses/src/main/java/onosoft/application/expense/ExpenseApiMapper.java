@@ -44,6 +44,7 @@ public class ExpenseApiMapper {
 
         return Expense.builder()
                 .accountNo(dto.getAccountNo())
+                .expenseId(dto.getExpenseId())
                 .recipient(dto.getRecipient())
                 .purpose(dto.getPurpose())
                 .amount(moneyApiMapper.dtoToDomain(dto.getAmount()))
@@ -72,7 +73,7 @@ public class ExpenseApiMapper {
                 .paymentTargetDate(paymentTargetDate != null ? paymentTargetDate.toString(): null)
                 .paymentActualDate(paymentActualDate != null ? paymentActualDate.toString(): null)
                 .paymentType(domain.getPaymentType())
-                .isInvoiced(domain.isInvoiced())
+                .invoiced(domain.isInvoiced())
                 .expenseStatus(domain.getExpenseStatus())
                 .build();
     }
