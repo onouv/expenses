@@ -5,6 +5,8 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
 import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
+import onosoft.adapters.driving.expense.ExpenseDataMapper;
+import onosoft.adapters.driving.expense.ExpenseJpaData;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.exception.ExpensePreexistingException;
 import onosoft.domain.model.Account;
@@ -15,7 +17,6 @@ import onosoft.ports.driven.expense.NoSuchExpenseException;
 import onosoft.ports.driving.account.AccountRepoPort;
 import onosoft.ports.driving.expense.ExpenseRepoPort;
 import org.jboss.logging.Logger;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,8 @@ public class ExpenseAppService implements ExpenseApiPort {
 
     @Inject
     ExpenseApiMapper expenseApiMapper;
+    @Inject
+    ExpenseDataMapper expenseDataMapper;
 
     @Transactional
     public void assignExpenseToAccount(AssignExpenseRequestDto dto)
@@ -42,7 +45,7 @@ public class ExpenseAppService implements ExpenseApiPort {
         }
 
         Account account = accountRepo.loadAccount(dto.getAccountNo());
-        Expense expense = expenseApiMapper.assignmentDtoToDomain(dto, account);
+        Expense expense = expenseApiMapper.assignmentDtoToDomain(dto);
         account.addExpense(expense);
 
         accountRepo.updateAccount(account);
@@ -51,7 +54,17 @@ public class ExpenseAppService implements ExpenseApiPort {
 
     }
 
+
+    @Transactional
+    public ExpenseEntityDto getExpense(Long expenseId) throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
+        ExpenseJpaData data = this.expenseRepo.loadExpense(expenseId);
+
+        Expense domain = expenseDataMapper.dataToDomain(data);
+        return expenseApiMapper.domainToEntityDto(domain);
+    }
+
     @Override
+    @Transactional
     public void updateExpenseEntity(ExpenseEntityDto dto)
             throws NoSuchAccountException, NoSuchExpenseException, AmountExceedsRangeException {
 
@@ -63,7 +76,7 @@ public class ExpenseAppService implements ExpenseApiPort {
         }
 
         Expense expense = opt.get();
-        Expense update = expenseApiMapper.entityDtoToDomain(dto, account);
+        Expense update = expenseApiMapper.entityDtoToDomain(dto);
         expense.updateWith(update);
 
         accountRepo.updateAccount(account);

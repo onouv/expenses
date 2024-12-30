@@ -1,8 +1,8 @@
 import AccountT from "@/features/accounts/types/AccountT";
-import ExpenseT from "@/features/accounts/types/ExpenseT";
+import ExpenseSummaryT from "@/features/accounts/features/details/types/ExpenseSummaryT";
 
 type AccountDetailsT = AccountT & {
-  expenses: ExpenseT[];
+  expenses: ExpenseSummaryT[];
 };
 
 export default AccountDetailsT;

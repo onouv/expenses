@@ -10,7 +10,7 @@ const FormResetButton = (): ReactElement => {
     return <Button onClick={() => reset()}>RESET</Button>;
   }
 
-  return <Button disabled>Reset</Button>;
+  return <Button disabled>RESET</Button>;
 };
 
 export default FormResetButton;

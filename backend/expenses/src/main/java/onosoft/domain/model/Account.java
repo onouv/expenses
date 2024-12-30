@@ -40,6 +40,7 @@ public class Account {
         if (this.expenses.contains(expense)) {
             throw new ExpensePreexistingException(expense);
         }
+        expense.setAccountNo(this.accountNo);
         this.expenses.add(expense);
     }
 }

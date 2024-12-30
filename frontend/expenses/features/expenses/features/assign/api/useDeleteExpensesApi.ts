@@ -1,4 +1,4 @@
-import RequestApiT from "@/common/api/RequestApiT";
+import { WriteApiT } from "@/common/api/write-api";
 import config from "@/app-config.json";
 import { useCallback, useState } from "react";
 import ApiStateT from "@/common/api/ApiStateT";
@@ -6,16 +6,16 @@ import axios from "axios";
 
 const url = config.backend.expenses.delete;
 
-export default function useDeleteExpensesApi(): RequestApiT<number[]> {
+export default function useDeleteExpensesApi(): WriteApiT<number[]> {
   const [apiState, setApiState] = useState<ApiStateT<number[]>>({
-    isLoading: false,
+    isSaving: false,
     isSuccessful: false,
     error: null,
   });
 
   const deleteRequest = useCallback(
     async (ids: number[]) => {
-      setApiState({ ...apiState, isLoading: true, error: null });
+      setApiState({ ...apiState, isSaving: true, error: null });
 
       try {
         const axiosResponse = await axios
@@ -27,7 +27,7 @@ export default function useDeleteExpensesApi(): RequestApiT<number[]> {
             },
           })
           .finally();
-        setApiState({ ...apiState, isSuccessful: true, isLoading: false });
+        setApiState({ ...apiState, isSuccessful: true, isSaving: false });
       } catch (err: any) {
         const errorMsg =
           err.response.data.errorMessages.length > 0
@@ -36,7 +36,7 @@ export default function useDeleteExpensesApi(): RequestApiT<number[]> {
 
         setApiState({
           ...apiState,
-          isLoading: false,
+          isSaving: false,
           error: new Error(errorMsg),
         });
       }
@@ -46,7 +46,7 @@ export default function useDeleteExpensesApi(): RequestApiT<number[]> {
 
   return {
     requestCall: deleteRequest,
-    isLoading: apiState.isLoading,
+    isSaving: apiState.isSaving,
     isSuccessful: apiState.isSuccessful,
     error: apiState.error,
   };

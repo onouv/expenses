@@ -1,6 +1,7 @@
 package onosoft.adapters.driven.expense.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -14,11 +15,11 @@ import onosoft.domain.model.PaymentType;
 @SuperBuilder
 public class ExpenseDto {
     @NonNull
-    @Size(max = 120)
+    @Size(max = 30)
     protected String recipient;
 
     @NonNull
-    @Size(max = 120)
+    @Size(max = 30)
     protected String purpose;
 
     @NonNull
@@ -34,5 +35,6 @@ public class ExpenseDto {
     @JsonFormat(pattern="yyyy-MM-dd")
     protected String paymentTargetDate;
 
-    protected boolean isInvoiced;
+    @JsonProperty("isInvoiced")
+    protected boolean invoiced;
 }

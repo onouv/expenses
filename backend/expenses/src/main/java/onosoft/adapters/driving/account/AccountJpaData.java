@@ -18,17 +18,17 @@ public class AccountJpaData {
     @Column(name = "account_no", length = 16)
     private String accountNo;
 
-    @Column(name = "account_name")
+    @Column(name = "account_name", length = 30)
     private String accountName;
 
     @Column(name = "account_description")
     private String accountDescription;
 
     @OneToMany(
-        mappedBy = "account",
         cascade = CascadeType.ALL,
         orphanRemoval = true,
         fetch = FetchType.LAZY
     )
+    @JoinColumn(name = "account_no")
     private List<ExpenseJpaData> expenses;
 }

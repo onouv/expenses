@@ -1,12 +1,13 @@
-import React, { ReactElement, useEffect } from "react";
+"use client";
+
+import React, { ReactElement } from "react";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextFormInput from "@/components/form/TextFormInput";
-import PlannedExpenseT, {
-  defaultPlannedExpense,
-  plannedExpenseFieldNames,
-  PlannedExpenseTSchema,
-} from "@/features/expenses/types/PlannedExpenseT";
+import ExpenseFormDataT, {
+  expenseFieldNames,
+  ExpenseFormDataTSchema,
+} from "@/features/expenses/types/ExpenseFormDataT";
 import DateFormInput from "@/components/form/DateFormInput";
 import MoneyFormInput from "@/components/form/MoneyFormInput";
 import CheckboxFormInput from "@/components/form/CheckboxFormInput";
@@ -14,55 +15,30 @@ import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import PaymentTypeInput from "@/features/expenses/components/PaymentTypeInput";
 import FormResetButton from "@/components/form/FormResetButton";
-import { accountDetailsUrl } from "@/features/accounts/features/details/utils/route";
-import useAssignExpenseApi from "@/features/expenses/features/assign/api/useAssignExpenseApi";
+import { accountDetailsUrl } from "@/common/utils/account-routes";
 import { useRouter } from "next/navigation";
-import ErrorPage from "@/components/ErrorPage";
-import WaitingPrompt from "@/components/WaitingPrompt";
-import AccountDetailsT from "@/features/accounts/features/details/types/AccountDetailsT";
-import ExpenseT from "@/features/accounts/types/ExpenseT";
 import FormSaveButton from "@/components/form/FormSaveButton";
-import { PlannedExpenseDto } from "@/features/expenses/features/assign/api/PlannedExpenseDto";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import AccountT from "@/features/accounts/types/AccountT";
 
 type Props = {
-  account: AccountDetailsT;
-  expense?: ExpenseT;
+  account: AccountT;
+  initialValues: ExpenseFormDataT;
+  onSubmit: (formData: ExpenseFormDataT) => Promise<void>;
 };
-const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
-  const formMethods = useForm<PlannedExpenseT>({
-    defaultValues: expense
-      ? { ...expense, accountNo: account.accountNo }
-      : { ...defaultPlannedExpense, accountNo: account.accountNo },
-    resolver: yupResolver(PlannedExpenseTSchema),
+const ExpenseDetailsForm = ({
+  account,
+  initialValues,
+  onSubmit,
+}: Props): ReactElement => {
+  const formMethods = useForm<ExpenseFormDataT>({
+    defaultValues: initialValues,
+    mode: "onChange",
+    resolver: yupResolver(ExpenseFormDataTSchema),
   });
 
-  const { requestCall, isLoading, isSuccessful, error } = useAssignExpenseApi();
   const router = useRouter();
-
-  useEffect(() => {
-    if (isSuccessful) {
-      const route = accountDetailsUrl(account.accountNo);
-      router.push(route);
-    }
-  }, [isSuccessful, router, account.accountNo]);
-
-  const onSubmit = async (expense: PlannedExpenseT) => {
-    const payload: PlannedExpenseDto.Type = PlannedExpenseDto.of(expense);
-    await requestCall(payload);
-  };
-
-  if (error) {
-    return (
-      <ErrorPage
-        prompt={error.message}
-        nextRoute={accountDetailsUrl(account.accountNo)}
-      />
-    );
-  }
-
-  if (isLoading) {
-    return <WaitingPrompt prompt="Saving data to server..." />;
-  }
 
   const CoreDataSegment = (
     <Paper elevation={3}>
@@ -70,26 +46,32 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <TextFormInput
-              fieldName={plannedExpenseFieldNames.recipient}
+              fieldName={expenseFieldNames.recipient}
               label="Recipient"
+              key="plannedExpenseFieldNames.recipient"
             />
           </Grid>
           <Grid item xs={8}>
             <TextFormInput
-              fieldName={plannedExpenseFieldNames.purpose}
+              fieldName={expenseFieldNames.purpose}
               label="Purpose"
+              key="plannedExpenseFieldNames.purpose"
             />
           </Grid>
         </Grid>
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <DateFormInput
-              fieldName={plannedExpenseFieldNames.accruedDate}
+              fieldName={expenseFieldNames.accruedDate}
               label="Date Accrued"
+              key="plannedExpenseFieldNames.accruedDate"
             />
           </Grid>
           <Grid item xs={8}>
-            <MoneyFormInput fieldName={plannedExpenseFieldNames.amount} />
+            <MoneyFormInput
+              fieldName={expenseFieldNames.amount}
+              key="plannedExpenseFieldNames.amount"
+            />
           </Grid>
         </Grid>
       </Stack>
@@ -112,7 +94,7 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
     return <Button disabled>{label}</Button>;
   };
 
-  const isInvoiced = formMethods.watch(plannedExpenseFieldNames.isInvoiced);
+  const isInvoiced = formMethods.watch(expenseFieldNames.isInvoiced);
   const InvoicingSegment = (
     <Paper elevation={3}>
       <Box padding={2}>
@@ -120,7 +102,7 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
           <Grid item xs={4}>
             <Box marginLeft={1}>
               <CheckboxFormInput
-                fieldName={plannedExpenseFieldNames.isInvoiced}
+                fieldName={expenseFieldNames.isInvoiced}
                 label="With Invoice"
               />
             </Box>
@@ -140,13 +122,13 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <DateFormInput
-              fieldName={plannedExpenseFieldNames.paymentTargetDate}
+              fieldName={expenseFieldNames.paymentTargetDate}
               label="Payment Date"
             />
           </Grid>
           <Grid item xs={4}>
             <PaymentTypeInput
-              fieldName={plannedExpenseFieldNames.paymentType}
+              fieldName={expenseFieldNames.paymentType}
               label="Payment Type"
             />
           </Grid>
@@ -186,23 +168,25 @@ const ExpenseDetailsForm = ({ account, expense }: Props): ReactElement => {
   );
 
   return (
-    <FormProvider {...formMethods}>
-      <Paper elevation={3}>
-        <Stack spacing={2} padding={2}>
-          <Typography variant="subtitle2">Expense</Typography>
-          <Paper elevation={3}>
-            <Box padding={2}>
-              <Stack spacing={2}>
-                {CoreDataSegment}
-                {InvoicingSegment}
-                {PaymentSegment}
-                {FormButtonSegment}
-              </Stack>
-            </Box>
-          </Paper>
-        </Stack>
-      </Paper>
-    </FormProvider>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <FormProvider {...formMethods}>
+        <Paper elevation={3}>
+          <Stack spacing={2} padding={2}>
+            <Typography variant="subtitle2">Expense</Typography>
+            <Paper elevation={3}>
+              <Box padding={2}>
+                <Stack spacing={2}>
+                  {CoreDataSegment}
+                  {InvoicingSegment}
+                  {PaymentSegment}
+                  {FormButtonSegment}
+                </Stack>
+              </Box>
+            </Paper>
+          </Stack>
+        </Paper>
+      </FormProvider>
+    </LocalizationProvider>
   );
 };
 

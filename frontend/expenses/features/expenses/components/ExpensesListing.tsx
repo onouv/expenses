@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactElement, useEffect, useState } from "react";
-import ExpenseT from "@/features/accounts/types/ExpenseT";
+import ExpenseSummaryT from "@/features/accounts/features/details/types/ExpenseSummaryT";
 import { Button, Paper, Stack, Typography } from "@mui/material";
 import ExpensesTable from "@/features/expenses/components/ExpensesTable";
 import Grid from "@mui/material/Grid";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import config from "@/app-config.json";
 import useDeleteExpensesApi from "@/features/expenses/features/assign/api/useDeleteExpensesApi";
 import ErrorPage from "@/components/ErrorPage";
-import { accountDetailsUrl } from "@/features/accounts/features/details/utils/route";
+import { accountDetailsUrl } from "@/common/utils/account-routes";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
 
@@ -25,12 +25,11 @@ const clone = (arr: number[]): number[] => {
 type Selections = number[];
 type Props = {
   account: string;
-  expenses: ExpenseT[];
+  expenses: ExpenseSummaryT[];
 };
 const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
   const [selections, setSelections] = useState<Selections>([]);
-  const { requestCall, isLoading, isSuccessful, error } =
-    useDeleteExpensesApi();
+  const { requestCall, isSaving, isSuccessful, error } = useDeleteExpensesApi();
   const router = useRouter();
 
   useEffect(() => {
@@ -50,7 +49,7 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
     );
   }
 
-  if (isLoading) {
+  if (isSaving) {
     return <WaitingPrompt prompt="Deleting selections from server..." />;
   }
 

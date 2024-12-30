@@ -9,7 +9,7 @@ import AccountT, {
 } from "@/features/accounts/types/AccountT";
 import config from "@/app-config.json";
 import { Box, Button, Stack } from "@mui/material";
-import useCreateAccountApi from "@/features/accounts/api/useCreateAccountApi";
+import useCreateAccountApi from "@/features/accounts/features/create/api/useCreateAccountApi";
 import ErrorPage from "@/common/components/ErrorPage";
 import WaitingPrompt from "@/common/components/WaitingPrompt";
 import { useRouter } from "next/navigation";
@@ -19,7 +19,7 @@ import FormSaveButton from "@/components/form/FormSaveButton";
 import FormResetButton from "@/components/form/FormResetButton";
 
 const CreateAccountForm: React.FC = (): ReactElement => {
-  const { requestCall, isLoading, isSuccessful, error } = useCreateAccountApi();
+  const { requestCall, isSaving, isSuccessful, error } = useCreateAccountApi();
   const router = useRouter();
   const formMethods = useForm<AccountT>({
     defaultValues: defaultAccount,
@@ -45,7 +45,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
     );
   }
 
-  if (isLoading) {
+  if (isSaving) {
     return <WaitingPrompt prompt="Saving data to server..." />;
   }
 

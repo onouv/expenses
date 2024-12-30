@@ -16,5 +16,8 @@ public interface ExpenseApiPort {
     void updateExpenseEntity(ExpenseEntityDto expense)
             throws NoSuchAccountException, NoSuchExpenseException, AmountExceedsRangeException;
 
+    ExpenseEntityDto getExpense(Long expenseId) throws
+            NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException;
+
     void deleteExpenseList(List<Long> expenseIds) throws NoSuchExpenseException;
 }

@@ -1,40 +1,37 @@
 "use client";
 
 import config from "@/app-config.json";
+import { WriteApiT } from "@/common/api/write-api";
 import { useCallback, useState } from "react";
 import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
-import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
-import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
-import { Expense } from "@/features/expenses/types/Expense";
-import { WriteApiT } from "@/common/api/write-api";
+import { ExpenseEntityDto } from "@/features/expenses/features/update/api/ExpenseEntityDto";
+import { ExpenseEntity } from "@/features/expenses/types/ExpenseEntity";
 
-const url = config.backend.expenses.assign;
+const url = config.backend.expenses.update;
 
-export default function useAssignExpenseApi(): WriteApiT<Expense.Type> {
-  const [apiState, setApiState] = useState<ApiStateT<ExpenseFormDataT>>({
+export default function useUpdateExpenseApi(): WriteApiT<ExpenseEntity.Type> {
+  const [apiState, setApiState] = useState<ApiStateT<ExpenseEntity.Type>>({
     isSaving: false,
     isSuccessful: false,
     error: null,
   });
 
-  const postRequest = useCallback(
-    async (expense: Expense.Type) => {
+  const patchRequest = useCallback(
+    async (expense: ExpenseEntity.Type) => {
       setApiState({ ...apiState, isSaving: true, error: null });
 
-      const payload: ExpenseDto.Type = ExpenseDto.of(expense);
+      const payload = ExpenseEntityDto.of(expense);
 
       try {
-        const axiosResponse = await axios
-          .post<ExpenseDto.Type>(url, payload)
-          .finally();
+        await axios.patch<ExpenseEntityDto.Type>(url, payload).finally();
         setApiState({ ...apiState, isSaving: false, isSuccessful: true });
       } catch (err: any) {
         const errorMsg =
           err.response.data.errorMessages.length > 0
             ? err.response.data.errorMessages[0]
-            : "Unknown Application Error at assign expense API";
+            : "Unknown Application Error at update expense API";
 
         setApiState({
           ...apiState,
@@ -47,7 +44,7 @@ export default function useAssignExpenseApi(): WriteApiT<Expense.Type> {
   );
 
   return {
-    requestCall: postRequest,
+    requestCall: patchRequest,
     isSuccessful: apiState.isSuccessful,
     isSaving: apiState.isSaving,
     error: apiState.error,

@@ -19,4 +19,10 @@ public class ExpenseRepoAdapter implements ExpenseRepoPort {
             throw new NoSuchExpenseException(expenseId);
         }
     }
+
+    @Override
+    public ExpenseJpaData loadExpense(long expenseId) throws NoSuchExpenseException {
+        ExpenseJpaData data = expenseRepo.findById(expenseId);
+        return data;
+    }
 }

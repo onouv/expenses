@@ -4,7 +4,7 @@ import React, { ReactElement } from "react";
 import AccountDetails from "@/features/accounts/features/details/components/AccountDetails";
 import FeaturePage from "@/components/FeaturePage";
 import config from "@/app-config.json";
-import useGetAccountDetails from "@/features/accounts/features/details/api/useGetAccountDetails";
+import useGetAccountDetails from "@/common/api/useGetAccountDetails";
 import WaitingPrompt from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
 import { useSearchParams } from "next/navigation";

@@ -4,8 +4,8 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import onosoft.adapters.driven.expense.dto.DeleteExpenseListRequestDto;
 import onosoft.adapters.driven.expense.dto.AssignExpenseRequestDto;
+import onosoft.adapters.driven.expense.dto.DeleteExpenseListRequestDto;
 import onosoft.adapters.driven.expense.dto.ExpenseEntityDto;
 import onosoft.application.commons.money.AmountExceedsRangeException;
 import onosoft.domain.exception.ExpensePreexistingException;
@@ -24,6 +24,7 @@ public class ExpenseEndpoint {
     @Inject
     private ExpenseApiPort expenseService;
 
+
     @POST
     @Path("/expense/assign")
     public Response assignExpenseToAccount(AssignExpenseRequestDto request)
@@ -37,14 +38,24 @@ public class ExpenseEndpoint {
     }
 
     @PATCH
-    @Path("/expense/{expenseId}")
-    public Response updateExpense(ExpenseEntityDto dto, @PathParam("expenseId") long expenseId)
+    @Path("/expense/update")
+    public Response updateExpense(ExpenseEntityDto dto)
         throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
         log.infof("Request to update expense: %s", dto);
 
         expenseService.updateExpenseEntity(dto);
 
         return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Path("/expense/details/{expenseId}")
+    public Response getExpenseDetails(Long expenseId) throws
+            NoSuchAccountException, AmountExceedsRangeException, NoSuchExpenseException {
+        log.infof("Request to get expense details for: %s", expenseId);
+        final ExpenseEntityDto expense = expenseService.getExpense(expenseId);
+
+        return Response.ok(expense).build();
     }
 
     @POST
