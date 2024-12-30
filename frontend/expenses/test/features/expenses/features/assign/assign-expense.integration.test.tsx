@@ -22,7 +22,6 @@ import config from "@/app-config.json";
 import user from "@testing-library/user-event";
 import { mockAssignExpenseApi } from "@/test/mocks/msw/api-handlers/expense-handlers";
 import mockServer from "@/test/mocks/msw/node";
-import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
 import PaymentStatusE from "@/common/types/PaymentStatusE";
 
 describe("Feature Assign Expense", () => {
