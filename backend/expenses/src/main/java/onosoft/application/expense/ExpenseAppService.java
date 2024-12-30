@@ -45,7 +45,7 @@ public class ExpenseAppService implements ExpenseApiPort {
         }
 
         Account account = accountRepo.loadAccount(dto.getAccountNo());
-        Expense expense = expenseApiMapper.assignmentDtoToDomain(dto, account);
+        Expense expense = expenseApiMapper.assignmentDtoToDomain(dto);
         account.addExpense(expense);
 
         accountRepo.updateAccount(account);
@@ -56,14 +56,15 @@ public class ExpenseAppService implements ExpenseApiPort {
 
 
     @Transactional
-    public Expense getExpense(Long expenseId) throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
+    public ExpenseEntityDto getExpense(Long expenseId) throws NoSuchExpenseException, AmountExceedsRangeException, NoSuchAccountException {
         ExpenseJpaData data = this.expenseRepo.loadExpense(expenseId);
-        Account account = this.accountRepo.loadAccount(data.getAccount().getAccountNo());
 
-        return expenseDataMapper.dataToDomain(data, account);
+        Expense domain = expenseDataMapper.dataToDomain(data);
+        return expenseApiMapper.domainToEntityDto(domain);
     }
 
     @Override
+    @Transactional
     public void updateExpenseEntity(ExpenseEntityDto dto)
             throws NoSuchAccountException, NoSuchExpenseException, AmountExceedsRangeException {
 
@@ -75,7 +76,7 @@ public class ExpenseAppService implements ExpenseApiPort {
         }
 
         Expense expense = opt.get();
-        Expense update = expenseApiMapper.entityDtoToDomain(dto, account);
+        Expense update = expenseApiMapper.entityDtoToDomain(dto);
         expense.updateWith(update);
 
         accountRepo.updateAccount(account);

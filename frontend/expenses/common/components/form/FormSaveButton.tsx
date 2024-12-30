@@ -6,10 +6,18 @@ type Props = {
   onClick: React.MouseEventHandler<HTMLButtonElement>;
 };
 const FormSaveButton = ({ onClick }: Props) => {
-  const { isDirty, isValid } = useFormState();
+  const { isDirty, dirtyFields, isValid } = useFormState();
 
-  if (isDirty && isValid) {
-    return <Button onClick={onClick}>SAVE</Button>;
+  if (isDirty && Object.keys(dirtyFields).length > 0 && isValid) {
+    return (
+      <Button
+        onClick={(event) => {
+          onClick(event);
+        }}
+      >
+        SAVE
+      </Button>
+    );
   }
 
   return <Button disabled>SAVE</Button>;

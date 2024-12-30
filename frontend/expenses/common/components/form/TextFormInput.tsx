@@ -10,11 +10,15 @@ const TextFormInput = ({ fieldName, label }: FormInputPropsT) => {
     <Controller
       name={fieldName}
       control={control}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
+      render={({
+        field: { onChange, onBlur, value },
+        fieldState: { error },
+      }) => (
         <TextField
           helperText={error ? error.message : null}
           error={!!error}
           onChange={onChange}
+          onBlur={onBlur}
           value={value}
           fullWidth
           label={label}

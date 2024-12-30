@@ -6,10 +6,13 @@ export const TWO_DIGIT_DECIMAL_US: RegExp =
 
 export const MoneyTSchema = object({
   value: string().required().matches(TWO_DIGIT_DECIMAL_US),
-  currency: CurrencyESchema,
+  currency: CurrencyESchema.required(),
 });
 
-type MoneyT = InferType<typeof MoneyTSchema>;
+type MoneyT = {
+  value: string;
+  currency: CurrencyE;
+};
 
 export const defaultMoney: MoneyT = {
   value: "0.00",

@@ -4,32 +4,32 @@ import AccountT from "@/features/accounts/types/AccountT";
 import { useCallback, useState } from "react";
 import axios, { HttpStatusCode } from "axios";
 import config from "@/app-config.json";
-import WriteApiT from "@/common/api/WriteRequestApiT";
+import { WriteApiT } from "@/common/api/write-api";
 import ApiStateT from "@/common/api/ApiStateT";
 
 const url = config.backend.accounts.create;
 
 export default function useCreateAccountApi(): WriteApiT<AccountT> {
   const [apiState, setApiState] = useState<ApiStateT<AccountT>>({
-    isLoading: false,
+    isSaving: false,
     isSuccessful: false,
     error: null,
   });
 
   const postRequest = useCallback(async (data: AccountT) => {
-    setApiState({ ...apiState, isLoading: true, error: null });
+    setApiState({ ...apiState, isSaving: true, error: null });
     try {
       const resp = await axios.post<AccountT>(url, data).finally();
       if (
         resp.status == HttpStatusCode.Created ||
         resp.status == HttpStatusCode.Ok
       ) {
-        setApiState({ ...apiState, isSuccessful: true, isLoading: false });
+        setApiState({ ...apiState, isSuccessful: true, isSaving: false });
       } else {
         setApiState({
           ...apiState,
           isSuccessful: false,
-          isLoading: false,
+          isSaving: false,
           error: new Error(
             `Server could not create account (status code ${resp.status})`,
           ),
@@ -43,7 +43,7 @@ export default function useCreateAccountApi(): WriteApiT<AccountT> {
 
       setApiState({
         ...apiState,
-        isLoading: false,
+        isSaving: false,
         isSuccessful: false,
         error: new Error(errorMsg),
       });
@@ -52,7 +52,7 @@ export default function useCreateAccountApi(): WriteApiT<AccountT> {
 
   return {
     requestCall: postRequest,
-    isLoading: apiState.isLoading,
+    isSaving: apiState.isSaving,
     isSuccessful: apiState.isSuccessful,
     error: apiState.error,
   };

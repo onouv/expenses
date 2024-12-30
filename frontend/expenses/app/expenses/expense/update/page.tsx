@@ -14,13 +14,17 @@ const UpdateExpensePage = () => {
   const params = useSearchParams();
   const expenseId = params.get("expenseid") as string;
 
-  const { data, isLoading, error } = useGetExpenseApi(parseInt(expenseId));
+  const { data, isSaving, error } = useGetExpenseApi(parseInt(expenseId));
 
-  if (isLoading) {
+  if (isSaving) {
     return <WaitingPrompt prompt="Loading expense from server..." />;
   }
 
-  if (error || data == undefined) {
+  if (!data) {
+    return <></>;
+  }
+
+  if (error) {
     return (
       <ErrorPage
         prompt="Error while loading expense from server."

@@ -7,28 +7,26 @@ import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
 import { ExpenseEntityDto } from "@/features/expenses/features/update/api/ExpenseEntityDto";
-import ExpenseEntityT from "@/features/expenses/types/ExpenseEntityT";
+import { ExpenseEntity } from "@/features/expenses/types/ExpenseEntity";
 
 const url = config.backend.expenses.update;
 
-export default function useUpdateExpenseApi(): WriteApiT<ExpenseEntityT> {
-  const [apiState, setApiState] = useState<ApiStateT<ExpenseEntityT>>({
-    isLoading: false,
+export default function useUpdateExpenseApi(): WriteApiT<ExpenseEntity.Type> {
+  const [apiState, setApiState] = useState<ApiStateT<ExpenseEntity.Type>>({
+    isSaving: false,
     isSuccessful: false,
     error: null,
   });
 
   const patchRequest = useCallback(
-    async (expense: ExpenseEntityT) => {
-      setApiState({ ...apiState, isLoading: true, error: null });
+    async (expense: ExpenseEntity.Type) => {
+      setApiState({ ...apiState, isSaving: true, error: null });
 
       const payload = ExpenseEntityDto.of(expense);
 
       try {
-        const axiosResponse = await axios
-          .patch<ExpenseEntityDto.Type>(url, payload)
-          .finally();
-        setApiState({ ...apiState, isLoading: false, isSuccessful: true });
+        await axios.patch<ExpenseEntityDto.Type>(url, payload).finally();
+        setApiState({ ...apiState, isSaving: false, isSuccessful: true });
       } catch (err: any) {
         const errorMsg =
           err.response.data.errorMessages.length > 0
@@ -37,7 +35,7 @@ export default function useUpdateExpenseApi(): WriteApiT<ExpenseEntityT> {
 
         setApiState({
           ...apiState,
-          isLoading: false,
+          isSaving: false,
           error: new Error(errorMsg),
         });
       }
@@ -48,7 +46,7 @@ export default function useUpdateExpenseApi(): WriteApiT<ExpenseEntityT> {
   return {
     requestCall: patchRequest,
     isSuccessful: apiState.isSuccessful,
-    isLoading: apiState.isLoading,
+    isSaving: apiState.isSaving,
     error: apiState.error,
   };
 }

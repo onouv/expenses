@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactElement, useEffect, useState } from "react";
-import ExpenseSummaryT from "@/common/types/ExpenseSummaryT";
+import ExpenseSummaryT from "@/features/accounts/features/details/types/ExpenseSummaryT";
 import { Button, Paper, Stack, Typography } from "@mui/material";
 import ExpensesTable from "@/features/expenses/components/ExpensesTable";
 import Grid from "@mui/material/Grid";
@@ -29,8 +29,7 @@ type Props = {
 };
 const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
   const [selections, setSelections] = useState<Selections>([]);
-  const { requestCall, isLoading, isSuccessful, error } =
-    useDeleteExpensesApi();
+  const { requestCall, isSaving, isSuccessful, error } = useDeleteExpensesApi();
   const router = useRouter();
 
   useEffect(() => {
@@ -50,7 +49,7 @@ const ExpensesListing = ({ account, expenses }: Props): ReactElement => {
     );
   }
 
-  if (isLoading) {
+  if (isSaving) {
     return <WaitingPrompt prompt="Deleting selections from server..." />;
   }
 
