@@ -1,8 +1,8 @@
 import { expect, it, vi } from "vitest";
-import AccountT from "@/features/accounts/types/AccountT";
+import { Account } from "@/features/accounts/types/Account";
 import { screen } from "@testing-library/react";
 
-export function testAccountHeader(account: AccountT) {
+export function testAccountHeader(account: Account.Type) {
   it("Then it should show a header line for this account", async () => {
     const number = await screen.findByText(account.accountNo);
     expect(number).toBeInTheDocument();

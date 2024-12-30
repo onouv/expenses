@@ -1,6 +1,6 @@
 "use client";
 
-import AccountT from "@/features/accounts/types/AccountT";
+import { Account } from "@/features/accounts/types/Account";
 import { ReactElement } from "react";
 import { Box, Paper, Stack, Typography } from "@mui/material";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import TableBody from "@mui/material/TableBody";
 
 type Props = {
-  account: AccountT;
+  account: Account.Type;
 };
 const AccountHeader = ({ account }: Props): ReactElement => (
   <Paper elevation={3}>

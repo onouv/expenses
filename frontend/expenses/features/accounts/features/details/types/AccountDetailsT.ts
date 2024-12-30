@@ -1,7 +1,7 @@
-import AccountT from "@/features/accounts/types/AccountT";
+import { Account } from "@/features/accounts/types/Account";
 import ExpenseSummaryT from "@/features/accounts/features/details/types/ExpenseSummaryT";
 
-type AccountDetailsT = AccountT & {
+type AccountDetailsT = Account.Type & {
   expenses: ExpenseSummaryT[];
 };
 

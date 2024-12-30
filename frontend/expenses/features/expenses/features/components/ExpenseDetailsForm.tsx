@@ -4,10 +4,7 @@ import React, { ReactElement } from "react";
 import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import TextFormInput from "@/components/form/TextFormInput";
-import ExpenseFormDataT, {
-  expenseFieldNames,
-  ExpenseFormDataTSchema,
-} from "@/features/expenses/types/ExpenseFormDataT";
+import { ExpenseFormData } from "@/features/expenses/types/ExpenseFormData";
 import DateFormInput from "@/components/form/DateFormInput";
 import MoneyFormInput from "@/components/form/MoneyFormInput";
 import CheckboxFormInput from "@/components/form/CheckboxFormInput";
@@ -20,22 +17,22 @@ import { useRouter } from "next/navigation";
 import FormSaveButton from "@/components/form/FormSaveButton";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import AccountT from "@/features/accounts/types/AccountT";
+import { Account } from "@/features/accounts/types/Account";
 
 type Props = {
-  account: AccountT;
-  initialValues: ExpenseFormDataT;
-  onSubmit: (formData: ExpenseFormDataT) => Promise<void>;
+  account: Account.Type;
+  initialValues: ExpenseFormData.Type;
+  onSubmit: (formData: ExpenseFormData.Type) => Promise<void>;
 };
 const ExpenseDetailsForm = ({
   account,
   initialValues,
   onSubmit,
 }: Props): ReactElement => {
-  const formMethods = useForm<ExpenseFormDataT>({
+  const formMethods = useForm<ExpenseFormData.Type>({
     defaultValues: initialValues,
     mode: "onChange",
-    resolver: yupResolver(ExpenseFormDataTSchema),
+    resolver: yupResolver(ExpenseFormData.Schema),
   });
 
   const router = useRouter();
@@ -46,14 +43,14 @@ const ExpenseDetailsForm = ({
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <TextFormInput
-              fieldName={expenseFieldNames.recipient}
+              fieldName={ExpenseFormData.FieldNames.recipient}
               label="Recipient"
               key="plannedExpenseFieldNames.recipient"
             />
           </Grid>
           <Grid item xs={8}>
             <TextFormInput
-              fieldName={expenseFieldNames.purpose}
+              fieldName={ExpenseFormData.FieldNames.purpose}
               label="Purpose"
               key="plannedExpenseFieldNames.purpose"
             />
@@ -62,14 +59,14 @@ const ExpenseDetailsForm = ({
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <DateFormInput
-              fieldName={expenseFieldNames.accruedDate}
+              fieldName={ExpenseFormData.FieldNames.accruedDate}
               label="Date Accrued"
               key="plannedExpenseFieldNames.accruedDate"
             />
           </Grid>
           <Grid item xs={8}>
             <MoneyFormInput
-              fieldName={expenseFieldNames.amount}
+              fieldName={ExpenseFormData.FieldNames.amount}
               key="plannedExpenseFieldNames.amount"
             />
           </Grid>
@@ -94,7 +91,7 @@ const ExpenseDetailsForm = ({
     return <Button disabled>{label}</Button>;
   };
 
-  const isInvoiced = formMethods.watch(expenseFieldNames.isInvoiced);
+  const isInvoiced = formMethods.watch(ExpenseFormData.FieldNames.isInvoiced);
   const InvoicingSegment = (
     <Paper elevation={3}>
       <Box padding={2}>
@@ -102,7 +99,7 @@ const ExpenseDetailsForm = ({
           <Grid item xs={4}>
             <Box marginLeft={1}>
               <CheckboxFormInput
-                fieldName={expenseFieldNames.isInvoiced}
+                fieldName={ExpenseFormData.FieldNames.isInvoiced}
                 label="With Invoice"
               />
             </Box>
@@ -122,13 +119,13 @@ const ExpenseDetailsForm = ({
         <Grid container direction="row" columnSpacing={2}>
           <Grid item xs={4}>
             <DateFormInput
-              fieldName={expenseFieldNames.paymentTargetDate}
+              fieldName={ExpenseFormData.FieldNames.paymentTargetDate}
               label="Payment Date"
             />
           </Grid>
           <Grid item xs={4}>
             <PaymentTypeInput
-              fieldName={expenseFieldNames.paymentType}
+              fieldName={ExpenseFormData.FieldNames.paymentType}
               label="Payment Type"
             />
           </Grid>

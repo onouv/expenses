@@ -64,9 +64,11 @@ const LoginPage: React.FC = (): ReactElement => {
             id="login-name"
             label="user name"
             onChange={(event: object) => {
+              // @ts-ignore
               if (event.target.value) {
                 setData({
                   ...data,
+                  // @ts-ignore
                   name: event.target.value,
                   nameIsValid: true,
                 });
@@ -80,9 +82,11 @@ const LoginPage: React.FC = (): ReactElement => {
             id="login-password"
             label="user password"
             onChange={(event: object) => {
+              // @ts-ignore
               if (event.target.value) {
                 setData({
                   ...data,
+                  // @ts-ignore
                   password: event.target.value,
                   passwordIsValid: true,
                 });

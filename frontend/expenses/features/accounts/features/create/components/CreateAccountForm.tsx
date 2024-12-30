@@ -3,10 +3,7 @@
 import React, { ReactElement, useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import AccountT, {
-  AccountSchema,
-  defaultAccount,
-} from "@/features/accounts/types/AccountT";
+import { Account } from "@/features/accounts/types/Account";
 import config from "@/app-config.json";
 import { Box, Button, Stack } from "@mui/material";
 import useCreateAccountApi from "@/features/accounts/features/create/api/useCreateAccountApi";
@@ -21,9 +18,9 @@ import FormResetButton from "@/components/form/FormResetButton";
 const CreateAccountForm: React.FC = (): ReactElement => {
   const { requestCall, isSaving, isSuccessful, error } = useCreateAccountApi();
   const router = useRouter();
-  const formMethods = useForm<AccountT>({
-    defaultValues: defaultAccount,
-    resolver: yupResolver(AccountSchema),
+  const formMethods = useForm<Account.Type>({
+    defaultValues: Account.Defaults,
+    resolver: yupResolver(Account.Schema),
   });
 
   useEffect(() => {
@@ -32,7 +29,7 @@ const CreateAccountForm: React.FC = (): ReactElement => {
     }
   }, [isSuccessful, router]);
 
-  const onSubmit = async (data: AccountT) => {
+  const onSubmit = async (data: Account.Type) => {
     await requestCall(data);
   };
 
@@ -53,9 +50,18 @@ const CreateAccountForm: React.FC = (): ReactElement => {
     <FormProvider {...formMethods}>
       <Box padding={2}>
         <Stack spacing={2}>
-          <TextFormInput fieldName="accountNo" label="Account No" />
-          <TextFormInput fieldName="accountName" label="Account Name" />
-          <TextFormInput fieldName="accountDescription" label="Description" />
+          <TextFormInput
+            fieldName={Account.FieldNames.accountNo}
+            label="Account No"
+          />
+          <TextFormInput
+            fieldName={Account.FieldNames.accountName}
+            label="Account Name"
+          />
+          <TextFormInput
+            fieldName={Account.FieldNames.accountDescription}
+            label="Description"
+          />
           <Grid
             container
             direction="row"

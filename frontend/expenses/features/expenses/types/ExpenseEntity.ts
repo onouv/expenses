@@ -1,5 +1,5 @@
 import { Expense } from "@/features/expenses/types/Expense";
-import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
+import { ExpenseFormData } from "@/features/expenses/types/ExpenseFormData";
 
 export namespace ExpenseEntity {
   export type Type = Expense.Type & {
@@ -7,7 +7,7 @@ export namespace ExpenseEntity {
   };
 
   export const of = (
-    formData: ExpenseFormDataT,
+    formData: ExpenseFormData.Type,
     expense: ExpenseEntity.Type,
   ): Type => {
     return {

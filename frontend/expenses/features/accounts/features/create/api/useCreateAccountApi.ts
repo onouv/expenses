@@ -1,6 +1,6 @@
 "use client";
 
-import AccountT from "@/features/accounts/types/AccountT";
+import { Account } from "@/features/accounts/types/Account";
 import { useCallback, useState } from "react";
 import axios, { HttpStatusCode } from "axios";
 import config from "@/app-config.json";
@@ -9,17 +9,17 @@ import ApiStateT from "@/common/api/ApiStateT";
 
 const url = config.backend.accounts.create;
 
-export default function useCreateAccountApi(): WriteApiT<AccountT> {
-  const [apiState, setApiState] = useState<ApiStateT<AccountT>>({
+export default function useCreateAccountApi(): WriteApiT<Account.Type> {
+  const [apiState, setApiState] = useState<ApiStateT<Account.Type>>({
     isSaving: false,
     isSuccessful: false,
     error: null,
   });
 
-  const postRequest = useCallback(async (data: AccountT) => {
+  const postRequest = useCallback(async (data: Account.Type) => {
     setApiState({ ...apiState, isSaving: true, error: null });
     try {
-      const resp = await axios.post<AccountT>(url, data).finally();
+      const resp = await axios.post<Account.Type>(url, data).finally();
       if (
         resp.status == HttpStatusCode.Created ||
         resp.status == HttpStatusCode.Ok

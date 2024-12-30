@@ -3,12 +3,10 @@
 import AccountHeader from "@/features/accounts/components/AccountHeader";
 import { Stack } from "@mui/material";
 import React, { ReactElement, useEffect } from "react";
-import ExpenseFormDataT, {
-  defaultExpenseFormData,
-} from "@/features/expenses/types/ExpenseFormDataT";
+import { ExpenseFormData } from "@/features/expenses/types/ExpenseFormData";
 import useAssignExpenseApi from "@/features/expenses/features/assign/api/useAssignExpenseApi";
 import ExpenseDetailsForm from "@/features/expenses/features/components/ExpenseDetailsForm";
-import AccountT from "@/features/accounts/types/AccountT";
+import { Account } from "@/features/accounts/types/Account";
 import { useRouter } from "next/navigation";
 import { accountDetailsUrl } from "@/common/utils/account-routes";
 import ErrorPage from "@/components/ErrorPage";
@@ -16,13 +14,15 @@ import WaitingPrompt from "@/components/WaitingPrompt";
 import { Expense } from "@/features/expenses/types/Expense";
 
 type Props = {
-  account: AccountT;
+  account: Account.Type;
 };
 const AssignExpenseForm = ({ account }: Props): ReactElement => {
   const { requestCall, isSaving, isSuccessful, error } = useAssignExpenseApi();
   const router = useRouter();
 
-  const uploadExpense = async (formData: ExpenseFormDataT): Promise<void> => {
+  const uploadExpense = async (
+    formData: ExpenseFormData.Type,
+  ): Promise<void> => {
     const expense: Expense.Type = Expense.of(formData, account.accountNo);
 
     await requestCall(expense);
@@ -52,7 +52,7 @@ const AssignExpenseForm = ({ account }: Props): ReactElement => {
     <Stack spacing={2} padding={2}>
       <AccountHeader account={account} />
       <ExpenseDetailsForm
-        initialValues={defaultExpenseFormData}
+        initialValues={ExpenseFormData.Defaults}
         account={account}
         onSubmit={uploadExpense}
       />

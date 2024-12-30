@@ -10,13 +10,13 @@ import {
 import mockServer from "@/test/mocks/msw/node";
 import { http, HttpResponse } from "msw";
 import { HttpStatusCode } from "axios";
-import AccountT from "@/features/accounts/types/AccountT";
+import { Account } from "@/features/accounts/types/Account";
 import {
   testStandardFormButtonsDirty,
   testStandardFormButtonsPristine,
 } from "@/test/form-test-utils";
 
-const enterAccountData = async (account: AccountT) => {
+const enterAccountData = async (account: Account.Type) => {
   const accountNoInput = await screen.findByLabelText("Account No");
 
   await user.type(accountNoInput, account.accountNo);
@@ -30,7 +30,7 @@ const enterAccountData = async (account: AccountT) => {
 
 describe("Create Account - happy cases", () => {
   describe("Given valid account data", () => {
-    const account: AccountT = {
+    const account: Account.Type = {
       accountNo: "1234",
       accountName: "Business Support",
       accountDescription: "Bribes, protection money, etc.",
@@ -85,7 +85,7 @@ describe("Create Account - happy cases", () => {
 
 describe("Create Account - failures", () => {
   describe("Given valid account data", () => {
-    const account: AccountT = {
+    const account: Account.Type = {
       accountNo: "1234",
       accountName: "Business Support",
       accountDescription: "Bribes, protection money, etc.",

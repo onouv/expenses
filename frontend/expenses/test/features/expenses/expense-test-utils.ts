@@ -1,4 +1,4 @@
-import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
+import { ExpenseFormData } from "@/features/expenses/types/ExpenseFormData";
 import user, { userEvent } from "@testing-library/user-event";
 import {
   act,

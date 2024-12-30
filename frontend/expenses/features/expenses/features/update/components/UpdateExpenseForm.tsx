@@ -10,7 +10,7 @@ import WaitingPrompt from "@/components/WaitingPrompt";
 import ErrorPage from "@/components/ErrorPage";
 import useGetAccountDetails from "@/common/api/useGetAccountDetails";
 import config from "@/app-config.json";
-import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
+import { ExpenseFormData } from "@/features/expenses/types/ExpenseFormData";
 import { ExpenseEntity } from "@/features/expenses/types/ExpenseEntity";
 import { accountDetailsUrl } from "@/common/utils/account-routes";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,9 @@ const UpdateExpenseForm = ({ expense }: Props): ReactElement => {
   const getApi = useGetAccountDetails(expense.accountNo);
   const router = useRouter();
 
-  const uploadExpense = async (formData: ExpenseFormDataT): Promise<void> => {
+  const uploadExpense = async (
+    formData: ExpenseFormData.Type,
+  ): Promise<void> => {
     const update: ExpenseEntity.Type = ExpenseEntity.of(formData, expense);
     await updateApi.requestCall(update);
   };
@@ -52,7 +54,7 @@ const UpdateExpenseForm = ({ expense }: Props): ReactElement => {
     );
   }
 
-  const formData: ExpenseFormDataT = {
+  const formData: ExpenseFormData.Type = {
     ...expense,
     amount: { ...expense.amount },
   } as const;

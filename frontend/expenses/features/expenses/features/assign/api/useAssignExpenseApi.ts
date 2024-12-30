@@ -6,14 +6,14 @@ import axios from "axios";
 
 import ApiStateT from "@/common/api/ApiStateT";
 import { ExpenseDto } from "@/features/expenses/features/assign/api/ExpenseDto";
-import ExpenseFormDataT from "@/features/expenses/types/ExpenseFormDataT";
+import { ExpenseFormData } from "@/features/expenses/types/ExpenseFormData";
 import { Expense } from "@/features/expenses/types/Expense";
 import { WriteApiT } from "@/common/api/write-api";
 
 const url = config.backend.expenses.assign;
 
 export default function useAssignExpenseApi(): WriteApiT<Expense.Type> {
-  const [apiState, setApiState] = useState<ApiStateT<ExpenseFormDataT>>({
+  const [apiState, setApiState] = useState<ApiStateT<ExpenseFormData.Type>>({
     isSaving: false,
     isSuccessful: false,
     error: null,
